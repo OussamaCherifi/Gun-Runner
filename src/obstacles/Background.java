@@ -5,6 +5,8 @@
  */
 package obstacles;
 
+import GameGUI.Map;
+
 /**
  *
  * @author 15148

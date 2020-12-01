@@ -62,7 +62,6 @@ public class Player extends Rectangle{
     }
     
     public void update(List<Obstacles> obstacles){
-        System.out.println(mainGround.getXpos());
         rightX = xpos + width;
         lowerY = ypos + height;
         ypos = getTranslateY();
@@ -82,7 +81,7 @@ public class Player extends Rectangle{
     public void jump(){
         isFalling = false;
         setTranslateY(getTranslateY() - jumpingForce);
-        jumpingForce -= 1;
+        jumpingForce -= 0.90;
         if (jumpingForce <= 0) {
             fallingForce = 0;
             isFalling = true;

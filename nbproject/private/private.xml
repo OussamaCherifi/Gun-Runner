@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/obstacles/BackgroundsParent.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>61</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameFinalVersionHopefully/src/GameGUI/Map.java</file>
-            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameFinalVersionHopefully/src/obstacles/BackgroundsParent.java</file>
-            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameFinalVersionHopefully/src/GameController/GameController.java</file>
-            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameFinalVersionHopefully/src/obstacles/Obstacles.java</file>
-            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameFinalVersionHopefully/src/player/Player.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Platforms.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Floor.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/player/Player.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/GameController/GameController.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/BackgroundsParent.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Item.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/gamefinalversionhopefully/GameFinalVersionHopefully.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Obstacles.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/GameGUI/Map.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Background.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Ceiling.java</file>
         </group>
     </open-files>
 </project-private>
