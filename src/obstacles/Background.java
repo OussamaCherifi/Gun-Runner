@@ -4,9 +4,6 @@
  * and open the template in the editor.
  */
 package obstacles;
-import GameGUI.Map;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
 
 /**
  *

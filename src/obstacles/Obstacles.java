@@ -55,9 +55,7 @@ public abstract class Obstacles extends ImageView {
             }
             xpos = map.getMapWidth();
         }
-        
-        
-        
+                
         setTranslateX(xpos);
         setTranslateY(ypos);
     }
@@ -67,11 +65,11 @@ public abstract class Obstacles extends ImageView {
     //getters and setters
 
     public double getXpos() {
-        return xpos;
+        return getTranslateX();
     }
 
     public double getYpos() {
-        return ypos;
+        return getTranslateY();
     }
 
     public double getVelocity() {
