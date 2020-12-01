@@ -12,8 +12,10 @@ import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import player.Player;
 
 /**
@@ -74,8 +76,7 @@ public class GameController {
         }
         for (BackgroundsParent b : getAllBackgroundsInMap()) {
             b.update(map);
-        }
-        
+        }   
     }
 
     //The next two methods are for extrating the obstacles and backgrounds separately from the children
@@ -107,6 +108,14 @@ public class GameController {
     //the next four methods are only here to create the map's grphical elements. 
     private void createBackground() {
         int xpos = 0;
+        
+        Background b = new Background(0, 0, "bg");
+        
+        for(int i=0;i<4;i++){
+            backgrounds.add(new Background(b.getWidth()*i, 42*b.findScaling()-1, "bg"));
+        }
+        
+        /*
         while (xpos <= map.getMapWidth()) {
             Background b = new Background(xpos, 0, "bg");
             backgrounds.add(b);
@@ -115,18 +124,23 @@ public class GameController {
         //adding one more background to fill up the empty space created by the while loop
         Background b = new Background(xpos, 0, "bg");
         backgrounds.add(b);
+        */
+        
+        
     }
     
     private void createFloors() {
         int xpos = 0;
         int counter = 1;
         String path = "";
-        
+        double a = map.getMapHeight()*0.85;
         while (xpos <= map.getMapWidth()) {
             // System.out.println("x pos = :" + xpos);
             path = "sprites/Map/floor_" + counter + ".png";
-            Floor f = new Floor(path, xpos, 920, "floor");
+            Floor f = new Floor(path, xpos, a, "floor");
+            
             floors.add(f);
+            
             if (counter == 3) {
                 counter = 1;
             } else {
@@ -134,6 +148,10 @@ public class GameController {
             }
             xpos += f.getWidth();
         }
+        Floor f1 = new Floor("sprites/Map/floor_3.png", xpos, a, "floor");
+        floors.add(f1);
+        
+        
     }
     
     private void createPlatforms() {
@@ -143,7 +161,8 @@ public class GameController {
         int xpos = 0;
         int counter = 0;
         while (xpos <= map.getMapWidth() * 2) {
-            Platforms p = new Platforms(path, 500 + distanceBetweenPlatforms, Math.random() * (-200) + 675, "platform");
+            System.out.println((map.getHeight()*0.63));
+            Platforms p = new Platforms(path, 500 + distanceBetweenPlatforms, (Math.random() * (-200) + 675), "platform");
             distanceBetweenPlatforms += p.getWidth() + (Math.random() * (40));
             platforms.add(p);
             xpos += distanceBetweenPlatforms;
@@ -180,7 +199,7 @@ public class GameController {
         @Override
         public void handle(KeyEvent e) {
             if (e.getCode() == KeyCode.SPACE && player.getIsJumping() == false) {
-                    player.setJumpingForce(28);
+                    player.setJumpingForce(30);
                     player.setIsJumping(true);
             }
             if(e.getCode() == KeyCode.S){
