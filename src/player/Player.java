@@ -5,12 +5,14 @@
  */
 package player;
 
+import GameController.PlayerAnimation;
+import items.*;
 import java.util.List;
+import javafx.animation.PathTransition;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import obstacles.Obstacles;
-import obstacles.Floor;
-import obstacles.Platforms;
 
 /**
  *
@@ -19,10 +21,10 @@ import obstacles.Platforms;
 public class Player extends Rectangle{
     
     // Separation of the attributes 
-    
+    private Item Helmet,Torso, rHand, lHand, rBoot, lBoot, Bullet,Gun;
     //shape and size;
-    private final double width = 100 ;
-    private final double height = 200;
+    private final double width = 110 ;
+    private final double height = 168;
     
     // positioning and movement
     private double xpos , ypos , rightX , lowerY;
@@ -34,6 +36,8 @@ public class Player extends Rectangle{
     private boolean isDead = false;
     private boolean isShooting = false;
     private boolean isGoingBottom = false;  
+    private boolean isAlreadyRunning = false;
+    
 
     
     //These two are two control the y position of the player. 
@@ -45,12 +49,13 @@ public class Player extends Rectangle{
     
     
     public Player(Obstacles ground){
-        setWidth(width); setHeight(height); setFill(Color.RED);
+        setWidth(width); setHeight(height); setFill(Color.BLUE);
         this.ground = ground;
         mainGround = ground;
         
+        System.out.println("Ground: " + ground.getYpos());
         //getting the four corners of the rectangles as coordinates. 
-        xpos = 250;
+        xpos = 180;
         ypos = (ground.getYpos() - height);
         rightX = xpos + width;
         lowerY = ypos + height;
@@ -99,6 +104,7 @@ public class Player extends Rectangle{
                         fallingForce = 0;
                         isJumping = false;
                         isFalling = false;
+                        isAlreadyRunning = false;
                         ground = o;
                         setTranslateY(o.getTranslateY() - height);
                         break;
@@ -112,10 +118,25 @@ public class Player extends Rectangle{
                     isJumping = false;
                     isFalling = false;
                     isGoingBottom = false;
+                    isAlreadyRunning = false;
                     setTranslateY(ground.getTranslateY() - height);
                 }
         }
     }
+    
+    public void walkAnimate(double x, double y){
+        
+            
+            PathTransition lhandTransition = PlayerAnimation.handPath((Hand)lHand, x, y, 56);
+            lhandTransition.play();
+            System.out.println("walking...");
+        
+    }
+    
+    private void jumpAnimate(){
+        
+    }
+    
     
     public void goToBottom(){
         isGoingBottom = true;
@@ -176,8 +197,85 @@ public class Player extends Rectangle{
     public void setIsGoingBottom(boolean isGoingBottom) {
         this.isGoingBottom = isGoingBottom;
     }
+
+    public Item getHelmet() {
+        return Helmet;
+    }
+
+    public Item getTorso() {
+        return Torso;
+    }
+
+    public Item getBullet() {
+        return Bullet;
+    }
+
+    public Item getGun() {
+        return Gun;
+    }
+
+    public Item getrHand() {
+        return rHand;
+    }
+
+    public Item getlHand() {
+        return lHand;
+    }
+
+    public Item getrBoot() {
+        return rBoot;
+    }
+
+    public Item getlBoot() {
+        return lBoot;
+    }
+
+    public void setHelmet(Item Helmet) {
+        this.Helmet = Helmet;
+    }
+
+    public void setTorso(Item Torso) {
+        this.Torso = Torso;
+    }
+
+    public void setrHand(Item rHand) {
+        this.rHand = rHand;
+    }
+
+    public void setlHand(Item lHand) {
+        this.lHand = lHand;
+    }
+
+    public void setrBoot(Item rBoot) {
+        this.rBoot = rBoot;
+    }
+
+    public void setlBoot(Item lBoot) {
+        this.lBoot = lBoot;
+    }
+
+    public boolean getIsAlreadyRunning() {
+        return isAlreadyRunning;
+    }
+
+    public void setIsAlreadyRunning(boolean isAlreadyRunning) {
+        this.isAlreadyRunning = isAlreadyRunning;
+    }
+
+    public double getXpos() {
+        return xpos;
+    }
+
+    public double getYpos() {
+        return ypos;
+    }
+    
+    
+    
     
     
 
+
+    
 
 }

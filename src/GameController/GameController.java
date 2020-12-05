@@ -7,15 +7,27 @@ package GameController;
 
 import obstacles.*;
 import GameGUI.Map;
+import items.*;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcTo;
+import javafx.scene.shape.ClosePath;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import player.Player;
 
 /**
@@ -25,13 +37,21 @@ import player.Player;
 public class GameController {
     
     Map map;
-
+    
     //Graphical elements.  Creating them seperately in different list
     //as the player will interact differently with all of these. 
     //In fact, it will only interact with the floors and platforms. 
     //floors and plaforms are simply children of the abstract class obstacles
+    
+    private Node toAnimate;
+    private boolean isAnimating = false;
+    
     List<Obstacles> floors = new ArrayList<>();
     List<Obstacles> platforms = new ArrayList<>();
+    
+    Label lbl = new Label();
+    Label lbl2 = new Label();
+    Rectangle rect = new Rectangle(5, 5, Paint.valueOf("#ff14ff"));
 
     //the two classes sbackgrounds and ceilings have their own 
     List<BackgroundsParent> backgrounds = new ArrayList<>();
@@ -47,6 +67,10 @@ public class GameController {
         createPlatforms();
         createCeilings();
         
+        
+        rect.setTranslateX(180);
+        rect.setTranslateY(950);
+        
         player = new Player(floors.get(0));
         
         map.addAllBackgrounds(backgrounds);
@@ -55,18 +79,186 @@ public class GameController {
         map.addAllElements(platforms);
         map.insertElement(player);
         
+        double s = 56;
+        double s1 = 46;
+        
+        double x = player.getTranslateX();
+        double y = player.getTranslateY();
+        
+        Item helmet = new Helmet(x+18, y, 0, 2, Custom.c2);
+        Item fingers = new Fingers("dual", x+58, y+58, 0, 2);
+        Item torso = new Torso(x+26, y+58, 0, 2, Custom.c2);
+        Item lhand = new Hand("l", x+2+s, y+66, 0, 2, Custom.c2);
+        Item rhand = new Hand("r", x+2, y+66, 0, 2, Custom.c2);
+        Item lboot = new Boot("l", x+6+s1, y+120, 0, 2, Custom.c2);
+        Item rboot = new Boot("r", x+4, y+120, 0, 2, Custom.c2);
+        
+
+        
+        MoveTo move = new MoveTo();
+            move.setX(lhand.getXpos()+16);
+            move.setY(lhand.getYpos()+10);
+            
+        ArcTo arcF = new ArcTo();
+            arcF.setX(lhand.getXpos()+66);
+            arcF.setY(lhand.getYpos()+10);
+            arcF.setRadiusX(25);
+            arcF.setRadiusY(25);
+            
+            
+       Path path = new Path();
+        path.getElements().add(move);
+        path.getElements().add(arcF);
+        path.setStroke(Paint.valueOf("white"));
+        path.setStrokeWidth(5);
+            
+        
+        PathTransition transition = new PathTransition();
+        transition.setNode(lhand);
+        transition.setDuration(Duration.seconds(0.5));
+        transition.setPath(path);
+        transition.setCycleCount(PathTransition.INDEFINITE);
+        transition.setAutoReverse(true);
+        transition.play();
+        toAnimate = helmet;
+        
+        
+        map.insertElement(path);
+        map.insertElement(lhand);
+        //Insert gun
+        map.insertElement(fingers);
+        //map.insertElement(lboot);
+        map.insertElement(torso);
+        map.insertElement(helmet);
+        //map.insertElement(rboot);
+        map.insertElement(rhand);
+        
+        player.setHelmet(helmet);
+        player.setTorso(torso);
+        player.setlHand(lhand);
+        player.setrHand(rhand);
+        player.setlBoot(lboot);
+        player.setrBoot(rboot);
+        
+        Button up = new Button("UP");
+        Button down = new Button("DOWN");
+        Button left = new Button("LEFT");
+        Button right = new Button("RIGHT");
+        up.setTranslateX(1710);
+        up.setTranslateY(200);
+        
+        down.setTranslateX(1700);
+        down.setTranslateY(250);
+        
+        left.setTranslateX(1650);
+        left.setTranslateY(225);
+        
+        right.setTranslateX(1760);
+        right.setTranslateY(225);
+        
+        lbl.setTranslateX(1700);
+        lbl.setTranslateY(300);
+        lbl.setTextFill(Paint.valueOf("white"));
+        
+        lbl2.setTranslateX(1700);
+        lbl2.setTranslateY(500);
+        lbl2.setTextFill(Paint.valueOf("white"));
+        
+        Arc a2 = new Arc(200f, 800f, 200f, 200f, 10f, 180f);
+        
+        
+        
+        up.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+            double a = toAnimate.getTranslateY();
+            a--;
+            toAnimate.setTranslateY(a);
+            String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
+            lbl.setText(txt);
+            double b = a2.getLength();
+            b= b+5;
+            a2.setLength(b);
+            }
+        });
+        down.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+            double a = toAnimate.getTranslateY();
+            a++;
+            toAnimate.setTranslateY(a);
+            String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
+            lbl.setText(txt);
+            double b = a2.getLength();
+            b= b-5;
+            a2.setLength(b);
+            }
+        });
+        left.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+            double a = toAnimate.getTranslateX();
+            a--;
+            toAnimate.setTranslateX(a);
+            String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
+            lbl.setText(txt);
+            double b = a2.getStartAngle();
+            b = b + 5;
+            a2.setStartAngle(b);
+            }
+        });
+        right.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+            double a = toAnimate.getTranslateX();
+            a++;
+            toAnimate.setTranslateX(a);
+            
+            double b = a2.getStartAngle();
+            b = b + 5;
+            a2.setStartAngle(b);
+            String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY()+" Start Angle: "+a2.getStartAngle()+"  End Angle: "+a2.getLength();
+            lbl.setText(txt);
+            }
+        });
+        
+        
+        
+            
+        map.insertElement(rect);
+        map.insertElement(up);
+        map.insertElement(down);
+        map.insertElement(left);
+        map.insertElement(right);
+        map.insertElement(lbl);
+        map.insertElement(lbl2);
+        
+        
+        System.out.println(player.getTranslateX());
+        System.out.println(player.getTranslateY());
+        
+        
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 update();
             }
         };
+
         timer.start();
+        
+        
+        
     }
+    
+
     
     private void update() {
         updateMapSprites();
         player.update(getAllObstaclesInMap());
+        lbl2.setText("isAlreadyRunning:"+player.getIsAlreadyRunning()+"   isFalling:"+player.getIsFalling());
+        if(!isAnimating){
+            isAnimating = true;
+            player.walkAnimate(player.getXpos(), player.getYpos());
+            System.out.println("is animating...");
+        }
+        
         
     }
     
@@ -104,15 +296,21 @@ public class GameController {
         
         return list;
     }
+    
+    private void initializeItems(){
+        
+        
+        
+    }
 
-    //the next four methods are only here to create the map's grphical elements. 
+    //the next four methods are only here to create the map's graphical elements. 
     private void createBackground() {
         int xpos = 0;
         
-        Background b = new Background(0, 0, "bg");
+        Background b = new Background(0, 0, "bg"); //this background serves as a reference for the rest of the backgrounds
         
         for(int i=0;i<4;i++){
-            backgrounds.add(new Background(b.getWidth()*i, 42*b.findScaling()-1, "bg"));
+            backgrounds.add(new Background(b.getWidth()*i, 42*(b.findScaling()+0.5), "bg"));
         }
         
         /*
@@ -125,19 +323,18 @@ public class GameController {
         Background b = new Background(xpos, 0, "bg");
         backgrounds.add(b);
         */
-        
-        
     }
+    
+    
     
     private void createFloors() {
         int xpos = 0;
         int counter = 1;
         String path = "";
-        double a = map.getMapHeight()*0.85;
         while (xpos <= map.getMapWidth()) {
             // System.out.println("x pos = :" + xpos);
-            path = "sprites/Map/floor_" + counter + ".png";
-            Floor f = new Floor(path, xpos, a, "floor");
+            path = "sprites/map/floor_" + counter + ".png";
+            Floor f = new Floor(path, xpos, 954, "floor");
             
             floors.add(f);
             
@@ -148,21 +345,17 @@ public class GameController {
             }
             xpos += f.getWidth();
         }
-        Floor f1 = new Floor("sprites/Map/floor_3.png", xpos, a, "floor");
-        floors.add(f1);
-        
-        
     }
     
     private void createPlatforms() {
-        String path = "sprites/Map/platform.png";
+        String path = "sprites/map/platform.png";
         double distanceBetweenPlatforms = 0;        
         
         int xpos = 0;
         int counter = 0;
+        double s = map.getMapHeight()*0.62;
         while (xpos <= map.getMapWidth() * 2) {
-            System.out.println((map.getHeight()*0.63));
-            Platforms p = new Platforms(path, 500 + distanceBetweenPlatforms, (Math.random() * (-200) + 675), "platform");
+            Platforms p = new Platforms(path, 500 + distanceBetweenPlatforms, (Math.random() * (-400) + s), "platform");
             distanceBetweenPlatforms += p.getWidth() + (Math.random() * (40));
             platforms.add(p);
             xpos += distanceBetweenPlatforms;
@@ -178,9 +371,7 @@ public class GameController {
             xpos += ceiling.getWidth();
         }
 
-        //creating one more ceiling to fill up the empty space created by the while loop. 
-        Ceiling ceiling = new Ceiling(xpos, 0, "ceiling");
-        ceilings.add(ceiling);        
+             
     }
 
     //getters for the key controllers : 
@@ -195,10 +386,11 @@ public class GameController {
     //These classes are event handlers for whenever we press specific buttons 
     // This is where we will create every key binds that our player will need in order to play the game. 
     private class KeyPressedController implements EventHandler<KeyEvent> {
-
+        
         @Override
         public void handle(KeyEvent e) {
-            if (e.getCode() == KeyCode.SPACE && player.getIsJumping() == false) {
+            
+            if (e.getCode() == KeyCode.F && player.getIsJumping() == false) {
                     player.setJumpingForce(30);
                     player.setIsJumping(true);
             }
@@ -206,6 +398,40 @@ public class GameController {
                     System.out.println("this hapenned");
                     player.goToBottom();
             }
+            if(e.getCode() == KeyCode.UP){
+                double a = toAnimate.getTranslateY();
+                a--;
+                a--;
+                toAnimate.setTranslateY(a);
+                String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
+                lbl.setText(txt);
+            }
+            if(e.getCode() == KeyCode.DOWN){
+                double a = toAnimate.getTranslateY();
+                a++;
+                a++;
+                toAnimate.setTranslateY(a);
+                String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
+                lbl.setText(txt);
+            }
+            if(e.getCode() == KeyCode.LEFT){
+                double a = toAnimate.getTranslateX();
+                a--;
+                a--;
+                toAnimate.setTranslateX(a);
+                String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
+                lbl.setText(txt);
+            }
+            if(e.getCode() == KeyCode.RIGHT){
+                double a = toAnimate.getTranslateX();
+                a++;
+                a++;
+                toAnimate.setTranslateX(a);
+                String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
+                lbl.setText(txt);
+            }
+            
+            
 
         }
     }    

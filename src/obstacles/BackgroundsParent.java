@@ -36,14 +36,15 @@ public abstract class BackgroundsParent extends ImageView{
         
         //scaling the images depending on their types. 
         double a = findScaling(); //sets the scaling of the images
+        double b = a + 0.5;
         if(type.equalsIgnoreCase("bg")){
-           path = "sprites/Map/bg.png";
+           path = "sprites/map/bg.png";
            image = new Image(path , 256 , 276 , false , true); //Original image without scaling
-           imageAfter = new Image(path , 256*a+1 , (920)-(42*a)+2 , false , false); 
+           imageAfter = new Image(path , image.getWidth()*a , image.getHeight()*b , false , false); 
         }else if(type.equalsIgnoreCase("ceiling")){
-            path = "sprites/Map/ceiling.png";
+            path = "sprites/map/ceiling.png";
             image = new Image(path , 256, 42  , false , true ); //Original image without scaling
-            imageAfter = new Image(path , 256*a+1, 42*a  , false , false);
+            imageAfter = new Image(path , image.getWidth()*a, image.getHeight()*b  , false , false);
         }
         
         setImage(imageAfter);
@@ -62,16 +63,7 @@ public abstract class BackgroundsParent extends ImageView{
         double s = screenW/(3*256);
         return s;
     }
-    
-    private int findNumberOfBackgrounds(){
-        int num;
-        if(screenW > 1920){
-            num = 6;
-        }else if(screenW <= 1920 && screenW > 720){
-            num = 5;
-        }
-        return num =2;
-    }
+   
 
     
     public void update(Map map){

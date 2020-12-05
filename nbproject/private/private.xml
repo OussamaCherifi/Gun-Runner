@@ -5,24 +5,25 @@
             <url>src/obstacles/BackgroundsParent.java</url>
             <bookmark id="1">
                 <name/>
-                <line>61</line>
+                <line>62</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Platforms.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Floor.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Bullet.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/GameController/PlayerAnimation.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Fingers.java</file>
             <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/player/Player.java</file>
             <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/GameController/GameController.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/BackgroundsParent.java</file>
             <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Item.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Helmet.java</file>
             <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/gamefinalversionhopefully/GameFinalVersionHopefully.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Obstacles.java</file>
             <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/GameGUI/Map.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Background.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/obstacles/Ceiling.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Boot.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/sprites/map/bg.png</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Gun.java</file>
         </group>
     </open-files>
 </project-private>

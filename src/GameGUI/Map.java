@@ -19,12 +19,14 @@ import obstacles.*;
 public class Map extends Pane{
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-   
+    
     private final double height = screenSize.getHeight();
     private final double width = screenSize.getWidth();
     
     public Map(){
         setPrefSize(width, height);
+        
+        this.getStylesheets().add("styles/Map.css");
     }
     
     public double getMapWidth(){

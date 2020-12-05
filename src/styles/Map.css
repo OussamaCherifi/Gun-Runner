@@ -1,0 +1,13 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2-Dec-2020, 1:19:01 PM
+    Author     : ismai
+*/
+.root {
+    -fx-background-color: #666666;
+    -fx-box-shadow: inset 0 0 100px black; 
+}

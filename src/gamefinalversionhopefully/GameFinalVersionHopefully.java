@@ -34,7 +34,7 @@ public class GameFinalVersionHopefully extends Application {
         scene.setOnKeyPressed(gc.getKeyPressedController());
         scene.setOnKeyReleased(gc.getKeyReleasedController());
         primaryStage.setScene(scene);
-     //   primaryStage.setFullScreen(true);
+        //primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 

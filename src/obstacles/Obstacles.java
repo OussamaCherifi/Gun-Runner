@@ -6,6 +6,8 @@
 package obstacles;
 
 import GameGUI.Map;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
@@ -24,13 +26,18 @@ public abstract class Obstacles extends ImageView {
     protected Image image;
     protected double width , height;
     protected String type;
+    
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+   
+    //private final double screenH = screenSize.getHeight();
+    private final double screenH = screenSize.getHeight();
             
     public Obstacles(String path, double x , double y, String type){
         this.path = path;
         this.type = type;
       //  image = new Image(path);
         if(type.equalsIgnoreCase("floor")){
-           image = new Image(path , 240 , 84 , false , true); 
+           image = new Image(path , (128*3) , 42*3 , false , false); 
         }
         else if(type.equalsIgnoreCase("platform")){
             image = new Image(path , 548 , 60 , false , true);
@@ -51,7 +58,7 @@ public abstract class Obstacles extends ImageView {
         
         if(xpos + width <= 0){
             if(type.equalsIgnoreCase("platform")){
-                ypos = (Math.random() * (-200) + 600);
+                ypos = (Math.random() * (-200) + 680);
             }
             xpos = map.getMapWidth();
         }
