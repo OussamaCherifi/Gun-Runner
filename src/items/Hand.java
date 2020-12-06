@@ -26,6 +26,19 @@ public class Hand extends Item implements ISearchablePath{
     @Override
     public String findPath() {
         String path = "";
+        if(kind.equalsIgnoreCase("whole")){
+            switch(custom){
+            case normal:
+                path = "sprites/player/player_l_hand.png";
+                break;
+            case c1:
+                path = "sprites/player/c1/player_l_hand_c1.png";
+                break;
+            case c2:
+                path = "sprites/player/c2/player_l_hand_c2.png";
+                break;
+        }
+        }else{
         switch(custom){
             case normal:
                 path = "sprites/player/pl_"+kind+"_hand.png";
@@ -36,10 +49,17 @@ public class Hand extends Item implements ISearchablePath{
             case c2:
                 path = "sprites/player/c2/pl_"+kind+"_hand_c2.png";
                 break;
+            }
         }
         return path;
     }
-
+    
+    public void setKind(String kind){
+        this.kind = kind;
+        String path = findPath();
+        super.initializeImage(path);
+    }
+    
     public String getKind() {
         return kind;
     }

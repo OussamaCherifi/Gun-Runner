@@ -5,8 +5,8 @@
  */
 package player;
 
-import GameController.JumpingAnimation;
-import GameController.WalkingAnimation;
+import playerAnimation.JumpingAnimation;
+import playerAnimation.WalkingAnimation;
 import items.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,8 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.SequentialTransition;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -26,12 +28,12 @@ import obstacles.Obstacles;
 public class Player extends Rectangle{
     
     // Separation of the attributes 
-    private Item helmet,torse, rHand, lHand, rBoot, lBoot, bullet, lGun, rGun, fingers;
+    private Item helmet,torso, rHand, lHand, rBoot, lBoot, bullet, lGun, rGun, fingers;
     private ArrayList<Item> equipedItems = new ArrayList<>();
     //shape and size;
     private final double width = 110 ;
     private final double height = 168;
-    
+
     // positioning and movement
     private double xpos , ypos , rightX , lowerY;
     private double jumpingForce, fallingForce;
@@ -66,13 +68,11 @@ public class Player extends Rectangle{
         rightX = xpos + width;
         lowerY = ypos + height;
         
-        addEquipedItems();
-        
         setTranslateX(xpos);
         setTranslateY(ypos);
     }
     
-    private void addEquipedItems(){
+    private void addEquipedItems(List<Item> list){
         
     }
     
@@ -89,10 +89,12 @@ public class Player extends Rectangle{
             fall(obstacles);
         }
         isFalling = true;
+        //updateItems();
     }
     
     private void updateItems(){
-        
+        helmet.setXpos(this.getTranslateX()+18);
+        helmet.setYpos(this.getTranslateY());
     }
     
     //The next methods will be related to the player movement : 
@@ -107,9 +109,10 @@ public class Player extends Rectangle{
     }
     
     public void fall(List<Obstacles> obstacles){
+        
         setTranslateY(getTranslateY() - fallingForce);
         fallingForce -= 1;
-
+        
         if(isGoingBottom == false){
             for (Obstacles o : obstacles) {
                 if (xpos <= o.getTranslateX() + o.getWidth() && rightX >= o.getTranslateX()) {
@@ -139,7 +142,7 @@ public class Player extends Rectangle{
     
     public void walkAnimate(double x, double y){
         
-            PathTransition torsoTransition = WalkingAnimation.torsoPath(torse, x, y);
+            PathTransition torsoTransition = WalkingAnimation.torsoPath(torso, x, y);
             PathTransition helmetTransition = WalkingAnimation.helmetPath((Helmet)helmet, x, y);
             PathTransition rbootTransition = WalkingAnimation.bootPath((Boot)rBoot, x, y, 46);
             PathTransition lbootTransition = WalkingAnimation.bootPath((Boot)lBoot, x, y, 46);
@@ -180,16 +183,40 @@ public class Player extends Rectangle{
             rbootTransition.play();
             lbootTransition.play();
             
-            
-            
             System.out.println("walking...");
-        
     }
     
-    public void jumpAnimate(double x, double y){
+    public void jumpAnimate(){
         
-        SequentialTransition helmet = JumpingAnimation.helmetPath((Helmet)this.helmet, x, y);
-        helmet.play();
+        setupJumpItems();
+        
+        SequentialTransition helmetTransition = JumpingAnimation.helmetPath((Helmet)helmet);
+        SequentialTransition rhandTransition = JumpingAnimation.handPath((Hand)rHand);
+        SequentialTransition lhandTransition = JumpingAnimation.handPath((Hand)lHand);
+        SequentialTransition torsoTransition = JumpingAnimation.torsoPath((Torso)torso);
+        SequentialTransition lbootTransition = JumpingAnimation.bootPath((Boot)lBoot);
+        SequentialTransition rbootTransition = JumpingAnimation.bootPath((Boot)rBoot);
+        
+        torsoTransition.play();
+        lhandTransition.play();
+        rhandTransition.play();
+        helmetTransition.play();
+        lbootTransition.play();
+        rbootTransition.play();
+    }
+    
+    private void setupJumpItems(){
+        this.rHand.setRotate(90);
+        Hand newHand = (Hand)lHand;
+        newHand.setKind("whole");
+        this.lHand = newHand;
+        this.fingers.setVisible(false);
+        this.lHand.setVisible(true);
+        this.lHand.setRotate(-90);
+        this.lGun.setVisible(false);
+        this.rGun.setVisible(false);
+        this.lBoot.setRotate(-30);
+        this.rBoot.setRotate(30);
     }
     
     
@@ -258,7 +285,7 @@ public class Player extends Rectangle{
     }
 
     public Item getTorso() {
-        return torse;
+        return torso;
     }
 
     public Item getBullet() {
@@ -286,7 +313,7 @@ public class Player extends Rectangle{
     }
 
     public void setTorso(Item Torso) {
-        this.torse = Torso;
+        this.torso = Torso;
     }
 
     public void setrHand(Item rHand) {

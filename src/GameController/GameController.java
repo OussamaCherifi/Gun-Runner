@@ -55,7 +55,7 @@ public class GameController {
     Label timerLabel = new Label();
     Label lbl = new Label();
     Label lbl2 = new Label();
-    Rectangle rect = new Rectangle(5, 5, Paint.valueOf("#ff14ff"));
+    Rectangle rect = new Rectangle(100, 2, Paint.valueOf("#ff14ff"));
 
     //the two classes sbackgrounds and ceilings have their own 
     List<BackgroundsParent> backgrounds = new ArrayList<>();
@@ -105,9 +105,7 @@ public class GameController {
         Item uzi2 = new Gun("uzi", x+9+s+8, y+54+4, 0, 2, Custom.c1);
         Item ak = new Gun("ak", x+20, y+54, 0, 2, Custom.c1);
         
-
-        toAnimate = pistol2;
-        
+        toAnimate = rect;
         
         map.insertElement(timerLabel);
         map.insertElement(lhand);
@@ -235,8 +233,6 @@ public class GameController {
 
         timer.start();
         
-        
-        
     }
     
 
@@ -251,9 +247,12 @@ public class GameController {
             
             System.out.println("is animating...");
         }
-        if(JumpPressed){
         long elapsedMillis = System.currentTimeMillis() - startTime ;
                 timerLabel.setText(Long.toString(elapsedMillis));
+        
+        if(JumpPressed){
+            JumpPressed = false;
+            player.jumpAnimate();
         }
         
     }

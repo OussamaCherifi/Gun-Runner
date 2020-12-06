@@ -131,6 +131,15 @@ public abstract class Item extends ImageView{
     public void setIsEquiped(boolean isEquiped) {
         this.isEquiped = isEquiped;
     }
+
+    public void setXpos(double xpos) {
+        this.xpos = xpos;
+    }
+
+    public void setYpos(double ypos) {
+        this.ypos = ypos;
+    }
+    
     
     
     

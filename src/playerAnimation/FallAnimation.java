@@ -3,18 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUIController;
-
-import scenes.*;
+package playerAnimation;
 
 /**
  *
  * @author ismai
  */
-public class GuiController {
-    private Unlockables unlock;
-    private Barracks barrack;
-    
-    
+public class FallAnimation {
     
 }

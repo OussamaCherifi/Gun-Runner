@@ -36,6 +36,12 @@ public class Bullet extends Item implements ISearchablePath{
         return path;
     }
     
+    public void setKind(String kind){
+        this.kind = kind;
+        String path = findPath();
+        super.initializeImage(path);
+    }
+    
     public String getKind() {
         return kind;
     }
