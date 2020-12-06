@@ -16,4 +16,5 @@ public enum ItemType {
     boots,
     gun,
     bullet,
+    fingers,
 }

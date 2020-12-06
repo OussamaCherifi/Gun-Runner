@@ -14,6 +14,7 @@ public class Fingers extends Item implements ISearchablePath{
 
     public Fingers(String kind, double xpos, double ypos, int price, double scale) {
         super(xpos, ypos+8, price, scale);
+        super.type = ItemType.fingers;
         this.kind = kind;
         String path = findPath();
         super.initializeImage(path);
@@ -32,6 +33,12 @@ public class Fingers extends Item implements ISearchablePath{
                 break;
         }
         return path;
+    }
+    
+    public void setKind(String kind){
+        this.kind = kind;
+        String path = findPath();
+        super.initializeImage(path);
     }
     
     

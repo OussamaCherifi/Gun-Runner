@@ -10,7 +10,7 @@ package items;
  * @author ismai
  */
 public class Gun extends Item implements ISearchablePath{
-    private boolean ifDualWield;
+    private boolean isDualWield;
     private String kind;
 
     public Gun(String kind, double x, double y, int price, int scale, Custom custom) {
@@ -18,9 +18,9 @@ public class Gun extends Item implements ISearchablePath{
         super.type = ItemType.gun;
         this.kind = kind;
         if(kind.equalsIgnoreCase("ak")){
-            this.ifDualWield = false;
+            this.isDualWield = false;
         }else{
-            this.ifDualWield = true;      
+            this.isDualWield = true;      
         }
         String path = findPath();
         super.initializeImage(path);
@@ -40,8 +40,9 @@ public class Gun extends Item implements ISearchablePath{
         return path;
     }
 
-    public boolean isIfDualWield() {
-        return ifDualWield;
+    
+    public boolean getIsDualWield() {
+        return isDualWield;
     }
 
     public String getKind() {

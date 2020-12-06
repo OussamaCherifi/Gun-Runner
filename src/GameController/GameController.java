@@ -85,54 +85,39 @@ public class GameController {
         double x = player.getTranslateX();
         double y = player.getTranslateY();
         
-        Item helmet = new Helmet(x+18, y, 0, 2, Custom.c2);
+        Item helmet = new Helmet(x+18, y, 0, 2, Custom.c1);
         Item fingers = new Fingers("dual", x+58, y+58, 0, 2);
-        Item torso = new Torso(x+26, y+58, 0, 2, Custom.c2);
+        Item torso = new Torso(x+26, y+58, 0, 2, Custom.normal);
         Item lhand = new Hand("l", x+2+s, y+66, 0, 2, Custom.c2);
-        Item rhand = new Hand("r", x+2, y+66, 0, 2, Custom.c2);
+        Item rhand = new Hand("r", x+2, y+66, 0, 2, Custom.c1);
         Item lboot = new Boot("l", x+6+s1, y+120, 0, 2, Custom.c2);
         Item rboot = new Boot("r", x+4, y+120, 0, 2, Custom.c2);
+        Item pistol = new Gun("pistol", x+10+8, y+52+6, 0, 2, Custom.c1);
+        Item pistol2 = new Gun("pistol", x+9+s+8, y+54+4, 0, 2, Custom.c1);
+        Item uzi = new Gun("uzi", x+9+8, y+54+4, 0, 2, Custom.c1);
+        Item uzi2 = new Gun("uzi", x+9+s+8, y+54+4, 0, 2, Custom.c1);
+        Item ak = new Gun("ak", x+20, y+54, 0, 2, Custom.c1);
         
 
-        
-        MoveTo move = new MoveTo();
-            move.setX(lhand.getXpos()+16);
-            move.setY(lhand.getYpos()+10);
-            
-        ArcTo arcF = new ArcTo();
-            arcF.setX(lhand.getXpos()+66);
-            arcF.setY(lhand.getYpos()+10);
-            arcF.setRadiusX(25);
-            arcF.setRadiusY(25);
-            
-            
-       Path path = new Path();
-        path.getElements().add(move);
-        path.getElements().add(arcF);
-        path.setStroke(Paint.valueOf("white"));
-        path.setStrokeWidth(5);
-            
-        
-        PathTransition transition = new PathTransition();
-        transition.setNode(lhand);
-        transition.setDuration(Duration.seconds(0.5));
-        transition.setPath(path);
-        transition.setCycleCount(PathTransition.INDEFINITE);
-        transition.setAutoReverse(true);
-        transition.play();
-        toAnimate = helmet;
+        toAnimate = pistol2;
         
         
-        map.insertElement(path);
+        
         map.insertElement(lhand);
-        //Insert gun
+        map.insertElement(pistol2);
         map.insertElement(fingers);
-        //map.insertElement(lboot);
+        map.insertElement(lboot);
+        
         map.insertElement(torso);
         map.insertElement(helmet);
-        //map.insertElement(rboot);
+        map.insertElement(ak);
+        map.insertElement(rboot);
         map.insertElement(rhand);
         
+        
+        player.setlGun(pistol2);
+        player.setrGun(ak);
+        player.setFingers(fingers);
         player.setHelmet(helmet);
         player.setTorso(torso);
         player.setlHand(lhand);
@@ -255,7 +240,8 @@ public class GameController {
         lbl2.setText("isAlreadyRunning:"+player.getIsAlreadyRunning()+"   isFalling:"+player.getIsFalling());
         if(!isAnimating){
             isAnimating = true;
-            player.walkAnimate(player.getXpos(), player.getYpos());
+            player.walkAnimate(0, 0);
+            
             System.out.println("is animating...");
         }
         
@@ -391,6 +377,8 @@ public class GameController {
         public void handle(KeyEvent e) {
             
             if (e.getCode() == KeyCode.F && player.getIsJumping() == false) {
+                    //player.stopWalkAnimation();
+                    
                     player.setJumpingForce(30);
                     player.setIsJumping(true);
             }
