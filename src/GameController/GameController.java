@@ -45,10 +45,14 @@ public class GameController {
     
     private Node toAnimate;
     private boolean isAnimating = false;
+    private boolean JumpPressed = false;
     
     List<Obstacles> floors = new ArrayList<>();
     List<Obstacles> platforms = new ArrayList<>();
     
+    
+    long startTime = System.currentTimeMillis();
+    Label timerLabel = new Label();
     Label lbl = new Label();
     Label lbl2 = new Label();
     Rectangle rect = new Rectangle(5, 5, Paint.valueOf("#ff14ff"));
@@ -64,9 +68,12 @@ public class GameController {
         this.map = map;
         createBackground();
         createFloors();
-        createPlatforms();
+        //createPlatforms();
         createCeilings();
         
+        timerLabel.setTextFill(Paint.valueOf("white"));
+        timerLabel.setLayoutX(100);
+        timerLabel.setLayoutY(600);
         
         rect.setTranslateX(180);
         rect.setTranslateY(950);
@@ -102,7 +109,7 @@ public class GameController {
         toAnimate = pistol2;
         
         
-        
+        map.insertElement(timerLabel);
         map.insertElement(lhand);
         map.insertElement(pistol2);
         map.insertElement(fingers);
@@ -244,7 +251,10 @@ public class GameController {
             
             System.out.println("is animating...");
         }
-        
+        if(JumpPressed){
+        long elapsedMillis = System.currentTimeMillis() - startTime ;
+                timerLabel.setText(Long.toString(elapsedMillis));
+        }
         
     }
     
@@ -378,7 +388,7 @@ public class GameController {
             
             if (e.getCode() == KeyCode.F && player.getIsJumping() == false) {
                     //player.stopWalkAnimation();
-                    
+                    JumpPressed = true;
                     player.setJumpingForce(30);
                     player.setIsJumping(true);
             }

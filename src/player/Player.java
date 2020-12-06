@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.SequentialTransition;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
@@ -186,7 +187,8 @@ public class Player extends Rectangle{
     }
     
     public void jumpAnimate(double x, double y){
-        ParallelTransition helmet = JumpingAnimation.helmetPath((Helmet)this.helmet, x, y);
+        
+        SequentialTransition helmet = JumpingAnimation.helmetPath((Helmet)this.helmet, x, y);
         helmet.play();
     }
     
