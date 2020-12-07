@@ -89,12 +89,16 @@ public class Player extends Rectangle{
             fall(obstacles);
         }
         isFalling = true;
-        //updateItems();
+        
+        
+        updateItems();
     }
     
     private void updateItems(){
         helmet.setXpos(this.getTranslateX()+18);
         helmet.setYpos(this.getTranslateY());
+        this.lHand.setXpos(this.getTranslateX());
+        
     }
     
     //The next methods will be related to the player movement : 
@@ -113,10 +117,14 @@ public class Player extends Rectangle{
         setTranslateY(getTranslateY() - fallingForce);
         fallingForce -= 1;
         
+        
         if(isGoingBottom == false){
             for (Obstacles o : obstacles) {
                 if (xpos <= o.getTranslateX() + o.getWidth() && rightX >= o.getTranslateX()) {
                     if (ypos >= o.getYpos() - height && lowerY <= o.getYpos()){
+                        if(isJumping){
+                            walkAnimate(0, 0);
+                        }
                         fallingForce = 0;
                         isJumping = false;
                         isFalling = false;
@@ -130,18 +138,22 @@ public class Player extends Rectangle{
         }else{
             ground = mainGround;
                 if (ypos >= ground.getYpos() - height && lowerY <= ground.getYpos()) {
+                    if(isJumping){
+                        walkAnimate(0, 0);
+                    }
                     fallingForce = 0;
                     isJumping = false;
                     isFalling = false;
                     isGoingBottom = false;
                     isAlreadyRunning = false;
                     setTranslateY(ground.getTranslateY() - height);
+                    
                 }
         }
     }
     
     public void walkAnimate(double x, double y){
-        
+            this.isAlreadyRunning = true;
             PathTransition torsoTransition = WalkingAnimation.torsoPath(torso, x, y);
             PathTransition helmetTransition = WalkingAnimation.helmetPath((Helmet)helmet, x, y);
             PathTransition rbootTransition = WalkingAnimation.bootPath((Boot)rBoot, x, y, 46);
@@ -203,6 +215,8 @@ public class Player extends Rectangle{
         helmetTransition.play();
         lbootTransition.play();
         rbootTransition.play();
+        
+        System.out.println("jumping...");
     }
     
     private void setupJumpItems(){

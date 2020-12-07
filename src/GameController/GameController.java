@@ -11,8 +11,6 @@ import items.*;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -21,13 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcTo;
-import javafx.scene.shape.ClosePath;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 import player.Player;
 
 /**
@@ -44,12 +36,10 @@ public class GameController {
     //floors and plaforms are simply children of the abstract class obstacles
     
     private Node toAnimate;
-    private boolean isAnimating = false;
-    private boolean JumpPressed = false;
     
     List<Obstacles> floors = new ArrayList<>();
     List<Obstacles> platforms = new ArrayList<>();
-    
+    private boolean isRunning = false;
     
     long startTime = System.currentTimeMillis();
     Label timerLabel = new Label();
@@ -68,7 +58,7 @@ public class GameController {
         this.map = map;
         createBackground();
         createFloors();
-        //createPlatforms();
+        createPlatforms();
         createCeilings();
         
         timerLabel.setTextFill(Paint.valueOf("white"));
@@ -93,23 +83,23 @@ public class GameController {
         double y = player.getTranslateY();
         
         Item helmet = new Helmet(x+18, y, 0, 2, Custom.c1);
-        Item fingers = new Fingers("dual", x+58, y+58, 0, 2);
-        Item torso = new Torso(x+26, y+58, 0, 2, Custom.normal);
-        Item lhand = new Hand("l", x+2+s, y+66, 0, 2, Custom.c2);
-        Item rhand = new Hand("r", x+2, y+66, 0, 2, Custom.c1);
-        Item lboot = new Boot("l", x+6+s1, y+120, 0, 2, Custom.c2);
-        Item rboot = new Boot("r", x+4, y+120, 0, 2, Custom.c2);
-        Item pistol = new Gun("pistol", x+10+8, y+52+6, 0, 2, Custom.c1);
-        Item pistol2 = new Gun("pistol", x+9+s+8, y+54+4, 0, 2, Custom.c1);
-        Item uzi = new Gun("uzi", x+9+8, y+54+4, 0, 2, Custom.c1);
-        Item uzi2 = new Gun("uzi", x+9+s+8, y+54+4, 0, 2, Custom.c1);
+        Item fingers = new Fingers("dual", x, y, 0, 2);
+        Item torso = new Torso(x, y, 0, 2, Custom.normal);
+        Item lhand = new Hand("l", x, y, 0, 2, Custom.c2);
+        Item rhand = new Hand("r", x, y, 0, 2, Custom.c1);
+        Item lboot = new Boot("l", x, y, 0, 2, Custom.c2);
+        Item rboot = new Boot("r", x, y, 0, 2, Custom.c2);
+        Item pistol = new Gun("pistol", x+18, y+58, 0, 2, Custom.c1);
+        Item pistol2 = new Gun("pistol", x+18+s, y+58, 0, 2, Custom.c1);
+        Item uzi = new Gun("uzi", x+18, y+54+4, 0, 2, Custom.c1);
+        Item uzi2 = new Gun("uzi", x+18+s, y+54+4, 0, 2, Custom.c1);
         Item ak = new Gun("ak", x+20, y+54, 0, 2, Custom.c1);
         
         toAnimate = rect;
         
         map.insertElement(timerLabel);
         map.insertElement(lhand);
-        map.insertElement(pistol2);
+        map.insertElement(uzi2);
         map.insertElement(fingers);
         map.insertElement(lboot);
         
@@ -120,7 +110,7 @@ public class GameController {
         map.insertElement(rhand);
         
         
-        player.setlGun(pistol2);
+        player.setlGun(uzi2);
         player.setrGun(ak);
         player.setFingers(fingers);
         player.setHelmet(helmet);
@@ -130,21 +120,6 @@ public class GameController {
         player.setlBoot(lboot);
         player.setrBoot(rboot);
         
-        Button up = new Button("UP");
-        Button down = new Button("DOWN");
-        Button left = new Button("LEFT");
-        Button right = new Button("RIGHT");
-        up.setTranslateX(1710);
-        up.setTranslateY(200);
-        
-        down.setTranslateX(1700);
-        down.setTranslateY(250);
-        
-        left.setTranslateX(1650);
-        left.setTranslateY(225);
-        
-        right.setTranslateX(1760);
-        right.setTranslateY(225);
         
         lbl.setTranslateX(1700);
         lbl.setTranslateY(300);
@@ -154,74 +129,10 @@ public class GameController {
         lbl2.setTranslateY(500);
         lbl2.setTextFill(Paint.valueOf("white"));
         
-        Arc a2 = new Arc(200f, 800f, 200f, 200f, 10f, 180f);
-        
-        
-        
-        up.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-            double a = toAnimate.getTranslateY();
-            a--;
-            toAnimate.setTranslateY(a);
-            String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
-            lbl.setText(txt);
-            double b = a2.getLength();
-            b= b+5;
-            a2.setLength(b);
-            }
-        });
-        down.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-            double a = toAnimate.getTranslateY();
-            a++;
-            toAnimate.setTranslateY(a);
-            String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
-            lbl.setText(txt);
-            double b = a2.getLength();
-            b= b-5;
-            a2.setLength(b);
-            }
-        });
-        left.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-            double a = toAnimate.getTranslateX();
-            a--;
-            toAnimate.setTranslateX(a);
-            String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY();
-            lbl.setText(txt);
-            double b = a2.getStartAngle();
-            b = b + 5;
-            a2.setStartAngle(b);
-            }
-        });
-        right.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-            double a = toAnimate.getTranslateX();
-            a++;
-            toAnimate.setTranslateX(a);
-            
-            double b = a2.getStartAngle();
-            b = b + 5;
-            a2.setStartAngle(b);
-            String txt = "X:"+toAnimate.getTranslateX()+"   Y:"+toAnimate.getTranslateY()+" Start Angle: "+a2.getStartAngle()+"  End Angle: "+a2.getLength();
-            lbl.setText(txt);
-            }
-        });
-        
-        
-        
             
         map.insertElement(rect);
-        map.insertElement(up);
-        map.insertElement(down);
-        map.insertElement(left);
-        map.insertElement(right);
         map.insertElement(lbl);
         map.insertElement(lbl2);
-        
-        
-        System.out.println(player.getTranslateX());
-        System.out.println(player.getTranslateY());
         
         
         AnimationTimer timer = new AnimationTimer() {
@@ -241,18 +152,13 @@ public class GameController {
         updateMapSprites();
         player.update(getAllObstaclesInMap());
         lbl2.setText("isAlreadyRunning:"+player.getIsAlreadyRunning()+"   isFalling:"+player.getIsFalling());
-        if(!isAnimating){
-            isAnimating = true;
-            player.walkAnimate(0, 0);
-            
-            System.out.println("is animating...");
-        }
+
         long elapsedMillis = System.currentTimeMillis() - startTime ;
                 timerLabel.setText(Long.toString(elapsedMillis));
         
-        if(JumpPressed){
-            JumpPressed = false;
-            player.jumpAnimate();
+        if(!isRunning){
+            isRunning = true;
+            player.walkAnimate(0, 0);
         }
         
     }
@@ -385,9 +291,9 @@ public class GameController {
         @Override
         public void handle(KeyEvent e) {
             
-            if (e.getCode() == KeyCode.F && player.getIsJumping() == false) {
+            if (e.getCode() == KeyCode.SPACE && player.getIsJumping() == false) {
                     //player.stopWalkAnimation();
-                    JumpPressed = true;
+                    player.jumpAnimate();
                     player.setJumpingForce(30);
                     player.setIsJumping(true);
             }

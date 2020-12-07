@@ -12,7 +12,7 @@ package items;
 public class Torso extends Item implements ISearchablePath{
     
     public Torso(double x, double y, int price, int scale, Custom custom) {
-        super(x, y, price, scale, custom);
+        super(x+26, y+58, price, scale, custom);
         super.type = ItemType.torso;
         String path = findPath();
         super.initializeImage(path);

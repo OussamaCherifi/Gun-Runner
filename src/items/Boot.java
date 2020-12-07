@@ -13,7 +13,7 @@ public class Boot extends Item implements ISearchablePath{
     private String kind;
     
     public Boot(String kind, double x, double y,  int price, int scale, Custom custom) {
-        super(x, y, price, scale, custom);
+        super(x+4, y+120, price, scale, custom);
         super.type = ItemType.boots;
         this.kind = kind;
         String path = findPath();
@@ -23,6 +23,10 @@ public class Boot extends Item implements ISearchablePath{
     @Override
     public String findPath() {
         String path = "";
+        if(kind.equalsIgnoreCase("l")){
+            this.xpos = xpos + 2+46;
+            this.setTranslateX(xpos);
+        }
         switch(custom){
             case normal:
                 path = "sprites/player/pl_+"+kind+"_boot.png";

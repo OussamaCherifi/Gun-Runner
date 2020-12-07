@@ -16,7 +16,7 @@ public class Hand extends Item implements ISearchablePath{
     private String kind;
 
     public Hand(String kind, double x, double y, int price, int scale, Custom custom) {
-        super(x, y, price, scale, custom);
+        super(x+2, y+66, price, scale, custom);
         super.type = ItemType.hands;
         this.kind = kind;
         String path = findPath();
@@ -26,6 +26,10 @@ public class Hand extends Item implements ISearchablePath{
     @Override
     public String findPath() {
         String path = "";
+        if(kind.equalsIgnoreCase("l")){
+            this.xpos = xpos + 56;
+            this.setTranslateX(xpos);
+        }
         if(kind.equalsIgnoreCase("whole")){
             switch(custom){
             case normal:
