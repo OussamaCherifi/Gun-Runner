@@ -8,6 +8,7 @@ package obstacles;
 import GameGUI.Map;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Objects;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
@@ -66,6 +67,46 @@ public abstract class Obstacles extends ImageView {
         setTranslateX(xpos);
         setTranslateY(ypos);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.xpos) ^ (Double.doubleToLongBits(this.xpos) >>> 32));
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.ypos) ^ (Double.doubleToLongBits(this.ypos) >>> 32));
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.width) ^ (Double.doubleToLongBits(this.width) >>> 32));
+        hash = 41 * hash + (int) (Double.doubleToLongBits(this.height) ^ (Double.doubleToLongBits(this.height) >>> 32));
+        hash = 41 * hash + Objects.hashCode(this.type);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Obstacles other = (Obstacles) obj;
+        if (Double.doubleToLongBits(this.ypos) != Double.doubleToLongBits(other.ypos)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.width) != Double.doubleToLongBits(other.width)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.height) != Double.doubleToLongBits(other.height)) {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
     protected abstract void enemySpawn(Map map);
     

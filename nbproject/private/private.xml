@@ -12,19 +12,15 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Bullet.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Item.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/gamefinalversionhopefully/GameFinalVersionHopefully.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/GameController/JumpingAnimation.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Gun.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/GameController/WalkingAnimation.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Fingers.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/playerAnimation/JumpingAnimation.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/playerAnimation/FallAnimation.java</file>
             <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/player/Player.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/sprites/player/pl_l_fingers.png</file>
             <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/GameController/GameController.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Helmet.java</file>
-            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/ItemType.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Item.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Hand.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/playerAnimation/WalkingAnimation.java</file>
             <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Boot.java</file>
+            <file>file:/C:/Users/ismai/Documents/NetBeansProjects/GunRunner/src/items/Torso.java</file>
         </group>
     </open-files>
 </project-private>

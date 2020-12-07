@@ -39,7 +39,7 @@ public class GameController {
     
     List<Obstacles> floors = new ArrayList<>();
     List<Obstacles> platforms = new ArrayList<>();
-    private boolean isRunning = false;
+    private boolean firstTime = false;
     
     long startTime = System.currentTimeMillis();
     Label timerLabel = new Label();
@@ -89,11 +89,12 @@ public class GameController {
         Item rhand = new Hand("r", x, y, 0, 2, Custom.c1);
         Item lboot = new Boot("l", x, y, 0, 2, Custom.c2);
         Item rboot = new Boot("r", x, y, 0, 2, Custom.c2);
-        Item pistol = new Gun("pistol", x+18, y+58, 0, 2, Custom.c1);
-        Item pistol2 = new Gun("pistol", x+18+s, y+58, 0, 2, Custom.c1);
-        Item uzi = new Gun("uzi", x+18, y+54+4, 0, 2, Custom.c1);
-        Item uzi2 = new Gun("uzi", x+18+s, y+54+4, 0, 2, Custom.c1);
-        Item ak = new Gun("ak", x+20, y+54, 0, 2, Custom.c1);
+        Item pistol = new Gun("pistol", x, y, 0, 2, Custom.c1);
+        Item pistol2 = new Gun("pistol", x+s, y, 0, 2, Custom.c1);
+        Item uzi = new Gun("uzi", x, y, 0, 2, Custom.c1);
+        Item uzi2 = new Gun("uzi", x+s, y, 0, 2, Custom.c1);
+        Item ak = new Gun("ak", x, y, 0, 2, Custom.c1);
+        
         
         toAnimate = rect;
         
@@ -110,9 +111,9 @@ public class GameController {
         map.insertElement(rhand);
         
         
-        player.setlGun(uzi2);
-        player.setrGun(ak);
-        player.setFingers(fingers);
+        player.setlGun(uzi2);//
+        player.setrGun(ak);//
+        player.setFingers(fingers);//
         player.setHelmet(helmet);
         player.setTorso(torso);
         player.setlHand(lhand);
@@ -121,11 +122,13 @@ public class GameController {
         player.setrBoot(rboot);
         
         
+        player.addEquipedItems();
+        
         lbl.setTranslateX(1700);
         lbl.setTranslateY(300);
         lbl.setTextFill(Paint.valueOf("white"));
         
-        lbl2.setTranslateX(1700);
+        lbl2.setTranslateX(1500);
         lbl2.setTranslateY(500);
         lbl2.setTextFill(Paint.valueOf("white"));
         
@@ -149,17 +152,19 @@ public class GameController {
 
     
     private void update() {
+        if(!firstTime){
+            this.firstTime = true;
+            player.walkAnimate(0, 0);
+        }
         updateMapSprites();
         player.update(getAllObstaclesInMap());
-        lbl2.setText("isAlreadyRunning:"+player.getIsAlreadyRunning()+"   isFalling:"+player.getIsFalling());
+        lbl2.setText("isAlreadyRunning:"+player.getIsAlreadyRunning()+"   isFalling:"+player.getIsFalling()+"\n"
+                        +"helmet translate y: " + player.getHelmet().getTranslateY() + " helmet ypos: "+ player.getHelmet().getYpos());
 
         long elapsedMillis = System.currentTimeMillis() - startTime ;
                 timerLabel.setText(Long.toString(elapsedMillis));
         
-        if(!isRunning){
-            isRunning = true;
-            player.walkAnimate(0, 0);
-        }
+         
         
     }
     

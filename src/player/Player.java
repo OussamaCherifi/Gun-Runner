@@ -30,6 +30,7 @@ public class Player extends Rectangle{
     // Separation of the attributes 
     private Item helmet,torso, rHand, lHand, rBoot, lBoot, bullet, lGun, rGun, fingers;
     private ArrayList<Item> equipedItems = new ArrayList<>();
+    private int counter = 0;
     //shape and size;
     private final double width = 110 ;
     private final double height = 168;
@@ -39,12 +40,14 @@ public class Player extends Rectangle{
     private double jumpingForce, fallingForce;
     
     //constraint attributes to control movements 
+    private boolean isInTheAir = false;
     private boolean isJumping = false;
     private boolean isFalling = false;
     private boolean isDead = false;
     private boolean isShooting = false;
     private boolean isGoingBottom = false;  
     private boolean isAlreadyRunning = false;
+    private boolean ifDone = false;
     
 
     
@@ -70,10 +73,21 @@ public class Player extends Rectangle{
         
         setTranslateX(xpos);
         setTranslateY(ypos);
+        
+        this.setVisible(false);
+        
     }
     
-    private void addEquipedItems(List<Item> list){
-        
+    public void addEquipedItems(){
+        equipedItems.add(helmet);
+        equipedItems.add(torso);
+        equipedItems.add(rHand);
+        equipedItems.add(lHand);
+        equipedItems.add(rBoot);
+        equipedItems.add(lBoot);
+        equipedItems.add(lGun);//
+        equipedItems.add(rGun);//
+        equipedItems.add(fingers);//
     }
     
     public void update(List<Obstacles> obstacles){
@@ -90,19 +104,23 @@ public class Player extends Rectangle{
         }
         isFalling = true;
         
-        
-        updateItems();
     }
     
     private void updateItems(){
-        helmet.setXpos(this.getTranslateX()+18);
-        helmet.setYpos(this.getTranslateY());
-        this.lHand.setXpos(this.getTranslateX());
+        double a = lowerY - mainGround.getYpos();
+        
+        for(Item it : equipedItems){
+//            System.out.println(it.getOriginalX());
+//            System.out.println(it.getXpos());;
+            it.setYpos(it.getOriginalY()+a);
+        }
         
     }
     
     //The next methods will be related to the player movement : 
     public void jump(){
+        isAlreadyRunning = false;
+        isInTheAir = true;
         isFalling = false;
         setTranslateY(getTranslateY() - jumpingForce);
         jumpingForce -= 0.90;
@@ -122,13 +140,18 @@ public class Player extends Rectangle{
             for (Obstacles o : obstacles) {
                 if (xpos <= o.getTranslateX() + o.getWidth() && rightX >= o.getTranslateX()) {
                     if (ypos >= o.getYpos() - height && lowerY <= o.getYpos()){
-                        if(isJumping){
-                            walkAnimate(0, 0);
-                        }
                         fallingForce = 0;
                         isJumping = false;
                         isFalling = false;
-                        isAlreadyRunning = false;
+                        isInTheAir = false;
+                        if(!ground.equals(o)){
+                            System.out.println("NOT THE SAME GROUND AAAAAA!!!!");
+                            walkAnimate(0, 0);
+                        }
+                        if(!ground.equals(o) && !isAlreadyRunning && !isInTheAir){
+                            isAlreadyRunning = true;
+                            
+                        }
                         ground = o;
                         setTranslateY(o.getTranslateY() - height);
                         break;
@@ -136,29 +159,32 @@ public class Player extends Rectangle{
                 }
             }            
         }else{
+            if(ground.equals(mainGround)){
+                            System.out.println("NOT THE SAME GROUND AAAAAA!!!!");
+                            walkAnimate(0, 0);
+                        }
             ground = mainGround;
                 if (ypos >= ground.getYpos() - height && lowerY <= ground.getYpos()) {
-                    if(isJumping){
-                        walkAnimate(0, 0);
-                    }
                     fallingForce = 0;
                     isJumping = false;
                     isFalling = false;
                     isGoingBottom = false;
-                    isAlreadyRunning = false;
                     setTranslateY(ground.getTranslateY() - height);
+                    
                     
                 }
         }
     }
     
     public void walkAnimate(double x, double y){
+        setupWalkItems();
             this.isAlreadyRunning = true;
+            updateItems();
             PathTransition torsoTransition = WalkingAnimation.torsoPath(torso, x, y);
             PathTransition helmetTransition = WalkingAnimation.helmetPath((Helmet)helmet, x, y);
             PathTransition rbootTransition = WalkingAnimation.bootPath((Boot)rBoot, x, y, 46);
             PathTransition lbootTransition = WalkingAnimation.bootPath((Boot)lBoot, x, y, 46);
-            lbootTransition.setDelay(Duration.seconds(0.12));
+            lbootTransition.setDelay(Duration.seconds(0));
             
             Gun gun = (Gun)rGun;
             if(gun.getIsDualWield()){
@@ -195,7 +221,9 @@ public class Player extends Rectangle{
             rbootTransition.play();
             lbootTransition.play();
             
-            System.out.println("walking...");
+            counter++;
+            System.out.println("walking..."+counter);
+            
     }
     
     public void jumpAnimate(){
@@ -216,7 +244,7 @@ public class Player extends Rectangle{
         lbootTransition.play();
         rbootTransition.play();
         
-        System.out.println("jumping...");
+        //System.out.println("jumping...");
     }
     
     private void setupJumpItems(){
@@ -233,6 +261,19 @@ public class Player extends Rectangle{
         this.rBoot.setRotate(30);
     }
     
+    private void setupWalkItems(){
+        this.rHand.setRotate(0);
+        Hand newHand = (Hand)lHand;
+        newHand.setKind("whole");
+        this.lHand = newHand;
+        this.fingers.setVisible(true);
+        this.lHand.setVisible(false);
+        this.lHand.setRotate(0);
+        this.lGun.setVisible(false);
+        this.rGun.setVisible(true);
+        this.lBoot.setRotate(0);
+        this.rBoot.setRotate(0);
+    }
     
     public void goToBottom(){
         isGoingBottom = true;

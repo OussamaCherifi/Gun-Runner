@@ -15,7 +15,8 @@ import javafx.scene.image.ImageView;
  * @author ismai
  */
 public abstract class Item extends ImageView{
-    
+    protected double originalX;
+    protected double originalY;
     protected boolean isEquiped = false;
     protected static int counterId = 0;
     protected int idNum = 0;
@@ -35,6 +36,9 @@ public abstract class Item extends ImageView{
         this.idNum = counterId;
         counterId++;
         
+        this.originalX = x;
+        this.originalY = y;
+        
         initializeImage(path);
         initializePos(x, y);
     }
@@ -42,6 +46,9 @@ public abstract class Item extends ImageView{
         public Item(double xpos, double ypos, int price, double scale){
         this.scale = scale;
         this.price = price;
+        this.originalX = xpos;
+        this.originalY = ypos;
+        
         this.idNum = counterId;
         counterId++;
         initializePos(xpos, ypos);
@@ -51,6 +58,8 @@ public abstract class Item extends ImageView{
         this.scale = scale;
         this.price = price;
         this.custom = custom;
+        this.originalX = xpos;
+        this.originalY = ypos;
         this.idNum = counterId;
         counterId++;
         initializePos(xpos, ypos);
@@ -139,6 +148,24 @@ public abstract class Item extends ImageView{
     public void setYpos(double ypos) {
         this.ypos = ypos;
     }
+
+    public double getOriginalX() {
+        return originalX;
+    }
+
+    public void setOriginalX(double originalX) {
+        this.originalX = originalX;
+    }
+
+    public double getOriginalY() {
+        return originalY;
+    }
+
+    public void setOriginalY(double originalY) {
+        this.originalY = originalY;
+    }
+    
+    
     
     
     

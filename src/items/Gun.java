@@ -14,11 +14,15 @@ public class Gun extends Item implements ISearchablePath{
     private String kind;
 
     public Gun(String kind, double x, double y, int price, int scale, Custom custom) {
-        super(x, y, price, scale, custom);
+        super(x+18, y+58, price, scale, custom);
         super.type = ItemType.gun;
         this.kind = kind;
         if(kind.equalsIgnoreCase("ak")){
             this.isDualWield = false;
+            this.xpos = xpos + 2;
+            this.setTranslateX(xpos);
+            this.ypos = ypos - 4;
+            this.setTranslateY(ypos);
         }else{
             this.isDualWield = true;      
         }

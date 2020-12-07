@@ -19,6 +19,10 @@ public class Hand extends Item implements ISearchablePath{
         super(x+2, y+66, price, scale, custom);
         super.type = ItemType.hands;
         this.kind = kind;
+        if(kind.equalsIgnoreCase("l")){
+            this.xpos = xpos + 56;
+            System.out.println(getTranslateX());
+        }
         String path = findPath();
         super.initializeImage(path);
     }
@@ -26,10 +30,6 @@ public class Hand extends Item implements ISearchablePath{
     @Override
     public String findPath() {
         String path = "";
-        if(kind.equalsIgnoreCase("l")){
-            this.xpos = xpos + 56;
-            this.setTranslateX(xpos);
-        }
         if(kind.equalsIgnoreCase("whole")){
             switch(custom){
             case normal:
