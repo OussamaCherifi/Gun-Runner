@@ -16,12 +16,19 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
+import player.Player;
 
 /**
  *
  * @author ismai
  */
 public class JumpingAnimation {
+    
+    Player player;
+
+    public JumpingAnimation(Player player) {
+        this.player = player;
+    }
     
     public static SequentialTransition helmetPath(Helmet helmet){
         double x = 4;
@@ -186,5 +193,21 @@ public class JumpingAnimation {
         st.setCycleCount(1);
         
         return st;
+    }
+
+
+    public void handJump(Hand hand){
+        double x;
+        double y;
+        if(hand.getKind().equalsIgnoreCase("r")){
+            x = 0;
+            y = -40;
+        }else{
+            x = 80;
+            y = -80;
+        }
+        
+        hand.setPos(x+player.getLowerY(), y+player.getLowerY());
+        
     }
 }

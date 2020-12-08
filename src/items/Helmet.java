@@ -12,7 +12,7 @@ package items;
 public class Helmet extends Item implements ISearchablePath{
     
     public Helmet(double x, double y, int price, int scale, Custom custom) {
-        super(x, y, price, scale, custom);
+        super(x+18, y, price, scale, custom);
         super.type = ItemType.helmet;
         String path = findPath();
         super.initializeImage(path);

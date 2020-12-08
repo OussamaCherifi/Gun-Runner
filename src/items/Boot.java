@@ -15,6 +15,8 @@ public class Boot extends Item implements ISearchablePath{
     public Boot(String kind, double x, double y,  int price, int scale, Custom custom) {
         super(x+4, y+120, price, scale, custom);
         super.type = ItemType.boots;
+        super.offsetX = 4;
+        super.offsetY = 120;
         this.kind = kind;
         String path = findPath();
         super.initializeImage(path);

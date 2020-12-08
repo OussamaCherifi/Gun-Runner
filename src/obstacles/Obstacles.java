@@ -59,13 +59,19 @@ public abstract class Obstacles extends ImageView {
         
         if(xpos + width <= 0){
             if(type.equalsIgnoreCase("platform")){
-                ypos = (Math.random() * (-200) + 680);
+            generateY();
+            //ypos = Math.round(Math.random() * (-200) + 680);
             }
             xpos = map.getMapWidth();
         }
                 
         setTranslateX(xpos);
         setTranslateY(ypos);
+    }
+    
+    public double generateY(){
+        ypos = Math.round(Math.random()/0.2) * -40 + 680;
+        return ypos;
     }
 
     @Override

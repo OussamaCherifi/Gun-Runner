@@ -82,7 +82,13 @@ public class GameController {
         double x = player.getTranslateX();
         double y = player.getTranslateY();
         
-        Item helmet = new Helmet(x+18, y, 0, 2, Custom.c1);
+        System.out.println("TRANSLATE X: " + x);
+        System.out.println("TRANSLATE Y: " + y);
+        
+        System.out.println("POS X: " + player.getXpos());
+        System.out.println("POS Y: " + player.getYpos());
+        
+        Item helmet = new Helmet(x, y, 0, 2, Custom.c1);
         Item fingers = new Fingers("dual", x, y, 0, 2);
         Item torso = new Torso(x, y, 0, 2, Custom.normal);
         Item lhand = new Hand("l", x, y, 0, 2, Custom.c2);
@@ -139,10 +145,13 @@ public class GameController {
         
         
         AnimationTimer timer = new AnimationTimer() {
+            private long lastUpdate = 0;
             @Override
             public void handle(long now) {
+                if(now - lastUpdate >= 1_000_000){
                 update();
-            }
+                lastUpdate = now;
+            }}
         };
 
         timer.start();
@@ -158,11 +167,14 @@ public class GameController {
         }
         updateMapSprites();
         player.update(getAllObstaclesInMap());
-        lbl2.setText("isAlreadyRunning:"+player.getIsAlreadyRunning()+"   isFalling:"+player.getIsFalling()+"\n"
+        lbl2.setText("isInTheAir: "+player.getIsInTheAir()+"   isFalling:"+player.getIsFalling()+"\n"
                         +"helmet translate y: " + player.getHelmet().getTranslateY() + " helmet ypos: "+ player.getHelmet().getYpos());
-
+        
         long elapsedMillis = System.currentTimeMillis() - startTime ;
-                timerLabel.setText(Long.toString(elapsedMillis));
+                //timerLabel.setText(Long.toString(elapsedMillis));
+                timerLabel.setText("lowerY: "+Math.round(player.getLowerY())+" mainGround: "+Math.round(player.getGround().getYpos())+"\n"
+                        +"boot initial Ypos: "+Math.round(player.getrBoot().getOriginalY())+" boot ypos now: "+Math.round(player.getrBoot().getYpos())
+                        +"  difference: "+Math.round(player.getLowerY()-player.getTorso().getYpos()));
         
          
         
@@ -261,7 +273,7 @@ public class GameController {
         int counter = 0;
         double s = map.getMapHeight()*0.62;
         while (xpos <= map.getMapWidth() * 2) {
-            Platforms p = new Platforms(path, 500 + distanceBetweenPlatforms, (Math.random() * (-400) + s), "platform");
+            Platforms p = new Platforms(path, 500 + distanceBetweenPlatforms, Math.round(Math.random() * (-400) + s), "platform");
             distanceBetweenPlatforms += p.getWidth() + (Math.random() * (40));
             platforms.add(p);
             xpos += distanceBetweenPlatforms;
@@ -298,7 +310,8 @@ public class GameController {
             
             if (e.getCode() == KeyCode.SPACE && player.getIsJumping() == false) {
                     //player.stopWalkAnimation();
-                    player.jumpAnimate();
+                    //player.jumpAnimate();
+                    //player.stopAnimate();
                     player.setJumpingForce(30);
                     player.setIsJumping(true);
             }

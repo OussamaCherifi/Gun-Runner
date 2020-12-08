@@ -14,6 +14,8 @@ public class Torso extends Item implements ISearchablePath{
     public Torso(double x, double y, int price, int scale, Custom custom) {
         super(x+26, y+58, price, scale, custom);
         super.type = ItemType.torso;
+        super.offsetX = 26;
+        super.offsetY = 58;
         String path = findPath();
         super.initializeImage(path);
     }

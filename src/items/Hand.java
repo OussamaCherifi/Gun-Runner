@@ -17,6 +17,8 @@ public class Hand extends Item implements ISearchablePath{
 
     public Hand(String kind, double x, double y, int price, int scale, Custom custom) {
         super(x+2, y+66, price, scale, custom);
+        super.offsetX = 2;
+        super.offsetY = 66;
         super.type = ItemType.hands;
         this.kind = kind;
         if(kind.equalsIgnoreCase("l")){

@@ -15,8 +15,9 @@ import javafx.scene.image.ImageView;
  * @author ismai
  */
 public abstract class Item extends ImageView{
-    protected double originalX;
-    protected double originalY;
+    
+    protected double offsetX, offsetY;
+    protected double originalX, originalY;
     protected boolean isEquiped = false;
     protected static int counterId = 0;
     protected int idNum = 0;
@@ -163,6 +164,14 @@ public abstract class Item extends ImageView{
 
     public void setOriginalY(double originalY) {
         this.originalY = originalY;
+    }
+
+    public double getOffsetX() {
+        return offsetX;
+    }
+
+    public double getOffsetY() {
+        return offsetY;
     }
     
     
