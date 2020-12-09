@@ -113,9 +113,6 @@ public abstract class Item extends ImageView{
     }
     
     public void setPos(double x, double y){
-       this.xpos = x; 
-       this.ypos = y;
-       
         setTranslateX(x);
         setTranslateY(y);
     }

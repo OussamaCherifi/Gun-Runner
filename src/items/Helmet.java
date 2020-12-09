@@ -14,6 +14,8 @@ public class Helmet extends Item implements ISearchablePath{
     public Helmet(double x, double y, int price, int scale, Custom custom) {
         super(x+18, y, price, scale, custom);
         super.type = ItemType.helmet;
+        super.offsetX = 18;
+        super.offsetY = 168;
         String path = findPath();
         super.initializeImage(path);
     }

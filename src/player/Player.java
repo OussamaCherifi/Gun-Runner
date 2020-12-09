@@ -11,12 +11,10 @@ import items.*;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.PathTransition;
-import javafx.animation.SequentialTransition;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 import obstacles.Obstacles;
+import playerAnimation.FallAnimation;
 
 /**
  *
@@ -26,17 +24,15 @@ public class Player extends Rectangle{
     
     // Separation of the attributes 
     private Item helmet,torso, rHand, lHand, rBoot, lBoot, bullet, lGun, rGun, fingers;
-    private PathTransition  torsoTransition, helmetTransition, rbootTransition, lbootTransition,
-                            rhandTransition, lhandTransition, fingersTransition, pistol1Transition, pistol2Transition;
+
     private ArrayList<Item> equipedItems = new ArrayList<>();
     //shape and size;
-    private final double width = 110 ;
+    private final double width = 110;
     private final double height = 168;
 
     // positioning and movement
     private double xpos , ypos , rightX , lowerY;
     private double jumpingForce, fallingForce;
-    private double originalX, originalY;
     
     //constraint attributes to control movements 
     private boolean isInTheAir = false;
@@ -49,22 +45,23 @@ public class Player extends Rectangle{
     private boolean ifDone = false;
     
     JumpingAnimation ja = new JumpingAnimation(this);
+    FallAnimation fa = new FallAnimation(this);
     
 
     
     //These two are two control the y position of the player. 
     //They represent the sprites on which my player can stand on.
-    private Obstacles ground;
+    private Obstacles currentGround, previousGround;
     //the main ground is referred to as the base line of our player. He cannot go under 
     // the y position of this Obstacle
     private final Obstacles mainGround;
     
     public Player(Obstacles ground){
         setWidth(width); setHeight(height); setFill(Color.BLUE);
-        this.ground = ground;
-        mainGround = ground;
         
-        System.out.println("Ground: " + ground.getYpos());
+        this.previousGround = ground;
+        mainGround = ground;
+        this.currentGround = mainGround;
         //getting the four corners of the rectangles as coordinates. 
         xpos = 180;
         ypos = (ground.getYpos() - height);
@@ -77,10 +74,7 @@ public class Player extends Rectangle{
         this.setVisible(true);
         this.setOpacity(0.5);
         
-        
     }
-
-
 
     public void addEquipedItems(){
         equipedItems.add(helmet);
@@ -107,9 +101,20 @@ public class Player extends Rectangle{
             fall(obstacles);
         }
         if(isInTheAir){
+            jumpAnimate();
             //updateItems();
             //jumpAnimate();
-            
+        }
+        if(xpos >= currentGround.getXpos()+currentGround.getWidth() && !isInTheAir){
+            fallAnimate();
+        }
+        if(currentGround.equals(mainGround) && lowerY < mainGround.getYpos() && !isInTheAir){
+            fallAnimate();
+        }
+        if(lowerY == mainGround.getYpos() || lowerY == currentGround.getYpos()){
+            if(lBoot.getRotate() == -40 || lHand.getRotate() == -95 || !lGun.isVisible()){
+                walkAnimate(0, 0);
+            }
         }
         isFalling = true;
         
@@ -117,21 +122,18 @@ public class Player extends Rectangle{
     
     private void updateItems(){
         //System.out.println("updating...");
-        double a = lowerY - mainGround.getYpos();
-        double b = ground.getYpos();
+        double a = mainGround.getYpos() - currentGround.getYpos();
         //System.out.println(a+" = "+lowerY+" - "+mainGround.getYpos());
-        
             for(Item it : equipedItems){
                 //System.out.println("lowerY: "+ lowerY);
                 //System.out.println("current ground: "+ b);
                 //System.out.println("Item's Y: "+ it.getYpos());
-
-                    it.setYpos(it.getOriginalY()+a);
+                
+                    it.setYpos(it.getOriginalY()-a);
                     it.setTranslateY(it.getOriginalY()+a);
                 
 //              System.out.println(it.getOriginalX());
-//              System.out.println(it.getXpos());
-                
+//              System.out.println(it.getXpos()); 
             }  
     }
     
@@ -150,7 +152,7 @@ public class Player extends Rectangle{
     
     public void fall(List<Obstacles> obstacles){
         setTranslateY(getTranslateY() - fallingForce);
-        fallingForce -= 1;
+        fallingForce -= 0.8;
         
         
         if(isGoingBottom == false){
@@ -162,82 +164,103 @@ public class Player extends Rectangle{
                         isJumping = false;
                         isFalling = false;
                         isInTheAir = false;
-                        if(ground.equals(o)){
-                            //System.out.println("allo");
-                            updateItems();
-                        }
-                        if(!ground.equals(o)){
+                        
+                        
+                        
+                        if(!currentGround.equals(o)){
+                            previousGround = currentGround;
+                            if(previousGround.getYpos() == mainGround.getYpos() && o.getYpos()== mainGround.getYpos()){
+                                setupWalkItems();
+                                currentGround = o;
+                            }else if(previousGround.getYpos() == o.getYpos()){
+                                setupWalkItems();
+                                currentGround = o;
+                            }
+                            else{
+                            currentGround = o;
                             walkAnimate(0, 0);
+                            }
                         }
-                        ground = o;
+                        
                         setTranslateY(o.getTranslateY() - height);
                         break;
+                    }
+                    else{
+                        
+                        //jump2();
+                        
                     }
                 }
             }            
         }else{
-            if(ground.equals(mainGround)){
+            if(currentGround.equals(mainGround)){
                walkAnimate(0, 0);
-               updateItems();
+               //updateItems();
             }
-            ground = mainGround;
-                if (ypos >= ground.getYpos() - height && lowerY <= ground.getYpos()) {
+            currentGround = mainGround;
+                if (ypos >= currentGround.getYpos() - height && lowerY <= currentGround.getYpos()) {
                     fallingForce = 0;
                     isJumping = false;
                     isFalling = false;
                     isGoingBottom = false;
-                    setTranslateY(ground.getTranslateY() - height);
+                    setTranslateY(currentGround.getTranslateY() - height);
                     isInTheAir = false;
                 }
             }
     }
     
-    public void jump2(){
+    public void jumpAnimate(){
+        setupJumpItems();
         ja.handJump((Hand)lHand);
+        ja.handJump((Hand)rHand);
+        ja.bootJump((Boot)lBoot);
+        ja.bootJump((Boot)rBoot);
+        ja.helmetJump((Helmet)helmet);
+        ja.torsoJump((Torso)torso);
+        ja.gunJump((Gun)rGun);
+        
     }
     
-    public void stopAnimate(){
-        Gun gun = (Gun)rGun;
-        if(gun.getIsDualWield()){
-            fingersTransition.stop();
-            rhandTransition.stop();
-            lhandTransition.stop();
-            pistol2Transition.stop();
-            pistol1Transition.stop();
-        }if(!gun.getIsDualWield()){
-            pistol1Transition.stop();
-            fingersTransition.stop();
-            rhandTransition.stop();
-        }
-        torsoTransition.stop();
-        helmetTransition.stop();
-        rbootTransition.stop();
-        lbootTransition.stop();
-       
+    public void fallAnimate(){
+        setupFallItems();
+        fa.handFall((Hand)lHand);
+        fa.handFall((Hand)rHand);
+        fa.bootFall((Boot)lBoot);
+        fa.bootFall((Boot)rBoot);
+        fa.helmetFall((Helmet)helmet);
+        fa.torsoFall((Torso)torso);
+        fa.gunFall((Gun)rGun);
     }
     
     public void walkAnimate(double x, double y){
         System.out.println("walking...");
-        
         updateItems();
         
         setupWalkItems();
         
             this.isAlreadyRunning = true;
-            torsoTransition = WalkingAnimation.torsoPath(torso, x, y);
-            helmetTransition = WalkingAnimation.helmetPath((Helmet)helmet, x, y);
-            rbootTransition = WalkingAnimation.bootPath((Boot)rBoot, x, y, 46);
-            lbootTransition = WalkingAnimation.bootPath((Boot)lBoot, x, y, 46);
+            PathTransition torsoTransition = WalkingAnimation.torsoPath(torso, x, y);
+            PathTransition helmetTransition = WalkingAnimation.helmetPath((Helmet)helmet, x, y);
+            PathTransition rbootTransition = WalkingAnimation.bootPath((Boot)rBoot, x, y, 46);
+            PathTransition lbootTransition = WalkingAnimation.bootPath((Boot)lBoot, x, y, 46);
             
             Gun gun = (Gun)rGun;
+            System.out.println(gun.getIsDualWield());
             if(gun.getIsDualWield()){
+                Fingers f = (Fingers)fingers;
+                f.setKind("dual");
+                fingers = (Item)f;
+                Hand newHand = (Hand)lHand;
+                newHand.setKind("l");
+                lHand = (Item)newHand;
                 lGun.setVisible(true);
                 lHand.setVisible(true);
-                rhandTransition = WalkingAnimation.handPath((Hand)rHand, x, y);
-                fingersTransition = WalkingAnimation.fingersPath((Fingers) fingers, x, y);
-                lhandTransition = WalkingAnimation.handPath((Hand)lHand, x, y);
-                pistol1Transition = WalkingAnimation.gunPath((Gun) rGun, x, y);
-                pistol2Transition = WalkingAnimation.gunPath((Gun) lGun, x, y);
+                
+                PathTransition rhandTransition = WalkingAnimation.handPath((Hand)rHand, x, y);
+                PathTransition fingersTransition = WalkingAnimation.fingersPath((Fingers) fingers, x, y);
+                PathTransition lhandTransition = WalkingAnimation.handPath((Hand)lHand, x, y);
+                PathTransition pistol1Transition = WalkingAnimation.gunPath((Gun) rGun, x, y);
+                PathTransition pistol2Transition = WalkingAnimation.gunPath((Gun) lGun, x, y);
                 fingersTransition.play();
                 rhandTransition.play();
                 lhandTransition.play();
@@ -249,9 +272,9 @@ public class Player extends Rectangle{
                 Fingers f = (Fingers)fingers;
                 f.setKind("single");
                 fingers = (Item)f;
-                rhandTransition = WalkingAnimation.handPath((Hand)rHand, x+8, y+16);
-                pistol1Transition = WalkingAnimation.gunPath((Gun)rGun, x+8, y+20);
-                fingersTransition = WalkingAnimation.fingersPath((Fingers) fingers, x+2, y);
+                PathTransition rhandTransition = WalkingAnimation.handPath((Hand)rHand, x+8, y+16);
+                PathTransition pistol1Transition = WalkingAnimation.gunPath((Gun)rGun, x+8, y+20);
+                PathTransition fingersTransition = WalkingAnimation.fingersPath((Fingers) fingers, x+2, y);
                 pistol1Transition.play();
                 fingersTransition.play();
                 rhandTransition.play();
@@ -259,7 +282,6 @@ public class Player extends Rectangle{
             }
             
             helmetTransition.play();
-            
             torsoTransition.play();
             rbootTransition.play();
             lbootTransition.play();
@@ -267,51 +289,48 @@ public class Player extends Rectangle{
             
     }
     
-    public void jumpAnimate(){
-        setupJumpItems();
-        SequentialTransition helmetTransition = JumpingAnimation.helmetPath((Helmet)helmet);
-        SequentialTransition rhandTransition = JumpingAnimation.handPath((Hand)rHand);
-        SequentialTransition lhandTransition = JumpingAnimation.handPath((Hand)lHand);
-        SequentialTransition torsoTransition = JumpingAnimation.torsoPath((Torso)torso);
-        SequentialTransition lbootTransition = JumpingAnimation.bootPath((Boot)lBoot);
-        SequentialTransition rbootTransition = JumpingAnimation.bootPath((Boot)rBoot);
-        
-        torsoTransition.play();
-        lhandTransition.play();
-        rhandTransition.play();
-        helmetTransition.play();
-        lbootTransition.play();
-        rbootTransition.play();
-        
-        //System.out.println("jumping...");
-    }
-    
-    private void setupJumpItems(){
-        this.rHand.setRotate(90);
+    public void setupFallItems(){
         Hand newHand = (Hand)lHand;
         newHand.setKind("whole");
         this.lHand = newHand;
+        
+        this.lHand.setRotate(-95);
+        this.rHand.setRotate(0);
+        this.lBoot.setRotate(0);
+        this.rBoot.setRotate(0);
+        
+        this.lGun.setVisible(false);
         this.fingers.setVisible(false);
         this.lHand.setVisible(true);
+    }
+    
+    
+    private void setupJumpItems(){
+        
+        Hand newHand = (Hand)lHand;
+        newHand.setKind("whole");
+        this.lHand = newHand;
+        
         this.lHand.setRotate(-90);
+        this.lBoot.setRotate(-40);
+        this.rBoot.setRotate(25);
+        
         this.lGun.setVisible(false);
-        this.rGun.setVisible(false);
-        this.lBoot.setRotate(-30);
-        this.rBoot.setRotate(30);
+        this.fingers.setVisible(false);
+        this.lHand.setVisible(true);
     }
     
     private void setupWalkItems(){
-        this.rHand.setRotate(0);
         Hand newHand = (Hand)lHand;
         newHand.setKind("whole");
         this.lHand = newHand;
-        this.fingers.setVisible(true);
-        this.lHand.setVisible(false);
+        
         this.lHand.setRotate(0);
-        this.lGun.setVisible(false);
-        this.rGun.setVisible(true);
+        this.rHand.setRotate(0);
         this.lBoot.setRotate(0);
         this.rBoot.setRotate(0);
+        
+        this.fingers.setVisible(true);
     }
     
     public void goToBottom(){
@@ -467,7 +486,7 @@ public class Player extends Rectangle{
     }
     
     public Obstacles getGround() {
-        return ground;
+        return currentGround;
     }
 
     public double getLowerY() {
@@ -477,6 +496,11 @@ public class Player extends Rectangle{
     public boolean getIsInTheAir() {
         return isInTheAir;
     }
+
+    public Obstacles getPreviousGround() {
+        return previousGround;
+    }
+    
     
     
     

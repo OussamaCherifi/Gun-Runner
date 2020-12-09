@@ -88,18 +88,18 @@ public class GameController {
         System.out.println("POS X: " + player.getXpos());
         System.out.println("POS Y: " + player.getYpos());
         
-        Item helmet = new Helmet(x, y, 0, 2, Custom.c1);
+        Item helmet = new Helmet(x, y, 0, 2, Custom.normal);
         Item fingers = new Fingers("dual", x, y, 0, 2);
         Item torso = new Torso(x, y, 0, 2, Custom.normal);
-        Item lhand = new Hand("l", x, y, 0, 2, Custom.c2);
-        Item rhand = new Hand("r", x, y, 0, 2, Custom.c1);
-        Item lboot = new Boot("l", x, y, 0, 2, Custom.c2);
-        Item rboot = new Boot("r", x, y, 0, 2, Custom.c2);
-        Item pistol = new Gun("pistol", x, y, 0, 2, Custom.c1);
-        Item pistol2 = new Gun("pistol", x+s, y, 0, 2, Custom.c1);
-        Item uzi = new Gun("uzi", x, y, 0, 2, Custom.c1);
-        Item uzi2 = new Gun("uzi", x+s, y, 0, 2, Custom.c1);
-        Item ak = new Gun("ak", x, y, 0, 2, Custom.c1);
+        Item lhand = new Hand("l", x, y, 0, 2, Custom.normal);
+        Item rhand = new Hand("r", x, y, 0, 2, Custom.normal);
+        Item lboot = new Boot("l", x, y, 0, 2, Custom.normal);
+        Item rboot = new Boot("r", x, y, 0, 2, Custom.normal);
+        Item pistol = new Gun("pistol", x, y, 0, 2, Custom.normal);
+        Item pistol2 = new Gun("pistol", x+s, y, 0, 2, Custom.normal);
+        Item uzi = new Gun("uzi", x, y, 0, 2, Custom.normal);
+        Item uzi2 = new Gun("uzi", x+s, y, 0, 2, Custom.normal);
+        Item ak = new Gun("ak", x, y, 0, 2, Custom.normal);
         
         
         toAnimate = rect;
@@ -112,13 +112,13 @@ public class GameController {
         
         map.insertElement(torso);
         map.insertElement(helmet);
-        map.insertElement(ak);
+        map.insertElement(uzi);
         map.insertElement(rboot);
         map.insertElement(rhand);
         
         
         player.setlGun(uzi2);//
-        player.setrGun(ak);//
+        player.setrGun(uzi);//
         player.setFingers(fingers);//
         player.setHelmet(helmet);
         player.setTorso(torso);
@@ -145,13 +145,11 @@ public class GameController {
         
         
         AnimationTimer timer = new AnimationTimer() {
-            private long lastUpdate = 0;
             @Override
             public void handle(long now) {
-                if(now - lastUpdate >= 1_000_000){
+                
                 update();
-                lastUpdate = now;
-            }}
+            }
         };
 
         timer.start();
@@ -173,7 +171,7 @@ public class GameController {
         long elapsedMillis = System.currentTimeMillis() - startTime ;
                 //timerLabel.setText(Long.toString(elapsedMillis));
                 timerLabel.setText("lowerY: "+Math.round(player.getLowerY())+" mainGround: "+Math.round(player.getGround().getYpos())+"\n"
-                        +"boot initial Ypos: "+Math.round(player.getrBoot().getOriginalY())+" boot ypos now: "+Math.round(player.getrBoot().getYpos())
+                        +"previous Ground: "+player.getPreviousGround()+" current ground: "+ player.getGround()
                         +"  difference: "+Math.round(player.getLowerY()-player.getTorso().getYpos()));
         
          
@@ -267,7 +265,7 @@ public class GameController {
     
     private void createPlatforms() {
         String path = "sprites/map/platform.png";
-        double distanceBetweenPlatforms = 0;        
+        double distanceBetweenPlatforms = 20;        
         
         int xpos = 0;
         int counter = 0;

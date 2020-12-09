@@ -53,6 +53,15 @@ public class Gun extends Item implements ISearchablePath{
         return kind;
     }
     
+    public void setKind(String kind){
+        this.kind = kind;
+        if(kind.equalsIgnoreCase("ak")){
+            this.isDualWield = false;
+        }
+        String path = findPath();
+        super.initializeImage(path);
+    }
+    
     
     
 }

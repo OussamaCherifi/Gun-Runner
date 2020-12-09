@@ -36,8 +36,8 @@ public class WalkingAnimation {
             move.setY(helmet.getYpos() + y);
         
         LineTo line = new LineTo();
-            line.setX(helmet.getXpos() + x);
-            line.setY(helmet.getYpos() + y + 8);
+            line.setX(helmet.getXpos() + x + 2);
+            line.setY(helmet.getYpos() + y + 10);
         
         LineTo line2 = new LineTo();
             line2.setX(helmet.getXpos() + x);
@@ -138,7 +138,7 @@ public class WalkingAnimation {
         
         LineTo line = new LineTo();
             line.setX(torso.getXpos() + x - 2);
-            line.setY(torso.getYpos() + y + 6);
+            line.setY(torso.getYpos() + y + 9);
         
         LineTo line2 = new LineTo();
             line2.setX(torso.getXpos() + x);
