@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
  */
 public abstract class Item extends ImageView{
     
+    protected String kind;
     protected double offsetX, offsetY;
     protected double originalX, originalY;
     protected boolean isEquiped = false;
@@ -117,8 +118,6 @@ public abstract class Item extends ImageView{
         setTranslateY(y);
     }
 
-
-
     public void setPrice(int price) {
         this.price = price;
     }
@@ -170,16 +169,14 @@ public abstract class Item extends ImageView{
     public double getOffsetY() {
         return offsetY;
     }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+     
 }

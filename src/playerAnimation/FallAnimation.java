@@ -10,7 +10,7 @@ import items.Gun;
 import items.Hand;
 import items.Helmet;
 import items.Torso;
-import player.Player;
+import characterElements.Player;
 
 /**
  *

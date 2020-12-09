@@ -17,8 +17,4 @@ public class Floor extends Obstacles{
         super(path , x , y , type);
     }
     
-    @Override
-    public void enemySpawn(Map map){
-        
-    }
 }

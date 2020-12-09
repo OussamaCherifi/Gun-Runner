@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package player;
+package characterElements;
 
+import GameGUI.Map;
 import playerAnimation.JumpingAnimation;
 import playerAnimation.WalkingAnimation;
 import items.*;
@@ -24,8 +25,11 @@ public class Player extends Rectangle{
     
     // Separation of the attributes 
     private Item helmet,torso, rHand, lHand, rBoot, lBoot, bullet, lGun, rGun, fingers;
-
     private ArrayList<Item> equipedItems = new ArrayList<>();
+    
+    //health
+    private double health = 100;
+    
     //shape and size;
     private final double width = 110;
     private final double height = 168;
@@ -42,11 +46,15 @@ public class Player extends Rectangle{
     private boolean isShooting = false;
     private boolean isGoingBottom = false;  
     private boolean isAlreadyRunning = false;
-    private boolean ifDone = false;
+    private boolean isReloading = false;
+    private boolean hasSpecialGun = false;
     
     JumpingAnimation ja = new JumpingAnimation(this);
     FallAnimation fa = new FallAnimation(this);
     
+    
+    //ammo
+    List<Bullet> ammo = new ArrayList<>();
 
     
     //These two are two control the y position of the player. 
@@ -88,7 +96,7 @@ public class Player extends Rectangle{
         equipedItems.add(fingers);//
     }
     
-    public void update(List<Obstacles> obstacles){
+    public void update(List<Obstacles> obstacles , double mapWidth){
         rightX = xpos + width;
         lowerY = ypos + height;
         ypos = getTranslateY();
@@ -102,8 +110,6 @@ public class Player extends Rectangle{
         }
         if(isInTheAir){
             jumpAnimate();
-            //updateItems();
-            //jumpAnimate();
         }
         if(xpos >= currentGround.getXpos()+currentGround.getWidth() && !isInTheAir){
             fallAnimate();
@@ -118,28 +124,39 @@ public class Player extends Rectangle{
         }
         isFalling = true;
         
+        //bullet handling
+        for (Bullet b : ammo) {
+            b.update(mapWidth, "right");
+        }
+
+        //health
+        if (!(health > 0)) {
+            isDead = true;
+        }
+        //reload
+        if (isReloading == true) {
+            for (int i = 0; i < ammo.size(); i++) {
+                if (ammo.get(i).getIsDead()) {
+                    ammo.remove(i);
+                }
+            }
+            if (ammo.isEmpty()) {
+                isReloading = false;
+            }
+        }        
     }
     
+    
     private void updateItems(){
-        //System.out.println("updating...");
         double a = mainGround.getYpos() - currentGround.getYpos();
-        //System.out.println(a+" = "+lowerY+" - "+mainGround.getYpos());
-            for(Item it : equipedItems){
-                //System.out.println("lowerY: "+ lowerY);
-                //System.out.println("current ground: "+ b);
-                //System.out.println("Item's Y: "+ it.getYpos());
-                
+            for(Item it : equipedItems){                
                     it.setYpos(it.getOriginalY()-a);
                     it.setTranslateY(it.getOriginalY()+a);
-                
-//              System.out.println(it.getOriginalX());
-//              System.out.println(it.getXpos()); 
             }  
     }
     
     //The next methods will be related to the player movement : 
     public void jump(){
-        //isAlreadyRunning = false;
         isInTheAir = true;
         isFalling = false;
         setTranslateY(getTranslateY() - jumpingForce);
@@ -152,21 +169,17 @@ public class Player extends Rectangle{
     
     public void fall(List<Obstacles> obstacles){
         setTranslateY(getTranslateY() - fallingForce);
-        fallingForce -= 0.8;
-        
+        fallingForce -= 0.8;     
         
         if(isGoingBottom == false){
             for (Obstacles o : obstacles) {
                 if (xpos <= o.getTranslateX() + o.getWidth() && rightX >= o.getTranslateX()) {
                     if (ypos >= o.getYpos() - height && lowerY <= o.getYpos()){
-                        
                         fallingForce = 0;
                         isJumping = false;
                         isFalling = false;
                         isInTheAir = false;
-                        
-                        
-                        
+
                         if(!currentGround.equals(o)){
                             previousGround = currentGround;
                             if(previousGround.getYpos() == mainGround.getYpos() && o.getYpos()== mainGround.getYpos()){
@@ -180,15 +193,9 @@ public class Player extends Rectangle{
                             currentGround = o;
                             walkAnimate(0, 0);
                             }
-                        }
-                        
+                        }        
                         setTranslateY(o.getTranslateY() - height);
                         break;
-                    }
-                    else{
-                        
-                        //jump2();
-                        
                     }
                 }
             }            
@@ -207,6 +214,68 @@ public class Player extends Rectangle{
                     isInTheAir = false;
                 }
             }
+    }
+    
+    public void shoot(Map map) {
+        if (!hasSpecialGun) {
+            if (ammo.size() <= 10) {
+                chooseWeaponToShoot(map);
+            } else {
+                isReloading = true;
+            }
+        } 
+//        else {
+//            specialCounter++;
+//            if (specialCounter <= 30) {
+//                chooseWeaponToShoot(map);
+//            } else {
+//                double s = 52;
+//                Gun pistol = new Gun("pistol", xpos, ypos, 0, 2, Custom.c1);
+//                Gun pistol2 = new Gun("pistol", xpos + s, ypos, 0, 2, Custom.c1);
+//                changeGuns(pistol, pistol2, map);
+//                specialCounter = 0;
+//                isReloading = true;
+//                hasSpecialGun = false;
+//            }
+//        }
+    }
+    
+    private void chooseWeaponToShoot(Map map) {
+        if (rGun.getKind().equalsIgnoreCase("pistol") || rGun.getKind().equalsIgnoreCase("uzi")) {
+            //right bullet
+            Bullet rb = new Bullet(rGun.getKind(), rGun.getXpos() + 10, getTranslateY()+height/2.8+ 8, 0, 2, Custom.c1, this);
+            
+            //left bullet
+            Bullet lb = new Bullet(lGun.getKind(), lGun.getXpos() + 10, getTranslateY()+ height/2.8- 8, 0, 2, Custom.c1, this);
+
+            map.insertElement(rb);
+            map.insertElement(lb);
+            ammo.add(rb);
+            ammo.add(lb);
+        } else {
+            Bullet b = new Bullet(rGun.getKind(), getTranslateX() + width, rGun.getTranslateY()+height/2.8, 0, 1, Custom.c1, this);
+            map.insertElement(b);
+            ammo.add(b);
+        }
+    }
+    
+    
+    public void BulletImpact(List<Enemies> enemies, List<Obstacles> obstacles, Map map) {
+        for (Bullet b : ammo) {
+            for (Obstacles o : obstacles) {
+                if (b.getBoundsInParent().intersects(o.getBoundsInParent())) {
+                    b.setTranslateY(-100);
+                    b.setIsDead(true);
+                }
+            }
+            for (Enemies e : enemies) {
+                if (b.getBoundsInParent().intersects(e.getBoundsInParent())) {
+                    b.setTranslateY(-100);
+                    b.setIsDead(true);
+                    e.die(map);
+                }
+            }
+        }
     }
     
     public void jumpAnimate(){
@@ -306,7 +375,6 @@ public class Player extends Rectangle{
     
     
     private void setupJumpItems(){
-        
         Hand newHand = (Hand)lHand;
         newHand.setKind("whole");
         this.lHand = newHand;
@@ -500,16 +568,29 @@ public class Player extends Rectangle{
     public Obstacles getPreviousGround() {
         return previousGround;
     }
-    
-    
-    
-    
-    
-    
-    
-    
 
+    public double getHealth() {
+        return health;
+    }
 
+    public void setHealth(double health) {
+        this.health = health;
+    }
+
+    public boolean isReloading() {
+        return isReloading;
+    }
+
+    public void setIsReloading(boolean isReloading) {
+        this.isReloading = isReloading;
+    }
+
+    public boolean isHasSpecialGun() {
+        return hasSpecialGun;
+    }
+
+    public void setHasSpecialGun(boolean hasSpecialGun) {
+        this.hasSpecialGun = hasSpecialGun;
+    }
     
-
 }

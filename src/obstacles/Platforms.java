@@ -17,9 +17,5 @@ public class Platforms extends Obstacles {
         super(path, x, y, type);
     }
 
-    @Override
-    protected void enemySpawn(Map map) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

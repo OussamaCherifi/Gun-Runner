@@ -38,11 +38,11 @@ public abstract class BackgroundsParent extends ImageView{
         double a = findScaling(); //sets the scaling of the images
         double b = a + 0.5;
         if(type.equalsIgnoreCase("bg")){
-           path = "sprites/map/bg.png";
+           path = "sprites/Map/bg.png";
            image = new Image(path , 256 , 276 , false , true); //Original image without scaling
            imageAfter = new Image(path , image.getWidth()*a , image.getHeight()*b , false , false); 
         }else if(type.equalsIgnoreCase("ceiling")){
-            path = "sprites/map/ceiling.png";
+            path = "sprites/Map/ceiling.png";
             image = new Image(path , 256, 42  , false , true ); //Original image without scaling
             imageAfter = new Image(path , image.getWidth()*a, image.getHeight()*b  , false , false);
         }
