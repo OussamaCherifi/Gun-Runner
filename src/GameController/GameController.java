@@ -20,6 +20,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import characterElements.Player;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -28,6 +30,8 @@ import characterElements.Player;
 public class GameController {
 
     Map map;
+    
+    Text clip = new Text();
 
     //Graphical elements.  Creating them seperately in different list
     //as the player will interact differently with all of these. 
@@ -65,6 +69,9 @@ public class GameController {
         map.addAllElements(platforms);
         map.insertElement(player);
 
+        
+        setupText();
+        
         double s = 56;
         double x = player.getTranslateX();
         double y = player.getTranslateY();
@@ -102,6 +109,28 @@ public class GameController {
 
         timer.start();
 
+    }
+    
+    private void setupText(){
+        //Setting up the text
+        clip.setScaleX(10);
+        clip.setScaleY(10);
+        //clip.setFont(font);
+        clip.setFill(Paint.valueOf("white"));
+        clip.setStroke(Paint.valueOf("black"));
+        clip.setStrokeWidth(0.1);
+        
+        //Setting up the position
+        clip.setLayoutX(1750);
+        clip.setLayoutY(200);
+        
+        //Creating the drop shadow effect
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetY(5.0);
+        shadow.setOffsetX(5.0);
+        clip.setEffect(shadow);
+        
+        map.insertElement(clip);
     }
     
     private void addPlayerSprite(Item gun1){
@@ -158,10 +187,29 @@ public class GameController {
         player.update(getAllObstaclesInMap() , map.getMapWidth());
         player.BulletImpact(getAllEnemies(), getAllObstaclesInMap(), map);
 
+        updateClip();
+        
         //non-player updates
         updateEnemyBullets();
         crateCollision();  
         coinsCollision();
+    }
+    
+    
+    //displays the ammount of bullets the player has
+    private void updateClip(){
+        if(player.isHasSpecialGun()){
+            if(player.getrGun().getKind().equalsIgnoreCase("ak")){
+                clip.setText(""+(40-player.getSpecialCounter()));
+            }else{
+                clip.setText(""+(30-player.getSpecialCounter()));
+            }
+        }
+        else{
+            if(!clip.getText().equalsIgnoreCase("∞")){
+                clip.setText("∞");
+            }
+        }    
     }
 
     

@@ -35,7 +35,7 @@ public class Coins extends ImageView{
         height = imageAfter.getHeight();
         
         if(ground instanceof Platforms) heightAboveGround = 250 + height;
-        else heightAboveGround = height;
+        else heightAboveGround = height + 60;
         
         this.xpos = InitialXpos + (ground.getWidth() / 2);
         this.ypos = initialYpos - heightAboveGround;

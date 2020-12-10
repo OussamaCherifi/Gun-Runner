@@ -257,19 +257,20 @@ public class Player extends Rectangle{
     }
     
     private void chooseWeaponToShoot(Map map) {
-        
+        double r = Math.round(Math.random() * -20 + 10);
         if (rGun.getKind().equalsIgnoreCase("pistol") || rGun.getKind().equalsIgnoreCase("uzi")) {
             //right bullet
-            Bullet rb = new Bullet(rGun.getKind(), rGun.getXpos() + 10, getTranslateY()+height/2.8+ 8, 0, 2, Custom.c1, this);
+            
+            Bullet rb = new Bullet(rGun.getKind(), rGun.getXpos() + 28, getTranslateY()+height/2.8+r + 8, 0, 2, Custom.c1, this);
             //left bullet
-            Bullet lb = new Bullet(lGun.getKind(), lGun.getXpos() + 10, getTranslateY()+ height/2.8- 8, 0, 2, Custom.c1, this);
+            Bullet lb = new Bullet(lGun.getKind(), lGun.getXpos() + 28, getTranslateY()+ height/2.8+r - 8, 0, 2, Custom.c1, this);
 
             map.insertElement(rb);
             map.insertElement(lb);
             ammo.add(rb);
             ammo.add(lb);
         } else {
-            Bullet b = new Bullet(rGun.getKind(), getTranslateX() + width, getTranslateY()+height/2.8, 0, 1, Custom.c1, this);
+            Bullet b = new Bullet(rGun.getKind(), getTranslateX() + width, getTranslateY()+height/2.8+16+r, 0, 1.5, Custom.c1, this);
             map.insertElement(b);
             ammo.add(b);
         }
@@ -291,6 +292,13 @@ public class Player extends Rectangle{
                 }
             }
         }
+        //just in case
+//        for (int i=0; i<ammo.size();i++) {
+//            if(ammo.get(i).getXpos()>=map.getWidth()){
+//                map.removeElement(ammo.get(i));
+//                ammo.remove(i);
+//            }
+//        }  
     }
     
     public void jumpAnimate(){
