@@ -14,11 +14,9 @@ import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import characterElements.Player;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.text.Text;
@@ -30,9 +28,7 @@ import javafx.scene.text.Text;
 public class GameController {
 
     Map map;
-    
     Text clip = new Text();
-
     //Graphical elements.  Creating them seperately in different list
     //as the player will interact differently with all of these. 
     //In fact, it will only interact with the floors and platforms. 
@@ -69,9 +65,8 @@ public class GameController {
         map.addAllElements(platforms);
         map.insertElement(player);
 
-        
         setupText();
-        
+
         double s = 56;
         double x = player.getTranslateX();
         double y = player.getTranslateY();
@@ -88,8 +83,8 @@ public class GameController {
         uzi = new Gun("uzi", x, y, 0, 2, Custom.normal);
         uzi2 = new Gun("uzi", x + s, y, 0, 2, Custom.normal);
         ak = new Gun("ak", x, y, 0, 2, Custom.normal);
-            
-        addPlayerSprite(pistol , pistol2);
+
+        addPlayerSprite(pistol, pistol2);
         player.setFingers(fingers);
         player.setHelmet(helmet);
         player.setTorso(torso);
@@ -101,17 +96,28 @@ public class GameController {
         player.addEquipedItems();
 
         AnimationTimer timer = new AnimationTimer() {
+            double old = -1;
+            double elapsedTime = 0;
+            double timeBefore;
+
             @Override
             public void handle(long now) {
-                update();
+                if (old < 0) {
+                    old = now;
+                }
+                double delta = (now - old) / 1e9;
+
+                timeBefore = elapsedTime;
+                update(elapsedTime);
+
+                old = now;
+                elapsedTime += delta;
             }
         };
-
         timer.start();
-
     }
-    
-    private void setupText(){
+
+    private void setupText() {
         //Setting up the text
         clip.setScaleX(10);
         clip.setScaleY(10);
@@ -119,24 +125,24 @@ public class GameController {
         clip.setFill(Paint.valueOf("white"));
         clip.setStroke(Paint.valueOf("black"));
         clip.setStrokeWidth(0.1);
-        
+
         //Setting up the position
         clip.setLayoutX(1750);
         clip.setLayoutY(200);
-        
+
         //Creating the drop shadow effect
         DropShadow shadow = new DropShadow();
         shadow.setOffsetY(5.0);
         shadow.setOffsetX(5.0);
         clip.setEffect(shadow);
-        
+
         map.insertElement(clip);
     }
-    
-    private void addPlayerSprite(Item gun1){
+
+    private void addPlayerSprite(Item gun1) {
         player.setrGun(gun1);
         player.setlGun(pistol);
-        
+
         map.insertElement(lhand);
         map.insertElement(pistol);
         map.insertElement(fingers);
@@ -145,13 +151,13 @@ public class GameController {
         map.insertElement(helmet);
         map.insertElement(gun1);
         map.insertElement(rboot);
-        map.insertElement(rhand);    
+        map.insertElement(rhand);
     }
-    
-    private void addPlayerSprite(Item gun1 , Item gun2){
+
+    private void addPlayerSprite(Item gun1, Item gun2) {
         player.setrGun(gun1);
         player.setlGun(gun2);
-        
+
         map.insertElement(lhand);
         map.insertElement(gun2);
         map.insertElement(fingers);
@@ -160,10 +166,10 @@ public class GameController {
         map.insertElement(helmet);
         map.insertElement(gun1);
         map.insertElement(rboot);
-        map.insertElement(rhand);    
+        map.insertElement(rhand);
     }
-    
-    private void removeAllItems(){
+
+    private void removeAllItems() {
         map.removeElement(player.getlHand());
         map.removeElement(player.getlGun());
         map.removeElement(player.getFingers());
@@ -172,47 +178,43 @@ public class GameController {
         map.removeElement(player.getHelmet());
         map.removeElement(player.getrGun());
         map.removeElement(player.getrBoot());
-        map.removeElement(player.getrHand());     
+        map.removeElement(player.getrHand());
     }
 
-    
-    private void update() {
+    private void update(double timeElapsed) {
         if (!firstTime) {
             this.firstTime = true;
             player.walkAnimate(0, 0);
         }
         updateMapSprites();
-        
+
         //Player updates
-        player.update(getAllObstaclesInMap() , map.getMapWidth());
+        player.update(getAllObstaclesInMap(), map.getMapWidth(), timeElapsed);
         player.BulletImpact(getAllEnemies(), getAllObstaclesInMap(), map);
 
         updateClip();
-        
+
         //non-player updates
         updateEnemyBullets();
-        crateCollision();  
+        crateCollision();
         coinsCollision();
     }
-    
-    
+
     //displays the ammount of bullets the player has
-    private void updateClip(){
-        if(player.isHasSpecialGun()){
-            if(player.getrGun().getKind().equalsIgnoreCase("ak")){
-                clip.setText(""+(40-player.getSpecialCounter()));
-            }else{
-                clip.setText(""+(30-player.getSpecialCounter()));
+    private void updateClip() {
+        if (player.isHasSpecialGun()) {
+            if (player.getrGun().getKind().equalsIgnoreCase("ak")) {
+                clip.setText("" + (40 - player.getSpecialCounter()));
+            } else {
+                clip.setText("" + (30 - player.getSpecialCounter()));
             }
-        }
-        else{
-            if(!clip.getText().equalsIgnoreCase("∞")){
+        } else {
+            if (!clip.getText().equalsIgnoreCase("∞")) {
                 clip.setText("∞");
             }
-        }    
+        }
     }
 
-    
     private void updateMapSprites() {
         for (Obstacles o : getAllObstaclesInMap()) {
             o.update(map);
@@ -221,7 +223,7 @@ public class GameController {
             b.update(map);
         }
     }
-    
+
     private void updateEnemyBullets() {
         for (Node n : map.getChildren()) {
             if (n instanceof Bullet) {
@@ -232,7 +234,7 @@ public class GameController {
             }
         }
     }
-    
+
     private void enemyBulletContact(Bullet b) {
         for (Obstacles o : getAllObstaclesInMap()) {
             if (b.getBoundsInParent().intersects(o.getBoundsInParent())) {
@@ -251,19 +253,19 @@ public class GameController {
         }
     }
 
-    private void crateCollision(){
+    private void crateCollision() {
         ArrayList<Crates> crates = getAllCrates();
-        for(int i = 0; i < crates.size(); i++){
-            if(crates.get(i).getBoundsInParent().intersects(player.getBoundsInParent())){
+        for (int i = 0; i < crates.size(); i++) {
+            if (crates.get(i).getBoundsInParent().intersects(player.getBoundsInParent())) {
                 player.setSpecialCounter(0);
                 int gun = crates.get(i).getGun();
                 (crates.get(i)).die();
-                if(gun == 1){
+                if (gun == 1) {
                     removeAllItems();
                     addPlayerSprite(ak);
                     player.setHasSpecialGun(true);
                     player.walkAnimate(0, 0);
-                }else{
+                } else {
                     removeAllItems();
                     addPlayerSprite(uzi, uzi2);
                     player.setHasSpecialGun(true);
@@ -272,18 +274,17 @@ public class GameController {
             }
         }
     }
-    
-    private void coinsCollision(){
-        for(Coins c : getAllCoins()){
-            if(c.getBoundsInParent().intersects(player.getBoundsInParent())){
+
+    private void coinsCollision() {
+        for (Coins c : getAllCoins()) {
+            if (c.getBoundsInParent().intersects(player.getBoundsInParent())) {
                 System.out.println("coin collected");
                 c.die();
                 coinsCollected++;
             }
         }
     }
-    
-    
+
     //The next two methods are for extrating the obstacles and backgrounds separately from the children
     //of our map
     private ArrayList<Obstacles> getAllObstaclesInMap() {
@@ -319,8 +320,8 @@ public class GameController {
         }
         return enemies;
     }
-    
-    private ArrayList<Crates> getAllCrates(){
+
+    private ArrayList<Crates> getAllCrates() {
         ArrayList<Crates> crates = new ArrayList<>();
         for (Node n : map.getChildren()) {
             if (n instanceof Crates) {
@@ -329,8 +330,8 @@ public class GameController {
         }
         return crates;
     }
-    
-    private ArrayList<Coins> getAllCoins(){
+
+    private ArrayList<Coins> getAllCoins() {
         ArrayList<Coins> coins = new ArrayList<>();
         for (Node n : map.getChildren()) {
             if (n instanceof Coins) {
@@ -339,6 +340,7 @@ public class GameController {
         }
         return coins;
     }
+
     //the next four methods are only here to create the map's graphical elements. 
     private void createBackground() {
         Background b = new Background(0, 0, "bg"); //this background serves as a reference for the rest of the backgrounds
@@ -406,6 +408,7 @@ public class GameController {
     //These classes are event handlers for whenever we press specific buttons 
     // This is where we will create every key binds that our player will need in order to play the game. 
     private class KeyPressedController implements EventHandler<KeyEvent> {
+
         @Override
         public void handle(KeyEvent e) {
 
@@ -427,19 +430,25 @@ public class GameController {
     }
 
     private class KeyReleasedController implements EventHandler<KeyEvent> {
+
         @Override
         public void handle(KeyEvent e) {
             if (e.getCode() == KeyCode.Q) {
-                if (!player.isReloading()) {
-                    boolean specialGunBefore = player.isHasSpecialGun();
-                    player.shoot(map);
-                    if(player.isHasSpecialGun() != specialGunBefore){
-                        removeAllItems();
-                        addPlayerSprite(pistol, pistol2);
-                        player.walkAnimate(0, 0);
-                    }
+//                if (!player.isReloading()) {
+//                    boolean specialGunBefore = player.isHasSpecialGun();
+//                    player.shoot(map);
+//                    if(player.isHasSpecialGun() != specialGunBefore){
+//                        removeAllItems();
+//                        addPlayerSprite(pistol, pistol2);
+//                        player.walkAnimate(0, 0);
+//                    }
+//                }
+                if (player.shoot(map)) {
+                    removeAllItems();
+                    addPlayerSprite(pistol, pistol2);
+                    player.walkAnimate(0, 0);
                 }
-            }        
+            }
         }
     }
 }
