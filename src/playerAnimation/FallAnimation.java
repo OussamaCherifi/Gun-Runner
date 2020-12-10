@@ -60,7 +60,7 @@ public class FallAnimation {
     }
     
     public void gunFall(Gun gun){
-        gun.setPos(gun.getOriginalX()-20, player.getLowerY()+gun.getOffsetY()-106);
+        gun.setPos(gun.getOriginalX()-2, player.getLowerY()+gun.getOffsetY()-106);
     
     }
 }

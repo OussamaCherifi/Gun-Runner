@@ -215,19 +215,21 @@ import characterElements.Player;
         ArrayList<Crates> crates = getAllCrates();
         for(int i = 0; i < crates.size(); i++){
             if(crates.get(i).getBoundsInParent().intersects(player.getBoundsInParent())){
+                player.setSpecialCounter(0);
                 int gun = crates.get(i).getGun();
                 (crates.get(i)).die();
                 if(gun == 1){
                     removeAllItems();
                     addPlayerSprite(ak);
                     player.setHasSpecialGun(true);
+                    player.walkAnimate(0, 0);
                 }else{
                     removeAllItems();
                     addPlayerSprite(uzi, uzi2);
                     player.setHasSpecialGun(true);
+                    player.walkAnimate(0, 0);
                 }
             }
-            
         }
     }
     
@@ -378,6 +380,7 @@ import characterElements.Player;
                     if(player.isHasSpecialGun() != specialGunBefore){
                         removeAllItems();
                         addPlayerSprite(pistol, pistol2);
+                        player.walkAnimate(0, 0);
                     }
                 }
             }        

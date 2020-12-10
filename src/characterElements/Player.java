@@ -116,15 +116,9 @@ public class Player extends Rectangle{
         if(currentGround.equals(mainGround) && lowerY < mainGround.getYpos() && !isInTheAir){
             fallAnimate();
         }
-        if(lowerY == mainGround.getYpos() || lowerY == currentGround.getYpos()){
-            if(!lGun.isVisible() && !rGun.getKind().equalsIgnoreCase("ak")){
-                walkAnimate(0, 0);
-            }
-            if(lBoot.getRotate() == -40 || lHand.getRotate() == -95){
-                walkAnimate(0, 0);
-            }
-        }
         isFalling = true;
+        //Fix bugs
+        fixBug();
         
         //bullet handling
         for (Bullet b : ammo) {
@@ -146,6 +140,24 @@ public class Player extends Rectangle{
                 isReloading = false;
             }
         }        
+    }
+    
+    private void fixBug(){
+        if(lowerY == currentGround.getYpos() && !rGun.isVisible() && rGun.getKind().equalsIgnoreCase("pistol")){
+            rGun.setVisible(true);
+        }
+        if(lowerY == mainGround.getYpos() || lowerY == currentGround.getYpos()){
+            if(rGun.getKind().equalsIgnoreCase("ak") && lHand.isVisible()){
+                lHand.setVisible(false);
+            }
+            if(!lGun.isVisible() && !rGun.getKind().equalsIgnoreCase("ak")){
+                walkAnimate(0, 0);
+            }
+            if(lBoot.getRotate() == -40 || lHand.getRotate() == -95){
+                walkAnimate(0, 0);
+            }
+        }
+        
     }
     
     
@@ -601,5 +613,15 @@ public class Player extends Rectangle{
     public void setHasSpecialGun(boolean hasSpecialGun) {
         this.hasSpecialGun = hasSpecialGun;
     }
+
+    public int getSpecialCounter() {
+        return specialCounter;
+    }
+
+    public void setSpecialCounter(int specialCounter) {
+        this.specialCounter = specialCounter;
+    }
+    
+    
     
 }

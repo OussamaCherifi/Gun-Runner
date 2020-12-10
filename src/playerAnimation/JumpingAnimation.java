@@ -230,7 +230,7 @@ public class JumpingAnimation {
     }
     
     public void gunJump(Gun gun){
-        gun.setPos(gun.getOriginalX()-20, player.getLowerY()+gun.getOffsetY()-106);
+        gun.setPos(gun.getOriginalX(), player.getLowerY()+gun.getOffsetY()-106);
     }
     
 }

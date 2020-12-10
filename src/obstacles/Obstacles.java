@@ -109,7 +109,7 @@ public abstract class Obstacles extends ImageView {
    private void crateSpawn(Map map){
         double chances = 0;
         chances = Math.random() * (1000 - 1) + 1;
-        if(chances < 100){
+        if(chances < 30){
             crate = new Crates(this, xpos, ypos);
             map.insertElement(crate);
         }
