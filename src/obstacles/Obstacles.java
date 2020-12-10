@@ -26,7 +26,7 @@ public abstract class Obstacles extends ImageView {
     protected Image image;
     protected double width, height;
     protected String type;
-
+    
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     //private final double screenH = screenSize.getHeight();
@@ -35,6 +35,7 @@ public abstract class Obstacles extends ImageView {
     //Enemies and crates
     private Enemies e;
     private Crates crate;
+    private Coins coin;
     
     public Obstacles(String path, double x, double y, String type) {
         this.path = path;
@@ -45,7 +46,7 @@ public abstract class Obstacles extends ImageView {
         } else if (type.equalsIgnoreCase("platform")) {
             image = new Image(path, 548, 60, false, true);
         }
-
+        
         setImage(image);
         width = image.getWidth();
         height = image.getHeight();
@@ -54,11 +55,11 @@ public abstract class Obstacles extends ImageView {
         setTranslateX(xpos);
         setTranslateY(ypos);
     }
-
+    
     public void update(Map map) {
         xpos += velocity;
         ypos = getTranslateY();
-
+        
         if (xpos + width <= 0) {
             if (type.equalsIgnoreCase("platform")) {
                 generateY();
@@ -66,97 +67,125 @@ public abstract class Obstacles extends ImageView {
             xpos = map.getMapWidth();
             enemySpawn(map);
             crateSpawn(map);
+            if (crate == null) {
+                coinSpawn(map);
+            }
         }
-
+        
         removeEnemyIfDead(map);
         removeCrate(map);
+        removeCoin(map);
         setTranslateX(xpos);
         setTranslateY(ypos);
     }
-
+    
     public double generateY() {
         ypos = Math.round(Math.random() / 0.2) * -40 + 680;
         return ypos;
     }
-
-    private void enemySpawn(Map map){
+    
+    private void enemySpawn(Map map) {
         double chances = 0;
         chances = Math.random() * (100 - 1) + 1;
-        if(isFloor()){
-            if(chances <= 10){
-                e = new Enemies(this, xpos, ypos); 
+        if (isFloor()) {
+            if (chances <= 10) {
+                e = new Enemies(this, xpos, ypos);                
                 map.insertElement(e);
-            }               
-        }else{
-            if(chances <= 40){
-                e = new Enemies(this, xpos, ypos); 
+            }            
+        } else {
+            if (chances <= 40) {
+                e = new Enemies(this, xpos, ypos);                
                 map.insertElement(e);
             }
         }
     }
     
-    private void removeEnemyIfDead(Map map){
-        if(e != null){
-            if(e.IsDead() == true){
+    private void removeEnemyIfDead(Map map) {
+        if (e != null) {
+            if (e.IsDead() == true) {
                 map.removeElement(e);
                 e = null;
-            }else{
-                e.update(map);   
-            }  
+            } else {
+                e.update(map);                
+            }            
         }
     }
     
-   private void crateSpawn(Map map){
+    private void crateSpawn(Map map) {
         double chances = 0;
         chances = Math.random() * (1000 - 1) + 1;
-        if(chances < 30){
+        if (chances < 30) {
             crate = new Crates(this, xpos, ypos);
             map.insertElement(crate);
         }
     }
     
-    private void removeCrate(Map map){
-        if(crate != null){
-            if(crate.isDead() == true){
+    private void removeCrate(Map map) {
+        if (crate != null) {
+            if (crate.isDead() == true) {
                 map.removeElement(crate);
                 crate = null;
-            }else{
-                crate.update(map);   
-            }  
+            } else {
+                crate.update(map);                
+            }            
         }
     }
+    
+    private void coinSpawn(Map map) {
+        double chances = 0;
+        chances = Math.random() * (1000 - 1) + 1;
+        if (chances < 100) {
+            coin = new Coins(this, xpos, ypos);
+            map.insertElement(coin);
+        }
+    }
+    
+    private void removeCoin(Map map) {
+        if (coin != null) {
+            if (coin.isDead() == true) {
+                map.removeElement(coin);
+                coin = null;
+            } else {
+                coin.update(map);                
+            }            
+        }
+    }
+
     //getters and setters
     public double getXpos() {
         return getTranslateX();
     }
-
+    
     public double getYpos() {
         return getTranslateY();
     }
-
+    
     public double getVelocity() {
         return velocity;
     }
-
+    
     public String getPath() {
         return path;
     }
-
+    
     public double getWidth() {
         return image.getWidth();
     }
-
+    
     public double getHeight() {
         return image.getHeight();
     }
-
+    
     @Override
     public String toString() {
         return "Obstacles{" + "ypos= " + ypos + " type=" + type + '}';
     }
     
-    public boolean isFloor(){
-        if(type.equalsIgnoreCase("floor")) return true;
-        else return false;
+    public boolean isFloor() {
+        if (type.equalsIgnoreCase("floor")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

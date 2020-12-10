@@ -6,21 +6,29 @@
 package obstacles;
 
 import GameGUI.Map;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
  * @author 15148
  */
-public class Crates extends ImageView {
+import GameGUI.Map;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-    private String path = "sprites/Map/crate.png";
+/**
+ *
+ * @author 15148
+ */
+public class Crates extends ImageView{
+
+    private final String path = "sprites/Map/crate.png";
     private double xpos, ypos;
     private double width, height;
     private double heightAboveGround;
     
-    private Image image, imageAfter;
+    private final Image image, imageAfter;
     private double velocity;
     
     //conditions 
@@ -29,7 +37,6 @@ public class Crates extends ImageView {
     
     public Crates(Obstacles ground, double InitialXpos , double initialYpos){
         velocity = ground.getVelocity();
-  
         image = new Image(path);
         imageAfter = new Image(path, image.getWidth() * 2, image.getHeight() * 2, false, true);
         setImage(imageAfter);
@@ -58,13 +65,14 @@ public class Crates extends ImageView {
         }
     }
     
-    public void die(){
-        isDead = true;
-    }
 
     public int getGun(){
         gunLuck = (int)(Math.random() * 2 + 1);
         return gunLuck;
+    }
+    
+    public void die(){
+        isDead = true;
     }
 
     public double getWidth() {
@@ -106,7 +114,5 @@ public class Crates extends ImageView {
     public void setIsDead(boolean isDead) {
         this.isDead = isDead;
     }
-    
-    
-    
+        
 }

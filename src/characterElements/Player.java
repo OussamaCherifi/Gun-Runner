@@ -216,7 +216,6 @@ public class Player extends Rectangle{
         }else{
             if(currentGround.equals(mainGround)){
                walkAnimate(0, 0);
-               //updateItems();
             }
             currentGround = mainGround;
                 if (ypos >= currentGround.getYpos() - height && lowerY <= currentGround.getYpos()) {
@@ -238,8 +237,16 @@ public class Player extends Rectangle{
                 isReloading = true;
             }
         }else{
-            specialCounter++;
-            if(specialCounter <= 30){
+            int specialGunBullets;
+            if(rGun.getKind().equalsIgnoreCase("ak")){
+                specialGunBullets = 40;
+                specialCounter++;
+            }else{
+                specialGunBullets = 20;
+                specialCounter +=2;
+            }
+            
+            if(specialCounter <= specialGunBullets){
                 chooseWeaponToShoot(map);
             }else{
                 specialCounter = 0;
@@ -310,8 +317,6 @@ public class Player extends Rectangle{
     }
     
     public void walkAnimate(double x, double y){
-        System.out.println("walking...");
-        
         updateItems();
         setupWalkItems();
         
@@ -322,7 +327,6 @@ public class Player extends Rectangle{
             PathTransition lbootTransition = WalkingAnimation.bootPath((Boot)lBoot, x, y, 46);
             
             Gun gun = (Gun)rGun;
-            System.out.println(gun.getIsDualWield());
             if(gun.getIsDualWield()){
                 Fingers f = (Fingers)fingers;
                 f.setKind("dual");

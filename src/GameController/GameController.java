@@ -25,7 +25,7 @@ import characterElements.Player;
  *
  * @author 15148
  */
-     public class GameController {
+public class GameController {
 
     Map map;
 
@@ -33,17 +33,9 @@ import characterElements.Player;
     //as the player will interact differently with all of these. 
     //In fact, it will only interact with the floors and platforms. 
     //floors and plaforms are simply children of the abstract class obstacles
-    private Node toAnimate;
-
     List<Obstacles> floors = new ArrayList<>();
     List<Obstacles> platforms = new ArrayList<>();
     private boolean firstTime = false;
-
-    long startTime = System.currentTimeMillis();
-    Label timerLabel = new Label();
-    Label lbl = new Label();
-    Label lbl2 = new Label();
-    Rectangle rect = new Rectangle(100, 2, Paint.valueOf("#ff14ff"));
 
     //the two classes sbackgrounds and ceilings have their own 
     List<BackgroundsParent> backgrounds = new ArrayList<>();
@@ -51,11 +43,12 @@ import characterElements.Player;
 
     //Actual player
     Player player;
-
     //List of the items of the game : 
     Item helmet, fingers, torso, lhand, rhand, lboot, rboot;
     //guns
     Item pistol, pistol2, uzi, uzi2, ak;
+    //coins got
+    int coinsCollected = 0;
 
     public GameController(Map map) {
         this.map = map;
@@ -103,7 +96,6 @@ import characterElements.Player;
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-
                 update();
             }
         };
@@ -168,8 +160,8 @@ import characterElements.Player;
 
         //non-player updates
         updateEnemyBullets();
-        
-        crateCollision();
+        crateCollision();  
+        coinsCollision();
     }
 
     
@@ -233,6 +225,16 @@ import characterElements.Player;
         }
     }
     
+    private void coinsCollision(){
+        for(Coins c : getAllCoins()){
+            if(c.getBoundsInParent().intersects(player.getBoundsInParent())){
+                System.out.println("coin collected");
+                c.die();
+                coinsCollected++;
+            }
+        }
+    }
+    
     
     //The next two methods are for extrating the obstacles and backgrounds separately from the children
     //of our map
@@ -280,12 +282,18 @@ import characterElements.Player;
         return crates;
     }
     
+    private ArrayList<Coins> getAllCoins(){
+        ArrayList<Coins> coins = new ArrayList<>();
+        for (Node n : map.getChildren()) {
+            if (n instanceof Coins) {
+                coins.add((Coins) n);
+            }
+        }
+        return coins;
+    }
     //the next four methods are only here to create the map's graphical elements. 
     private void createBackground() {
-        int xpos = 0;
-
         Background b = new Background(0, 0, "bg"); //this background serves as a reference for the rest of the backgrounds
-
         for (int i = 0; i < 4; i++) {
             backgrounds.add(new Background(b.getWidth() * i, 42 * (b.findScaling() + 0.5), "bg"));
         }
