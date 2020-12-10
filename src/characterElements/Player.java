@@ -57,7 +57,6 @@ public class Player extends Rectangle {
     JumpingAnimation ja = new JumpingAnimation(this);
     FallAnimation fa = new FallAnimation(this);    
     private int specialCounter = 0;
-    
     double reloadTime = 0;
 
     //ammo
@@ -104,7 +103,6 @@ public class Player extends Rectangle {
     }
     
     public void update(List<Obstacles> obstacles, double mapWidth, double timeElapsed) {
-
         //movement 
         movementHanadling(obstacles);
         //Fix bugs
@@ -113,7 +111,7 @@ public class Player extends Rectangle {
         ammoHandling(mapWidth, timeElapsed);
 
         //health
-        if (!(health > 0)) {
+        if (health < 0){
             isDead = true;
         }        
     }
@@ -486,7 +484,7 @@ public class Player extends Rectangle {
     }
     
     public boolean getIsDead() {
-        return isDead;
+        return (health < 0);
     }
     
     public void setIsDead(boolean isDead) {

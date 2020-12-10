@@ -41,6 +41,9 @@ public class GameController {
     List<BackgroundsParent> backgrounds = new ArrayList<>();
     List<BackgroundsParent> ceilings = new ArrayList<>();
 
+    //AnimationTimer
+    AnimationTimer timer; 
+    
     //Actual player
     Player player;
     //List of the items of the game : 
@@ -79,7 +82,7 @@ public class GameController {
         rhand = new Hand("r", x, y, 0, 2, Custom.normal);
         lboot = new Boot("l", x, y, 0, 2, Custom.normal);
         rboot = new Boot("r", x, y, 0, 2, Custom.normal);
-        pistol = new Gun("pistol", x, y, 0, 2, Custom.normal);
+        pistol = new Gun("pistol", x, y, 0, 2, Custom.c1);
         pistol2 = new Gun("pistol", x + s, y, 0, 2, Custom.normal);
         uzi = new Gun("uzi", x, y, 0, 2, Custom.normal);
         uzi2 = new Gun("uzi", x + s, y, 0, 2, Custom.normal);
@@ -96,7 +99,7 @@ public class GameController {
 
         player.addEquipedItems();
 
-        AnimationTimer timer = new AnimationTimer() {
+        timer = new AnimationTimer() {
             double old = -1;
             double elapsedTime = 0;
             double timeBefore;
@@ -106,11 +109,9 @@ public class GameController {
                 if (old < 0) {
                     old = now;
                 }
-                double delta = (now - old) / 1e9;
-
+                double delta = (now - old) / 1e9; 
                 timeBefore = elapsedTime;
                 update(elapsedTime);
-
                 old = now;
                 elapsedTime += delta;
             }
@@ -183,22 +184,24 @@ public class GameController {
     }
 
     private void update(double timeElapsed) {
-        if (!firstTime) {
-            this.firstTime = true;
-            player.walkAnimate(0, 0);
+        if(!player.getIsDead()){
+            if (!firstTime) {
+                this.firstTime = true;
+                player.walkAnimate(0, 0);
+            }
+            updateMapSprites();
+
+            //Player updates
+            player.update(getAllObstaclesInMap(), map.getMapWidth(), timeElapsed);
+            player.BulletImpact(getAllEnemies(), getAllObstaclesInMap(), map);
+
+            updateClip();
+
+            //non-player updates
+            updateEnemyBullets();
+            crateCollision();
+            coinsCollision();            
         }
-        updateMapSprites();
-
-        //Player updates
-        player.update(getAllObstaclesInMap(), map.getMapWidth(), timeElapsed);
-        player.BulletImpact(getAllEnemies(), getAllObstaclesInMap(), map);
-
-        updateClip();
-
-        //non-player updates
-        updateEnemyBullets();
-        crateCollision();
-        coinsCollision();
     }
 
     //displays the ammount of bullets the player has
@@ -388,19 +391,16 @@ public class GameController {
 
     private void createCeilings() {
         double xpos = 0;
-
         while (xpos <= map.getMapWidth()) {
             Ceiling ceiling = new Ceiling(xpos, 0, "ceiling");
             ceilings.add(ceiling);
             xpos += ceiling.getWidth();
         }
-
     }
 
     public Map getMap() {
         return map;
     }
-    
 
     //getters for the key controllers : 
     public KeyPressedController getKeyPressedController() {
@@ -411,6 +411,12 @@ public class GameController {
         return new KeyReleasedController();
     }
 
+    //killthePLayer
+    public void close(){
+       player.setHealth(-100);
+       timer.stop();
+    }
+    
     //These classes are event handlers for whenever we press specific buttons 
     // This is where we will create every key binds that our player will need in order to play the game. 
     private class KeyPressedController implements EventHandler<KeyEvent> {

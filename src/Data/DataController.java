@@ -13,6 +13,8 @@ import java.sql.Connection;
  */
 
 public class DataController {
-    private Connection conn;
+    private  Connection conn = null;
+    private  String fileName = "saveFile.db";   
+    
     
 }

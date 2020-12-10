@@ -61,7 +61,10 @@ public class GameFinalVersionHopefully extends Application {
             stage.setScene(game);
             game.setOnKeyPressed(gc.getKeyPressedController());
             game.setOnKeyReleased(gc.getKeyReleasedController());
-            gc.getMap().getBack().setOnAction(b -> stage.setScene(mainMenu));
+            map.getBack().setOnAction(b -> {
+                gc.close();
+                stage.setScene(mainMenu);
+            });   
         });
     
                 
