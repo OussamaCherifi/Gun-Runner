@@ -217,13 +217,15 @@ import characterElements.Player;
             if(crates.get(i).getBoundsInParent().intersects(player.getBoundsInParent())){
                 int gun = crates.get(i).getGun();
                 (crates.get(i)).die();
-//                if(gun == 1){
-//                    removeAllItems();
-//                    addPlayerSprite(ak);
-//                }else{
-//                    removeAllItems();
-//                    addPlayerSprite(uzi, uzi2);
-//                }
+                if(gun == 1){
+                    removeAllItems();
+                    addPlayerSprite(ak);
+                    player.setHasSpecialGun(true);
+                }else{
+                    removeAllItems();
+                    addPlayerSprite(uzi, uzi2);
+                    player.setHasSpecialGun(true);
+                }
             }
             
         }
@@ -371,7 +373,12 @@ import characterElements.Player;
         public void handle(KeyEvent e) {
             if (e.getCode() == KeyCode.Q) {
                 if (!player.isReloading()) {
+                    boolean specialGunBefore = player.isHasSpecialGun();
                     player.shoot(map);
+                    if(player.isHasSpecialGun() != specialGunBefore){
+                        removeAllItems();
+                        addPlayerSprite(pistol, pistol2);
+                    }
                 }
             }        
         }

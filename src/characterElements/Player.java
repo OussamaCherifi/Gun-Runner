@@ -48,10 +48,10 @@ public class Player extends Rectangle{
     private boolean isAlreadyRunning = false;
     private boolean isReloading = false;
     private boolean hasSpecialGun = false;
-    
     JumpingAnimation ja = new JumpingAnimation(this);
     FallAnimation fa = new FallAnimation(this);
     
+    private int specialCounter = 0;
     
     //ammo
     List<Bullet> ammo = new ArrayList<>();
@@ -117,7 +117,10 @@ public class Player extends Rectangle{
             fallAnimate();
         }
         if(lowerY == mainGround.getYpos() || lowerY == currentGround.getYpos()){
-            if(lBoot.getRotate() == -40 || lHand.getRotate() == -95 || !lGun.isVisible()){
+            if(!lGun.isVisible() && !rGun.getKind().equalsIgnoreCase("ak")){
+                walkAnimate(0, 0);
+            }
+            if(lBoot.getRotate() == -40 || lHand.getRotate() == -95){
                 walkAnimate(0, 0);
             }
         }
@@ -222,21 +225,16 @@ public class Player extends Rectangle{
             } else {
                 isReloading = true;
             }
-        } 
-//        else {
-//            specialCounter++;
-//            if (specialCounter <= 30) {
-//                chooseWeaponToShoot(map);
-//            } else {
-//                double s = 52;
-//                Gun pistol = new Gun("pistol", xpos, ypos, 0, 2, Custom.c1);
-//                Gun pistol2 = new Gun("pistol", xpos + s, ypos, 0, 2, Custom.c1);
-//                changeGuns(pistol, pistol2, map);
-//                specialCounter = 0;
-//                isReloading = true;
-//                hasSpecialGun = false;
-//            }
-//        }
+        }else{
+            specialCounter++;
+            if(specialCounter <= 30){
+                chooseWeaponToShoot(map);
+            }else{
+                specialCounter = 0;
+                isReloading = true;
+                hasSpecialGun = false;
+            }
+        }
     }
     
     private void chooseWeaponToShoot(Map map) {
@@ -252,7 +250,7 @@ public class Player extends Rectangle{
             ammo.add(rb);
             ammo.add(lb);
         } else {
-            Bullet b = new Bullet(rGun.getKind(), getTranslateX() + width, rGun.getTranslateY()+height/2.8, 0, 1, Custom.c1, this);
+            Bullet b = new Bullet(rGun.getKind(), getTranslateX() + width, getTranslateY()+height/2.8, 0, 1, Custom.c1, this);
             map.insertElement(b);
             ammo.add(b);
         }

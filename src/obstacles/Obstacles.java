@@ -9,7 +9,6 @@ import GameGUI.Map;
 import characterElements.Enemies;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.util.Objects;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
@@ -110,7 +109,7 @@ public abstract class Obstacles extends ImageView {
    private void crateSpawn(Map map){
         double chances = 0;
         chances = Math.random() * (1000 - 1) + 1;
-        if(chances < 20){
+        if(chances < 100){
             crate = new Crates(this, xpos, ypos);
             map.insertElement(crate);
         }
