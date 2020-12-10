@@ -64,6 +64,7 @@ public class GameController {
         map.addAllElements(floors);
         map.addAllElements(platforms);
         map.insertElement(player);
+        map.insertElement(map.getBack());
 
         setupText();
 
@@ -395,6 +396,11 @@ public class GameController {
         }
 
     }
+
+    public Map getMap() {
+        return map;
+    }
+    
 
     //getters for the key controllers : 
     public KeyPressedController getKeyPressedController() {
