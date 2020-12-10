@@ -35,7 +35,8 @@ public abstract class Obstacles extends ImageView {
 
     //Enemies and crates
     private Enemies e;
-
+    private Crates crate;
+    
     public Obstacles(String path, double x, double y, String type) {
         this.path = path;
         this.type = type;
@@ -65,9 +66,11 @@ public abstract class Obstacles extends ImageView {
             }
             xpos = map.getMapWidth();
             enemySpawn(map);
+            crateSpawn(map);
         }
 
         removeEnemyIfDead(map);
+        removeCrate(map);
         setTranslateX(xpos);
         setTranslateY(ypos);
     }
@@ -104,7 +107,25 @@ public abstract class Obstacles extends ImageView {
         }
     }
     
-
+   private void crateSpawn(Map map){
+        double chances = 0;
+        chances = Math.random() * (1000 - 1) + 1;
+        if(chances < 20){
+            crate = new Crates(this, xpos, ypos);
+            map.insertElement(crate);
+        }
+    }
+    
+    private void removeCrate(Map map){
+        if(crate != null){
+            if(crate.isDead() == true){
+                map.removeElement(crate);
+                crate = null;
+            }else{
+                crate.update(map);   
+            }  
+        }
+    }
     //getters and setters
     public double getXpos() {
         return getTranslateX();

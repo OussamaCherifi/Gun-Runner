@@ -79,9 +79,8 @@ public class Player extends Rectangle{
         setTranslateX(xpos);
         setTranslateY(ypos);
         
-        this.setVisible(true);
-        this.setOpacity(0.5);
-        
+        this.setVisible(false);
+        this.setOpacity(0.5);  
     }
 
     public void addEquipedItems(){
@@ -241,10 +240,10 @@ public class Player extends Rectangle{
     }
     
     private void chooseWeaponToShoot(Map map) {
+        
         if (rGun.getKind().equalsIgnoreCase("pistol") || rGun.getKind().equalsIgnoreCase("uzi")) {
             //right bullet
             Bullet rb = new Bullet(rGun.getKind(), rGun.getXpos() + 10, getTranslateY()+height/2.8+ 8, 0, 2, Custom.c1, this);
-            
             //left bullet
             Bullet lb = new Bullet(lGun.getKind(), lGun.getXpos() + 10, getTranslateY()+ height/2.8- 8, 0, 2, Custom.c1, this);
 
@@ -258,7 +257,6 @@ public class Player extends Rectangle{
             ammo.add(b);
         }
     }
-    
     
     public void BulletImpact(List<Enemies> enemies, List<Obstacles> obstacles, Map map) {
         for (Bullet b : ammo) {
@@ -303,8 +301,8 @@ public class Player extends Rectangle{
     
     public void walkAnimate(double x, double y){
         System.out.println("walking...");
-        updateItems();
         
+        updateItems();
         setupWalkItems();
         
             this.isAlreadyRunning = true;
@@ -353,10 +351,11 @@ public class Player extends Rectangle{
             helmetTransition.play();
             torsoTransition.play();
             rbootTransition.play();
-            lbootTransition.play();
-            
-            
+            lbootTransition.play();     
     }
+    
+    
+    
     
     public void setupFallItems(){
         Hand newHand = (Hand)lHand;
@@ -542,15 +541,27 @@ public class Player extends Rectangle{
     }
 
     public void setlGun(Item lGun) {
-        this.lGun = lGun;
+        if(equipedItems.isEmpty() || equipedItems.size() == 1){
+            this.lGun = lGun;
+        }else{
+            int index = equipedItems.indexOf(this.lGun);
+            this.lGun = lGun;
+            equipedItems.set(index, lGun);
+        }  
     }
 
     public Item getrGun() {
         return rGun;
     }
 
-    public void setrGun(Item rGun) {
-        this.rGun = rGun;
+    public void setrGun(Item rGun){
+        if(equipedItems.isEmpty() || equipedItems.size() == 1){
+            this.rGun = rGun;
+        }else{
+            int index = equipedItems.indexOf(this.rGun);
+            this.rGun = rGun;
+            equipedItems.set(index, rGun);
+        }   
     }
     
     public Obstacles getGround() {

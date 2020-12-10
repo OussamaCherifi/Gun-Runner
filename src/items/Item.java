@@ -177,6 +177,31 @@ public abstract class Item extends ImageView{
     public void setKind(String kind) {
         this.kind = kind;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + this.idNum;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Item other = (Item) obj;
+        if (this.idNum != other.idNum) {
+            return false;
+        }
+        return true;
+    }
     
      
 }

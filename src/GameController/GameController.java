@@ -12,10 +12,8 @@ import items.*;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
@@ -27,7 +25,7 @@ import characterElements.Player;
  *
  * @author 15148
  */
-public class GameController {
+     public class GameController {
 
     Map map;
 
@@ -114,7 +112,21 @@ public class GameController {
 
     }
     
-
+    private void addPlayerSprite(Item gun1){
+        player.setrGun(gun1);
+        player.setlGun(pistol);
+        
+        map.insertElement(lhand);
+        map.insertElement(pistol);
+        map.insertElement(fingers);
+        map.insertElement(lboot);
+        map.insertElement(torso);
+        map.insertElement(helmet);
+        map.insertElement(gun1);
+        map.insertElement(rboot);
+        map.insertElement(rhand);    
+    }
+    
     private void addPlayerSprite(Item gun1 , Item gun2){
         player.setrGun(gun1);
         player.setlGun(gun2);
@@ -131,8 +143,15 @@ public class GameController {
     }
     
     private void removeAllItems(){
+        map.removeElement(player.getlHand());
+        map.removeElement(player.getlGun());
         map.removeElement(player.getFingers());
-//        map.removeElement(player.);
+        map.removeElement(player.getlBoot());
+        map.removeElement(player.getTorso());
+        map.removeElement(player.getHelmet());
+        map.removeElement(player.getrGun());
+        map.removeElement(player.getrBoot());
+        map.removeElement(player.getrHand());     
     }
 
     
@@ -147,7 +166,10 @@ public class GameController {
         player.update(getAllObstaclesInMap() , map.getMapWidth());
         player.BulletImpact(getAllEnemies(), getAllObstaclesInMap(), map);
 
+        //non-player updates
         updateEnemyBullets();
+        
+        crateCollision();
     }
 
     
@@ -188,6 +210,25 @@ public class GameController {
             System.out.println("PLayer health after : " + player.getHealth());
         }
     }
+
+    private void crateCollision(){
+        ArrayList<Crates> crates = getAllCrates();
+        for(int i = 0; i < crates.size(); i++){
+            if(crates.get(i).getBoundsInParent().intersects(player.getBoundsInParent())){
+                int gun = crates.get(i).getGun();
+                (crates.get(i)).die();
+//                if(gun == 1){
+//                    removeAllItems();
+//                    addPlayerSprite(ak);
+//                }else{
+//                    removeAllItems();
+//                    addPlayerSprite(uzi, uzi2);
+//                }
+            }
+            
+        }
+    }
+    
     
     //The next two methods are for extrating the obstacles and backgrounds separately from the children
     //of our map
@@ -224,7 +265,17 @@ public class GameController {
         }
         return enemies;
     }
-
+    
+    private ArrayList<Crates> getAllCrates(){
+        ArrayList<Crates> crates = new ArrayList<>();
+        for (Node n : map.getChildren()) {
+            if (n instanceof Crates) {
+                crates.add((Crates) n);
+            }
+        }
+        return crates;
+    }
+    
     //the next four methods are only here to create the map's graphical elements. 
     private void createBackground() {
         int xpos = 0;
@@ -306,6 +357,12 @@ public class GameController {
                 System.out.println("this hapenned");
                 player.goToBottom();
             }
+//            if(e.getCode() == KeyCode.A){
+//                removeAllItems();
+//            }
+//            if(e.getCode() == KeyCode.F){
+//                addPlayerSprite(uzi, uzi2);
+//            }
         }
     }
 
