@@ -23,7 +23,7 @@ import javafx.scene.image.ImageView;
  */
 public class Crates extends ImageView{
 
-    private final String path = "sprites/Map/crate.png";
+    private final String path = "sprites/map/crate.png";
     private double xpos, ypos;
     private double width, height;
     private double heightAboveGround;

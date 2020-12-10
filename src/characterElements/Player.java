@@ -96,39 +96,53 @@ public class Player extends Rectangle{
     }
     
     public void update(List<Obstacles> obstacles , double mapWidth){
-        rightX = xpos + width;
-        lowerY = ypos + height;
-        ypos = getTranslateY();
         
-        //Movements Handling
-        if (isJumping == true) {
-            jump();
-        }
-        if (isFalling == true) {
-            fall(obstacles);
-        }
-        if(isInTheAir){
-            jumpAnimate();
-        }
-        if(xpos >= currentGround.getXpos()+currentGround.getWidth() && !isInTheAir){
-            fallAnimate();
-        }
-        if(currentGround.equals(mainGround) && lowerY < mainGround.getYpos() && !isInTheAir){
-            fallAnimate();
-        }
-        isFalling = true;
+        //movement 
+        movementHanadling(obstacles);
         //Fix bugs
         fixBug();
+        //ammo handling
+        ammoHandling(mapWidth);
+       
         
+         //health
+        if (!(health > 0)) {
+            isDead = true;
+        }    
+    }
+    
+    
+    private void movementHanadling(List<Obstacles> obstacles){
+            rightX = xpos + width;
+            lowerY = ypos + height;
+            ypos = getTranslateY();
+
+            //Movements Handling
+            if (isJumping == true) {
+                jump();
+            }
+            if (isFalling == true) {
+                fall(obstacles);
+            }
+            if(isInTheAir){
+                jumpAnimate();
+            }
+            if(xpos >= currentGround.getXpos()+currentGround.getWidth() && !isInTheAir){
+                fallAnimate();
+            }
+            if(currentGround.equals(mainGround) && lowerY < mainGround.getYpos() && !isInTheAir){
+                fallAnimate();
+            }
+            isFalling = true;        
+    }
+    
+    
+    private void ammoHandling(double mapWidth){
         //bullet handling
         for (Bullet b : ammo) {
             b.update(mapWidth, "right");
         }
 
-        //health
-        if (!(health > 0)) {
-            isDead = true;
-        }
         //reload
         if (isReloading == true) {
             for (int i = 0; i < ammo.size(); i++) {
@@ -139,7 +153,7 @@ public class Player extends Rectangle{
             if (ammo.isEmpty()) {
                 isReloading = false;
             }
-        }        
+        }   
     }
     
     private void fixBug(){

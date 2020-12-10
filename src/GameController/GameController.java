@@ -354,7 +354,7 @@ public class GameController {
         String path = "";
         while (xpos <= map.getMapWidth()) {
             // System.out.println("x pos = :" + xpos);
-            path = "sprites/Map/floor_" + counter + ".png";
+            path = "sprites/map/floor_" + counter + ".png";
             Floor f = new Floor(path, xpos, 954, "floor");
 
             floors.add(f);
@@ -369,7 +369,7 @@ public class GameController {
     }
 
     private void createPlatforms() {
-        String path = "sprites/Map/platform.png";
+        String path = "sprites/map/platform.png";
         double distanceBetweenPlatforms = 20;
 
         int xpos = 0;
