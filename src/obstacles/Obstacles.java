@@ -103,8 +103,10 @@ public abstract class Obstacles extends ImageView {
     private void removeEnemyIfDead(Map map) {
         if (e != null) {
             if (e.IsDead() == true) {
-                map.removeElement(e);
-                e = null;
+                if(e.isIsDyingDone()){
+                    e.updateImagesDying(map ,this);
+                }
+                
             } else {
                 e.update(map);                
             }            
@@ -175,10 +177,41 @@ public abstract class Obstacles extends ImageView {
     public double getHeight() {
         return image.getHeight();
     }
+
+    public Enemies getE() {
+        return e;
+    }
+
+    public void setE(Enemies e) {
+        this.e = e;
+    }
+
+    public Crates getCrate() {
+        return crate;
+    }
+
+    public void setCrate(Crates crate) {
+        this.crate = crate;
+    }
+
+    public Coins getCoin() {
+        return coin;
+    }
+
+    public void setCoin(Coins coin) {
+        this.coin = coin;
+    }
+    
+    
     
     @Override
     public String toString() {
-        return "Obstacles{" + "ypos= " + ypos + " type=" + type + '}';
+        if(isFloor()){
+            return "floor{" + "ypos= " + ypos + " type=" + type + '}';   
+        }else{
+            return "platform{" + "ypos= " + ypos + " type=" + type + '}';   
+
+        }
     }
     
     public boolean isFloor() {

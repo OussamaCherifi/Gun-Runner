@@ -313,7 +313,7 @@ public class Player extends Rectangle {
         }
     }
     
-    public void BulletImpact(List<Enemies> enemies, List<Obstacles> obstacles, Map map) {
+    public void BulletImpact(List<Enemies> enemies, List<Obstacles> obstacles) {
         for (Bullet b : ammo) {
             for (Obstacles o : obstacles) {
                 if (b.getBoundsInParent().intersects(o.getBoundsInParent())) {
@@ -325,7 +325,7 @@ public class Player extends Rectangle {
                 if (b.getBoundsInParent().intersects(e.getBoundsInParent())) {
                     b.setTranslateY(-100);
                     b.setIsDead(true);
-                    e.die(map);
+                    e.die();
                     kills++;
                 }
             }

@@ -196,7 +196,7 @@ public class GameController {
 
             //Player updates
             player.update(getAllObstaclesInMap(), map.getMapWidth(), timeElapsed);
-            player.BulletImpact(getAllEnemies(), getAllObstaclesInMap(), map);
+            player.BulletImpact(getAllEnemies(), getAllObstaclesInMap());
 
             updateClip();
             //non-player updates
@@ -296,7 +296,6 @@ public class GameController {
     private void coinsCollision() {
         for (Coins c : getAllCoins()) {
             if (c.getBoundsInParent().intersects(player.getBoundsInParent())) {
-                System.out.println("coin collected");
                 c.die();
                 coinsCollected++;
             }
