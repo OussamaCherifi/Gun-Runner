@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scenes;
+package GameGUI;
 
 import Data.DataController;
 import java.io.FileNotFoundException;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,36 +20,42 @@ import javafx.scene.text.Font;
  *
  * @author oussa
  */
-public class Item extends ImageView {
+public class ItemNotInGame extends ImageView {
 
     private Label labelPrice;
     private Label LabelNotPossessed;
     private Label PossessedItem;
     private int price;
     private Image ItemImage;
-    private Button BuyButton;
-    private Button EquipButton;
+    private Button BuyButton = new Button("Buy");
+    private Button EquipButton = new Button("Equip");
     private int idNumber;
-    
-    
-    
+
     //These values are for the database
     private boolean isBought = false;
     private boolean isEquiped = false;
 
-    public Item(int b) throws FileNotFoundException {
+    public ItemNotInGame(int b) throws FileNotFoundException {
         this.idNumber = b;
         this.price = price;
         String a = Integer.toString(b);
         givePrice(b);
-        this.LabelNotPossessed = new Label("Purchase in store");
+        this.LabelNotPossessed = new Label("Not bought");
         this.PossessedItem = new Label("Acquired");
         this.labelPrice = new Label("Price: " + price);
         this.setImage(new Image("preview/preview_" + a + ".png"));
-        this.BuyButton = new Button("Buy Item");
-        this.EquipButton = new Button("Equip Item");
+
+        //CSS STYLES
+        Font font2 = new Font("Impact", 16);
+        this.BuyButton.setPrefSize(76, 36);
+        this.BuyButton.setAlignment(Pos.CENTER);
+        this.BuyButton.getStylesheets().add("styles/button-verysmall.css");
+        this.BuyButton.setFont(font2);  
         
-        customizeLabel();
+        this.EquipButton.setPrefSize(76, 36);
+        this.EquipButton.setAlignment(Pos.CENTER);
+        this.EquipButton.getStylesheets().add("styles/button-verysmall.css");
+        this.EquipButton.setFont(font2); 
         
         isBought = DataController.isItemBought(idNumber);
         isEquiped = DataController.isItemEquiped(idNumber);

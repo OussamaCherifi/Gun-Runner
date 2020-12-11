@@ -47,10 +47,11 @@ public class GameController {
     
     //Actual player
     Player player;
-    //List of the items of the game : 
-    Item helmet, fingers, torso, lhand, rhand, lboot, rboot;
+    
+    //List of the items of the game :
+    InGameItems helmet, fingers, torso, lhand, rhand, lboot, rboot;
     //guns
-    Item pistol, pistol2, uzi, uzi2, ak;
+    InGameItems pistol, pistol2, uzi, uzi2, ak;
     
     //Score = coins + kills + ellapsed time
     int coinsCollected = 0;
@@ -144,7 +145,7 @@ public class GameController {
         map.insertElement(clip);
     }
 
-    private void addPlayerSprite(Item gun1) {
+    private void addPlayerSprite(InGameItems gun1) {
         player.setrGun(gun1);
         player.setlGun(pistol);
 
@@ -159,7 +160,7 @@ public class GameController {
         map.insertElement(rhand);
     }
 
-    private void addPlayerSprite(Item gun1, Item gun2) {
+    private void addPlayerSprite(InGameItems gun1, InGameItems gun2) {
         player.setrGun(gun1);
         player.setlGun(gun2);
 

@@ -9,7 +9,7 @@ package items;
  *
  * @author ismai
  */
-public class Boot extends Item implements ISearchablePath{
+public class Boot extends InGameItems implements ISearchablePath{
     private String kind;
     
     public Boot(String kind, double x, double y,  int price, int scale, Custom custom) {

@@ -11,12 +11,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
-import scenes.Barracks;
-import scenes.BarracksPane;
-import scenes.Item;
-import scenes.Unlockables;
-import scenes.UnlockablesPane;
-import scenes.previewPane;
+import GameGUI.Barracks;
+import GameGUI.BarracksPane;
+import GameGUI.ItemNotInGame;
+import GameGUI.Unlockables;
+import GameGUI.UnlockablesPane;
+import GameGUI.previewPane;
 
 /**
  *
@@ -24,15 +24,15 @@ import scenes.previewPane;
  */
 public class GUIController {
 
-    private ArrayList<Item> aquiredItemsList;
-    private ArrayList<Item> ItemsToBuy;
+    private ArrayList<ItemNotInGame> aquiredItemsList;
+    private ArrayList<ItemNotInGame> ItemsToBuy;
     private Unlockables un;
     private UnlockablesPane pane;
     private Barracks bar;
     private BarracksPane barPane;
     private previewPane preview;
     
-    //private Item it;
+    //private ItemNotInGame it;
     private ArrayList<Integer> orderOfPreview;
 
     public GUIController(Unlockables unlock, UnlockablesPane pane1, BarracksPane mainBrracks, Barracks barrack, previewPane characterView) throws FileNotFoundException {
@@ -50,13 +50,13 @@ public class GUIController {
         setEquipButtonOnAction(aquiredItemsList);
     }
 
-    private void addItem(ArrayList<Item> list) {
-        for (Item it : list) {
+    private void addItem(ArrayList<ItemNotInGame> list) {
+        for (ItemNotInGame it : list) {
             it.setBuyHandler(event -> buyButtonHandler(it));
         }
     }
 
-    public void buyButtonHandler(Item acquiredItem) {
+    public void buyButtonHandler(ItemNotInGame acquiredItem) {
         if (acquiredItem.getPrice() <= pane.getBalanceAmount()) {
             if(pane.getChildren().contains(pane.getNotEnoughMoney())){
                 pane.getChildren().remove(pane.getNotEnoughMoney());
@@ -103,8 +103,8 @@ public class GUIController {
         
     }
     
-    private void setEquipButtonOnAction(ArrayList<Item> list) {
-        for (Item it : list) {
+    private void setEquipButtonOnAction(ArrayList<ItemNotInGame> list) {
+        for (ItemNotInGame it : list) {
             it.setEquipButtonHandler(event -> {
                 equipButtonHandler(it); 
                 
@@ -121,7 +121,7 @@ public class GUIController {
     }
     
     
-    public void equipButtonHandler(Item acquiredItem) {
+    public void equipButtonHandler(ItemNotInGame acquiredItem) {
         
 
 //        if (acquiredItem.getIdNumber() == 1) {

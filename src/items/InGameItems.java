@@ -14,7 +14,8 @@ import javafx.scene.image.ImageView;
  *
  * @author ismai
  */
-public abstract class Item extends ImageView{
+
+public abstract class InGameItems extends ImageView{
     
     protected String kind;
     protected double offsetX, offsetY;
@@ -27,11 +28,10 @@ public abstract class Item extends ImageView{
     protected int price;
     protected double scale;
     protected Image image, imageAfter;
-    protected Button BuyButton = new Button("Buy");
     protected ItemType type;
     
     
-    public Item(String path, double x, double y, int price, double scale) {
+    public InGameItems(String path, double x, double y, int price, double scale) {
         this.custom = custom;
         this.price = price;
         this.scale = scale;
@@ -45,7 +45,7 @@ public abstract class Item extends ImageView{
         initializePos(x, y);
     }
     
-        public Item(double xpos, double ypos, int price, double scale){
+        public InGameItems(double xpos, double ypos, int price, double scale){
         this.scale = scale;
         this.price = price;
         this.originalX = xpos;
@@ -56,7 +56,7 @@ public abstract class Item extends ImageView{
         initializePos(xpos, ypos);
     }
 
-    public Item(double xpos, double ypos, int price, double scale, Custom custom){
+    public InGameItems(double xpos, double ypos, int price, double scale, Custom custom){
         this.scale = scale;
         this.price = price;
         this.custom = custom;
@@ -81,9 +81,6 @@ public abstract class Item extends ImageView{
         this.setImage(imageAfter);
     }
     
-    public void setBuyHandler(EventHandler handler){
-        this.BuyButton.setOnAction(handler);   
-    }
 
     public int getIdNum() {
         return idNum;
@@ -103,10 +100,6 @@ public abstract class Item extends ImageView{
 
     public Image getImageAfter() {
         return imageAfter;
-    }
-
-    public Button getBuyButton() {
-        return BuyButton;
     }
 
     public ItemType getType() {
@@ -196,7 +189,7 @@ public abstract class Item extends ImageView{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Item other = (Item) obj;
+        final InGameItems other = (InGameItems) obj;
         if (this.idNum != other.idNum) {
             return false;
         }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scenes;
+package GameGUI;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import javafx.scene.paint.Color;
 public class Barracks extends GridPane {
 
     private Label title;
-    ArrayList<Item> ListOfItemsBarracks = new ArrayList(12);
-    Item it;
+    ArrayList<ItemNotInGame> ListOfItemsBarracks = new ArrayList(12);
+    ItemNotInGame it;
 
     public Barracks() throws FileNotFoundException {
 
@@ -35,10 +35,10 @@ public class Barracks extends GridPane {
 
     }
 
-    public void InsertImagesInGrid(ArrayList<Item> items) throws FileNotFoundException {
+    public void InsertImagesInGrid(ArrayList<ItemNotInGame> items) throws FileNotFoundException {
 
         for (int i = 1; i < 13; i++) {
-            ListOfItemsBarracks.add(new Item(i));
+            ListOfItemsBarracks.add(new ItemNotInGame(i));
         }
 
         for (int i = 0; i < items.size(); i++) {
@@ -61,6 +61,7 @@ public class Barracks extends GridPane {
         for (int i = 0; i < ListOfItemsBarracks.size(); i++) {
             if(!ListOfItemsBarracks.get(i).isBought()){
                 Label notPossessed = ListOfItemsBarracks.get(i).getLabelNotPossessed();
+                notPossessed.setAlignment(Pos.CENTER);
                 notPossessed.setTextFill(Color.web("#FFA500", 0.8));   
                 if (i < 6) {
                     this.setHalignment(notPossessed, HPos.CENTER);
@@ -84,25 +85,7 @@ public class Barracks extends GridPane {
         }
 
     }
-    public void insertLbael(){
-         for (int i = 0; i < ListOfItemsBarracks.size(); i++) {
-            Label notPossessed = ListOfItemsBarracks.get(i).getLabelNotPossessed();
-            notPossessed.setTextFill(Color.web("#FFA500", 0.8));
-            
-
-            if (i < 6) {
-                this.setHalignment(notPossessed, HPos.CENTER);
-                this.add(notPossessed, i + 1, 2);
-
-            }
-            if (i < 12 && i > 5) {
-                this.setHalignment(notPossessed, HPos.CENTER);
-                this.add(notPossessed, i - 5, 5);
-
-            }
-        }
-        
-    }
+    
 
     public Label getTitle() {
         return title;
@@ -112,19 +95,19 @@ public class Barracks extends GridPane {
         this.title = title;
     }
 
-    public Item getIt() {
+    public ItemNotInGame getIt() {
         return it;
     }
 
-    public void setIt(Item it) {
+    public void setIt(ItemNotInGame it) {
         this.it = it;
     }
 
-    public ArrayList<Item> getListOfItemsBarracks() {
+    public ArrayList<ItemNotInGame> getListOfItemsBarracks() {
         return ListOfItemsBarracks;
     }
 
-    public void setListOfItemsBarracks(ArrayList<Item> ListOfItemsBarracks) {
+    public void setListOfItemsBarracks(ArrayList<ItemNotInGame> ListOfItemsBarracks) {
         this.ListOfItemsBarracks = ListOfItemsBarracks;
     }
 

@@ -9,7 +9,7 @@ package items;
  *
  * @author ismai
  */
-public class Fingers extends Item implements ISearchablePath{
+public class Fingers extends InGameItems implements ISearchablePath{
     String kind;
 
     public Fingers(String kind, double xpos, double ypos, int price, double scale) {

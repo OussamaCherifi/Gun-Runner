@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scenes;
+package GameGUI;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -22,8 +22,8 @@ import javafx.scene.paint.Color;
 public class Unlockables extends GridPane {
 
     private Label title;
-    ArrayList<Item> ListOfItems = new ArrayList();
-    Item it;
+    ArrayList<ItemNotInGame> ListOfItems = new ArrayList();
+    ItemNotInGame it;
     
 
     public Unlockables() throws FileNotFoundException {
@@ -37,10 +37,10 @@ public class Unlockables extends GridPane {
         this.setAlignment(Pos.CENTER);
     }
 
-    public void InsertImagesInGrid(ArrayList<Item> items) throws FileNotFoundException {
+    public void InsertImagesInGrid(ArrayList<ItemNotInGame> items) throws FileNotFoundException {
 
         for (int i = 1; i < 13; i++) {
-            ListOfItems.add(new Item(i));
+            ListOfItems.add(new ItemNotInGame(i));
         }
 
         for (int i = 0; i < ListOfItems.size(); i++) {
@@ -102,11 +102,11 @@ public class Unlockables extends GridPane {
         }
     }
 
-    public ArrayList<Item> getListOfItems() {
+    public ArrayList<ItemNotInGame> getListOfItems() {
         return ListOfItems;
     }
 
-    public void setListOfItems(ArrayList<Item> ListOfItems) {
+    public void setListOfItems(ArrayList<ItemNotInGame> ListOfItems) {
         this.ListOfItems = ListOfItems;
     }
 
@@ -118,11 +118,11 @@ public class Unlockables extends GridPane {
         this.title = title;
     }
 
-    public Item getIt() {
+    public ItemNotInGame getIt() {
         return it;
     }
 
-    public void setIt(Item it) {
+    public void setIt(ItemNotInGame it) {
         this.it = it;
     }
 

@@ -9,7 +9,7 @@ package items;
  *
  * @author ismai
  */
-public class Torso extends Item implements ISearchablePath{
+public class Torso extends InGameItems implements ISearchablePath{
     
     public Torso(double x, double y, int price, int scale, Custom custom) {
         super(x+26, y+58, price, scale, custom);

@@ -128,7 +128,7 @@ public class WalkingAnimation {
         return createPathTransition(gun, path);
     }
     
-    public static PathTransition torsoPath(Item torso, double x, double y){
+    public static PathTransition torsoPath(InGameItems torso, double x, double y){
         Path path = new Path();
         x = 24;
         y = 29;
@@ -204,7 +204,7 @@ public class WalkingAnimation {
         return createPathTransition(boot, path);
     }
     
-    private static PathTransition createPathTransition(Item item, Path path){
+    private static PathTransition createPathTransition(InGameItems item, Path path){
         PathTransition transition = new PathTransition();
         transition.setNode(item);
         if(item.getType() == ItemType.hands || item.getType() == ItemType.fingers ||  item.getType() == ItemType.gun){

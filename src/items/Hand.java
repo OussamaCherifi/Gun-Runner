@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
  *
  * @author ismai
  */
-public class Hand extends Item implements ISearchablePath{
+public class Hand extends InGameItems implements ISearchablePath{
     private String kind;
 
     public Hand(String kind, double x, double y, int price, int scale, Custom custom) {

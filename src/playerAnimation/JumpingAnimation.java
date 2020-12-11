@@ -84,7 +84,7 @@ public class JumpingAnimation {
         return jump;
     }
     
-    public static SequentialTransition verticalJump(Item item, double x, double y, double height){
+    public static SequentialTransition verticalJump(InGameItems item, double x, double y, double height){
         TranslateTransition tt = new TranslateTransition();
         tt.setByX(x);
         tt.setByY(y);
@@ -120,7 +120,7 @@ public class JumpingAnimation {
         return t;
     }
     
-    public static SequentialTransition createPaths(Item item, double x, double y, double a, double b, double x1){
+    public static SequentialTransition createPaths(InGameItems item, double x, double y, double a, double b, double x1){
         Path path1 = new Path();
         MoveTo move1 = new MoveTo();
             move1.setX(item.getXpos() + x);
@@ -187,7 +187,7 @@ public class JumpingAnimation {
         return jump;
     }
     
-    public static SequentialTransition createSequentialTransition(Item item, PathTransition p1, PathTransition p2, PathTransition p3){
+    public static SequentialTransition createSequentialTransition(InGameItems item, PathTransition p1, PathTransition p2, PathTransition p3){
         SequentialTransition st = new SequentialTransition(p1, p2, p3);
         st.setNode(item);
         st.setCycleCount(1);

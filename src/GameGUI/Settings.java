@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scenes;
+package GameGUI;
 import java.io.File;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,7 +28,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import scenes.KeyBindClass;
+import GameGUI.KeyBindClass;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -68,17 +68,17 @@ public class Settings extends Pane {
         settingsName.setScaleY(3);
         settingsName.setTextFill(Color.web("#7FFF00", 0.8));
         settingsName.setFont(new Font("Broadway", 12));
-        
+
+        Font font2 = new Font("Impact", 20);
         this.back = new Button("Back");
+        this.back.setPrefSize(152, 64);
         this.back.setLayoutY(900);
         this.back.setLayoutX(30);
-        this.back.setScaleX(4);
-        this.back.setScaleY(3);
+        this.back.getStylesheets().add("styles/button-small.css");
+        this.back.setFont(font2);  
 
-        this.back.setScaleX(1.25);
-        this.back.setScaleY(1.25);
         this.back.setTextFill(Color.web("#ff0000", 0.8));
-        
+
         double setNameWidth = settingsName.getWidth();
         settingsName.setLayoutX((1920 / 2) - (setNameWidth / 2));
         settingsName.setLayoutY(25);
@@ -98,16 +98,14 @@ public class Settings extends Pane {
         tf = new TextField();
 
         tf.setOnKeyPressed(new keyChangedController());
-        
-         BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920, 1080, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+
+        BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920/2, 1080, false, true),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
 
         this.setBackground(new Background(myBI));
 
         this.getChildren().addAll( settingsName, volumeSlider, back);
-        
-
     }
 
     

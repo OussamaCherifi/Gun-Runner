@@ -34,7 +34,7 @@ public class Enemies extends ImageView{
     private int animateSwitchTimer = 0;
     private int imageCounter = 1;
     
-    private int animationDyingTimer = 0;
+    private double animationDyingTimer = 0;
     private int imageDyingCounter = 0;
     
     //Shape and size of the enemies. 
@@ -118,7 +118,7 @@ public class Enemies extends ImageView{
     
     public void updateImagesDying(Map map, Obstacles obstacle){
         animationDyingTimer++;
-        if(animationDyingTimer > 1){
+        if(animationDyingTimer > 0.75){
             animationDyingTimer = 0;
             if(imageDyingCounter >= 34){
                 map.removeElement(this);

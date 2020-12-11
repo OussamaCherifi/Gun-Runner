@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scenes;
+package GameGUI;
 
 import Data.DataController;
 import java.io.FileNotFoundException;
@@ -32,70 +32,70 @@ public class UnlockablesPane extends Pane {
     private Unlockables Unlock;
     private Label balance;
     private int balanceAmount;
-    private ArrayList<Item> copyItems;
+    private ArrayList<ItemNotInGame> copyItems;
     private Label NotEnoughMoney;
     private Rectangle gridBackground;
     private Font textFont;
 
     public UnlockablesPane() throws FileNotFoundException {
         customTitle();
+        Font font2 = new Font("Impact", 20);
 
-        this.back = new Button("Back");
-        this.back.setLayoutY(900);
-        this.back.setLayoutX(30);
+        back = new Button("Back");
+        back.setPrefSize(152, 64);
+        back.setLayoutY(900);
+        back.setLayoutX(30);
+        back.getStylesheets().add("styles/button-small.css");
+        back.setFont(font2);  
 
-        this.back.setScaleX(1.25);
-        this.back.setScaleY(1.25);
-        this.back.setTextFill(Color.web("#ff0000", 0.8));
 
-        this.balanceAmount = DataController.getBalance();
+        balanceAmount = DataController.getBalance();
 
-        this.balance = new Label("Balance: " + balanceAmount + "$");
-        this.balance.setTextFill(Color.web("#7FFF00", 0.8));
-        this.balance.setLayoutY(250);
-        this.balance.setLayoutX(550);
-        this.balance.setScaleX(2.5);
-        this.balance.setScaleY(2.5);
-        this.balance.setFont(new Font("Broadway", 12));
+        balance = new Label("Balance: " + balanceAmount + "$");
+        balance.setTextFill(Color.web("#7FFF00", 0.8));
+        balance.setLayoutY(250);
+        balance.setLayoutX(550);
+        balance.setScaleX(2.5);
+        balance.setScaleY(2.5);
+        balance.setFont(new Font("Broadway", 12));
 
-        this.gridBackground = new Rectangle(950, 525);
-        this.gridBackground.setLayoutX(470);
-        this.gridBackground.setLayoutY(290);
-        this.gridBackground.setStroke(Color.AZURE);
-        this.gridBackground.setStrokeWidth(2);
+        gridBackground = new Rectangle(950, 525);
+        gridBackground.setLayoutX(470);
+        gridBackground.setLayoutY(290);
+        gridBackground.setStroke(Color.AZURE);
+        gridBackground.setStrokeWidth(2);
 
-        this.Unlock = new Unlockables();
-        this.Unlock.setLayoutX(1920 / 4);
-        this.Unlock.setLayoutY(325);
+        Unlock = new Unlockables();
+        Unlock.setLayoutX(1920 / 4);
+        Unlock.setLayoutY(325);
 
-        BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920, 1080, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+        BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920/2, 1080, false, true),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
 
-        this.setBackground(new Background(myBI));
+        setBackground(new Background(myBI));
         customBalanceLabel(balanceAmount);
 
-        this.getChildren().addAll(title, back, gridBackground, Unlock, balance);
-
+        getChildren().addAll(title, back, gridBackground, Unlock, balance);
     }
 
     private void customTitle() {
-        this.title = new Label("Unlockables");
-        this.title.setLayoutX(1920 / 2);
-        this.title.setLayoutY(20);
-        this.title.setScaleX(3);
-        this.title.setScaleY(3);
-        this.title.setTextFill(Color.web("#7FFF00", 0.8));
-        this.title.setFont(new Font("Broadway", 12));
+        title = new Label("Unlockables");
+        title.setLayoutX(1920 / 2);
+        title.setLayoutY(20);
+        title.setScaleX(3);
+        title.setScaleY(3);
+        title.setTextFill(Color.web("#7FFF00", 0.8));
+        title.setFont(new Font("Broadway", 12));
     }
 
     public void customBalanceLabel(int money) {
-        this.balance.setText("Balance: " + money + "$");
+        balance.setText("Balance: " + money + "$");
     }
 
     public void InsertNotEnoughMoney() {
 
-        this.NotEnoughMoney = new Label("Not enough credits");
+        NotEnoughMoney = new Label("Not enough credits");
         NotEnoughMoney.setLayoutX(1920 / 2);
         NotEnoughMoney.setLayoutY(200);
         NotEnoughMoney.setScaleX(3);
@@ -103,14 +103,14 @@ public class UnlockablesPane extends Pane {
         NotEnoughMoney.setTextFill(Color.web("#DC143C", 0.8));
         NotEnoughMoney.setFont(new Font("Broadway", 12));
 
-        this.getChildren().add(NotEnoughMoney);
+        getChildren().add(NotEnoughMoney);
     }
 
-    public ArrayList<Item> getCopyItems() {
+    public ArrayList<ItemNotInGame> getCopyItems() {
         return copyItems;
     }
 
-    public void setCopyItems(ArrayList<Item> copyItems) {
+    public void setCopyItems(ArrayList<ItemNotInGame> copyItems) {
         this.copyItems = copyItems;
     }
 

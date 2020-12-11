@@ -9,7 +9,7 @@ package items;
  *
  * @author ismai
  */
-public class Gun extends Item implements ISearchablePath{
+public class Gun extends InGameItems implements ISearchablePath{
     private boolean isDualWield;
     private String kind;
 

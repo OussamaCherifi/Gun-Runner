@@ -352,4 +352,9 @@ public class DataController {
                
         return Custom.normal;
     }
+    
+    public static void resetData(){
+        
+    }
+    
 }

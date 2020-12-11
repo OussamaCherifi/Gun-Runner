@@ -11,7 +11,7 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import obstacles.*;
 
 /**
@@ -28,11 +28,13 @@ public class Map extends Pane{
     
     public Map(){
         
-        this.back.setLayoutY(40);
+        Font font2 = new Font("Impact", 20);
+
+        this.back.setPrefSize(152, 64);
+        this.back.setLayoutY(50);
         this.back.setLayoutX(30);
-        this.back.setScaleX(1.25);
-        this.back.setScaleY(1.25);
-        this.back.setTextFill(Color.web("#ff0000", 0.8));
+        this.back.getStylesheets().add("styles/button-small.css");
+        this.back.setFont(font2);  
         this.back.setFocusTraversable(false);
         
         

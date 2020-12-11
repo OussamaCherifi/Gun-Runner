@@ -9,15 +9,15 @@ import Data.DataController;
 import GUIController.GUIController;
 import GameController.GameController;
 import GameGUI.Map;
-import scenes.Settings;
+import GameGUI.Settings;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import scenes.BarracksPane;
-import scenes.MainMenu;
-import scenes.UnlockablesPane;
+import GameGUI.BarracksPane;
+import GameGUI.MainMenu;
+import GameGUI.UnlockablesPane;
 
 /**
  *

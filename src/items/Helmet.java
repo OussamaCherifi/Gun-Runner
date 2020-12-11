@@ -9,7 +9,7 @@ package items;
  *
  * @author ismai
  */
-public class Helmet extends Item implements ISearchablePath{
+public class Helmet extends InGameItems implements ISearchablePath{
     
     public Helmet(double x, double y, int price, int scale, Custom custom) {
         super(x+18, y, price, scale, custom);

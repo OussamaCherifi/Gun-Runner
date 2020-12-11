@@ -12,7 +12,7 @@ import characterElements.Player;
  *
  * @author ismai
  */
-public class Bullet extends Item implements ISearchablePath{
+public class Bullet extends InGameItems implements ISearchablePath{
     //private final double width, height;
     private final int velocity;
     private boolean isDead;

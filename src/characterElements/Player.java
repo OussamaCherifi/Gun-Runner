@@ -25,8 +25,8 @@ import playerAnimation.FallAnimation;
 public class Player extends Rectangle {
 
     // Separation of the attributes 
-    private Item helmet, torso, rHand, lHand, rBoot, lBoot, bullet, lGun, rGun, fingers;
-    private ArrayList<Item> equipedItems = new ArrayList<>();
+    private InGameItems helmet, torso, rHand, lHand, rBoot, lBoot, bullet, lGun, rGun, fingers;
+    private ArrayList<InGameItems> equipedItems = new ArrayList<>();
 
     //health
     private double health = 100;
@@ -195,7 +195,7 @@ public class Player extends Rectangle {
     
     private void updateItems() {
         double a = mainGround.getYpos() - currentGround.getYpos();
-        for (Item it : equipedItems) {            
+        for (InGameItems it : equipedItems) {            
             it.setYpos(it.getOriginalY() - a);
             it.setTranslateY(it.getOriginalY() + a);
         }        
@@ -369,10 +369,10 @@ public class Player extends Rectangle {
         if (gun.getIsDualWield()) {
             Fingers f = (Fingers) fingers;
             f.setKind("dual");
-            fingers = (Item) f;
+            fingers = (InGameItems) f;
             Hand newHand = (Hand) lHand;
             newHand.setKind("l");
-            lHand = (Item) newHand;
+            lHand = (InGameItems) newHand;
             lGun.setVisible(true);
             lHand.setVisible(true);
             
@@ -392,7 +392,7 @@ public class Player extends Rectangle {
             lHand.setVisible(false);
             Fingers f = (Fingers) fingers;
             f.setKind("single");
-            fingers = (Item) f;
+            fingers = (InGameItems) f;
             PathTransition rhandTransition = WalkingAnimation.handPath((Hand) rHand, x + 8, y + 16);
             PathTransition pistol1Transition = WalkingAnimation.gunPath((Gun) rGun, x + 8, y + 20);
             PathTransition fingersTransition = WalkingAnimation.fingersPath((Fingers) fingers, x + 2, y);
@@ -510,55 +510,55 @@ public class Player extends Rectangle {
         this.isGoingBottom = isGoingBottom;
     }
     
-    public Item getHelmet() {
+    public InGameItems getHelmet() {
         return helmet;
     }
     
-    public Item getTorso() {
+    public InGameItems getTorso() {
         return torso;
     }
     
-    public Item getBullet() {
+    public InGameItems getBullet() {
         return bullet;
     }
     
-    public Item getrHand() {
+    public InGameItems getrHand() {
         return rHand;
     }
     
-    public Item getlHand() {
+    public InGameItems getlHand() {
         return lHand;
     }
     
-    public Item getrBoot() {
+    public InGameItems getrBoot() {
         return rBoot;
     }
     
-    public Item getlBoot() {
+    public InGameItems getlBoot() {
         return lBoot;
     }
     
-    public void setHelmet(Item Helmet) {
+    public void setHelmet(InGameItems Helmet) {
         this.helmet = Helmet;
     }
     
-    public void setTorso(Item Torso) {
+    public void setTorso(InGameItems Torso) {
         this.torso = Torso;
     }
     
-    public void setrHand(Item rHand) {
+    public void setrHand(InGameItems rHand) {
         this.rHand = rHand;
     }
     
-    public void setlHand(Item lHand) {
+    public void setlHand(InGameItems lHand) {
         this.lHand = lHand;
     }
     
-    public void setrBoot(Item rBoot) {
+    public void setrBoot(InGameItems rBoot) {
         this.rBoot = rBoot;
     }
     
-    public void setlBoot(Item lBoot) {
+    public void setlBoot(InGameItems lBoot) {
         this.lBoot = lBoot;
     }
     
@@ -578,19 +578,19 @@ public class Player extends Rectangle {
         return ypos;
     }
     
-    public Item getFingers() {
+    public InGameItems getFingers() {
         return fingers;
     }
     
-    public void setFingers(Item fingers) {
+    public void setFingers(InGameItems fingers) {
         this.fingers = fingers;
     }
     
-    public Item getlGun() {
+    public InGameItems getlGun() {
         return lGun;
     }
     
-    public void setlGun(Item lGun) {
+    public void setlGun(InGameItems lGun) {
         if (equipedItems.isEmpty() || equipedItems.size() == 1) {
             this.lGun = lGun;
         } else {
@@ -600,11 +600,11 @@ public class Player extends Rectangle {
         }        
     }
     
-    public Item getrGun() {
+    public InGameItems getrGun() {
         return rGun;
     }
     
-    public void setrGun(Item rGun) {
+    public void setrGun(InGameItems rGun) {
         if (equipedItems.isEmpty() || equipedItems.size() == 1) {
             this.rGun = rGun;
         } else {
