@@ -12,7 +12,15 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/FinishedGame/GUISchoolProject/src/characterElements/Player.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/GUIController/GUIController.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/characterElements/Player.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/scenes/Barracks.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/GameController/GameController.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/scenes/Unlockables.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/scenes/UnlockablesPane.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/scenes/Item.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/Data/DataController.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/scenes/BarracksPane.java</file>
         </group>
     </open-files>
 </project-private>

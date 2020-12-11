@@ -7,14 +7,11 @@ package scenes;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Objects;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  *
@@ -23,7 +20,7 @@ import javafx.scene.shape.Rectangle;
 public class Barracks extends GridPane {
 
     private Label title;
-    ArrayList<Item> ListOfItemsBarracks = new ArrayList();
+    ArrayList<Item> ListOfItemsBarracks = new ArrayList(12);
     Item it;
 
     public Barracks() throws FileNotFoundException {
@@ -61,23 +58,29 @@ public class Barracks extends GridPane {
     }
 
     public void insertLabels() {
-
         for (int i = 0; i < ListOfItemsBarracks.size(); i++) {
-            Label notPossessed = ListOfItemsBarracks.get(i).getLabelNotPossessed();
-            notPossessed.setTextFill(Color.web("#FFA500", 0.8));
-            
-
-            if (i < 6) {
-                this.setHalignment(notPossessed, HPos.CENTER);
-                this.add(notPossessed, i + 1, 2);
-
+            if(!ListOfItemsBarracks.get(i).isBought()){
+                Label notPossessed = ListOfItemsBarracks.get(i).getLabelNotPossessed();
+                notPossessed.setTextFill(Color.web("#FFA500", 0.8));   
+                if (i < 6) {
+                    this.setHalignment(notPossessed, HPos.CENTER);
+                    this.add(notPossessed, i + 1, 2);
+                }
+                if (i < 12 && i > 5) {
+                    this.setHalignment(notPossessed, HPos.CENTER);
+                    this.add(notPossessed, i - 5, 5);
+                }                
+            }else{
+                if (i < 6) {
+                    this.setHalignment(ListOfItemsBarracks.get(i).getEquipButton(), HPos.CENTER);
+                    this.add(ListOfItemsBarracks.get(i).getEquipButton(), i + 1, 2);
+                }
+                if (i < 12 && i > 5) {
+                    this.setHalignment(ListOfItemsBarracks.get(i).getEquipButton(), HPos.CENTER);
+                    this.add(ListOfItemsBarracks.get(i).getEquipButton(), i - 5, 5);
+                }    
             }
             
-            if (i < 12 && i > 5) {
-                this.setHalignment(notPossessed, HPos.CENTER);
-                this.add(notPossessed, i - 5, 5);
-
-            }
         }
 
     }

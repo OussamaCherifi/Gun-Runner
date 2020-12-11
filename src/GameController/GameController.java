@@ -5,6 +5,7 @@
  */
 package GameController;
 
+import Data.DataController;
 import obstacles.*;
 import GameGUI.Map;
 import characterElements.Enemies;
@@ -50,9 +51,11 @@ public class GameController {
     Item helmet, fingers, torso, lhand, rhand, lboot, rboot;
     //guns
     Item pistol, pistol2, uzi, uzi2, ak;
-    //coins got
+    
+    //Score = coins + kills + ellapsed time
     int coinsCollected = 0;
-
+    double elapsedTime = 0;
+    
     public GameController(Map map) {
         this.map = map;
         createBackground();
@@ -75,18 +78,18 @@ public class GameController {
         double x = player.getTranslateX();
         double y = player.getTranslateY();
 
-        helmet = new Helmet(x, y, 0, 2, Custom.normal);
+        helmet = new Helmet(x, y, 0, 2, DataController.chooseHelmet());
         fingers = new Fingers("dual", x, y, 0, 2);
-        torso = new Torso(x, y, 0, 2, Custom.normal);
-        lhand = new Hand("l", x, y, 0, 2, Custom.normal);
-        rhand = new Hand("r", x, y, 0, 2, Custom.normal);
-        lboot = new Boot("l", x, y, 0, 2, Custom.normal);
-        rboot = new Boot("r", x, y, 0, 2, Custom.normal);
-        pistol = new Gun("pistol", x, y, 0, 2, Custom.c1);
-        pistol2 = new Gun("pistol", x + s, y, 0, 2, Custom.normal);
-        uzi = new Gun("uzi", x, y, 0, 2, Custom.normal);
-        uzi2 = new Gun("uzi", x + s, y, 0, 2, Custom.normal);
-        ak = new Gun("ak", x, y, 0, 2, Custom.normal);
+        torso = new Torso(x, y, 0, 2, DataController.chooseTorsot());
+        lhand = new Hand("l", x, y, 0, 2, DataController.chooseHands());
+        rhand = new Hand("r", x, y, 0, 2, DataController.chooseHands());
+        lboot = new Boot("l", x, y, 0, 2, DataController.chooseBoots());
+        rboot = new Boot("r", x, y, 0, 2, DataController.chooseBoots());
+        pistol = new Gun("pistol", x, y, 0, 2, DataController.choosePistol());
+        pistol2 = new Gun("pistol", x + s, y, 0, 2, DataController.choosePistol());
+        uzi = new Gun("uzi", x, y, 0, 2, DataController.chooseUzi());
+        uzi2 = new Gun("uzi", x + s, y, 0, 2, DataController.chooseUzi());
+        ak = new Gun("ak", x, y, 0, 2, DataController.chooseAk());
 
         addPlayerSprite(pistol, pistol2);
         player.setFingers(fingers);
@@ -119,11 +122,11 @@ public class GameController {
         timer.start();
     }
 
+    
     private void setupText() {
         //Setting up the text
         clip.setScaleX(10);
         clip.setScaleY(10);
-        //clip.setFont(font);
         clip.setFill(Paint.valueOf("white"));
         clip.setStroke(Paint.valueOf("black"));
         clip.setStrokeWidth(0.1);
@@ -196,11 +199,23 @@ public class GameController {
             player.BulletImpact(getAllEnemies(), getAllObstaclesInMap(), map);
 
             updateClip();
-
+            System.out.println(coinsCollected * 50);
             //non-player updates
             updateEnemyBullets();
             crateCollision();
             coinsCollision();            
+        }else{
+            this.elapsedTime = timeElapsed;
+            int score = player.getKills() + coinsCollected + (int)elapsedTime;
+            
+            //updating highscore if bigger than before
+            if(DataController.getHighScore() < score){
+                DataController.setHighScore(score);
+            }
+            
+            //updating balance
+            DataController.updateBalance(DataController.getBalance() + coinsCollected * 5);
+           
         }
     }
 

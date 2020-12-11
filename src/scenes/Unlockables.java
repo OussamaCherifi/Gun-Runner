@@ -61,26 +61,33 @@ public class Unlockables extends GridPane {
     }
 
     public void insertbuttons() {
-
         for (int i = 0; i < ListOfItems.size(); i++) {
-            Button buy = ListOfItems.get(i).getBuyButton();
-
-            if (i < 6) {
-                this.setHalignment(buy, HPos.CENTER);
-                this.add(buy, i + 1, 2);
-
-            }
-            if (i < 12 && i > 5) {
-                this.setHalignment(buy, HPos.CENTER);
-                this.add(buy, i - 5, 5);
-
+            if(!ListOfItems.get(i).isBought()){
+                Button buy = ListOfItems.get(i).getBuyButton();
+                if (i < 6) {
+                    this.setHalignment(buy, HPos.CENTER);
+                    this.add(buy, i + 1, 2);
+                }
+                if (i < 12 && i > 5) {
+                    this.setHalignment(buy, HPos.CENTER);
+                    this.add(buy, i - 5, 5);
+                }                
+            }else{
+                Label possessedItem = ListOfItems.get(i).getPossessedItem();
+                if (i < 6) {
+                    this.setHalignment(possessedItem, HPos.CENTER);
+                    this.add(possessedItem, i + 1, 2);
+                }
+                if (i < 12 && i > 5) {
+                    this.setHalignment(possessedItem, HPos.CENTER);
+                    this.add(possessedItem, i - 5, 5);
+                }   
             }
         }
 
     }
 
     public void insertPrices() {
-
         for (int i = 0; i < ListOfItems.size(); i++) {
             Label cost = new Label(Integer.toString(ListOfItems.get(i).getPrice()));
             cost.setTextFill(Color.web("#FFA500", 0.8));

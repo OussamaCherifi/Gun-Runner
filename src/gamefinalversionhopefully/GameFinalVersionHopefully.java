@@ -75,7 +75,6 @@ public class GameFinalVersionHopefully extends Application {
         set.getBack().setOnAction(e->stage.setScene(mainMenu));
         
         
-        
         stage.setScene(mainMenu);
         //primaryStage.setFullScreen(true);
         stage.show();

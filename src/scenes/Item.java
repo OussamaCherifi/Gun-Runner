@@ -27,7 +27,9 @@ public class Item extends ImageView {
     private int price;
     private Image ItemImage;
     private Button BuyButton;
+    private Button EquipButton;
     private int idNumber;
+    
     
     
     //These values are for the database
@@ -44,6 +46,8 @@ public class Item extends ImageView {
         this.labelPrice = new Label("Price: " + price);
         this.setImage(new Image("preview/preview_" + a + ".png"));
         this.BuyButton = new Button("Buy Item");
+        this.EquipButton = new Button("Equip Item");
+        
         customizeLabel();
         
         isBought = DataController.isItemBought(idNumber);
@@ -55,7 +59,8 @@ public class Item extends ImageView {
         this.PossessedItem.setFont(new Font("Arial", 20));
         this.PossessedItem.setTextFill(Color.web("#FFFFFF", 0.8));
         this.LabelNotPossessed.setTextFill(Color.web("#FFFFFF", 0.8));
-        
+
+
     }
 
     public Button getBuyButton() {
@@ -95,7 +100,11 @@ public class Item extends ImageView {
     public void setBuyHandler(EventHandler handler) {
         this.BuyButton.setOnAction(handler);
     }
-
+    
+    public void setEquipButtonHandler(EventHandler handler){
+        this.EquipButton.setOnAction(handler);
+    }
+    
     public int getIdNumber() {
         return idNumber;
     }
@@ -152,4 +161,12 @@ public class Item extends ImageView {
         this.isEquiped = isEquiped;
     }
 
+    public Button getEquipButton() {
+        return EquipButton;
+    }
+
+    public void setEquipButton(Button EquipButton) {
+        this.EquipButton = EquipButton;
+    }
+    
 }

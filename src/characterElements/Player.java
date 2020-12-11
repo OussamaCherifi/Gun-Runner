@@ -5,6 +5,7 @@
  */
 package characterElements;
 
+import Data.DataController;
 import GameGUI.Map;
 import playerAnimation.JumpingAnimation;
 import playerAnimation.WalkingAnimation;
@@ -58,10 +59,11 @@ public class Player extends Rectangle {
     FallAnimation fa = new FallAnimation(this);    
     private int specialCounter = 0;
     double reloadTime = 0;
-
+    
     //ammo
     List<Bullet> ammo = new ArrayList<>();
     private int numberOfTimesHeShot = 0;
+    private int kills = 0;
     //These two are two control the y position of the player. 
     //They represent the sprites on which my player can stand on.
     private Obstacles currentGround, previousGround;
@@ -296,16 +298,16 @@ public class Player extends Rectangle {
         if (rGun.getKind().equalsIgnoreCase("pistol") || rGun.getKind().equalsIgnoreCase("uzi")) {
             //right bullet
             
-            Bullet rb = new Bullet(rGun.getKind(), rGun.getXpos() + 28, getTranslateY() + height / 2.8 + r + 8, 0, 2, Custom.c1, this);
+            Bullet rb = new Bullet(rGun.getKind(), rGun.getXpos() + 28, getTranslateY() + height / 2.8 + r + 8, 0, 2, DataController.chooseBullets(), this);
             //left bullet
-            Bullet lb = new Bullet(lGun.getKind(), lGun.getXpos() + 28, getTranslateY() + height / 2.8 + r - 8, 0, 2, Custom.c1, this);
+            Bullet lb = new Bullet(lGun.getKind(), lGun.getXpos() + 28, getTranslateY() + height / 2.8 + r - 8, 0, 2, DataController.chooseBullets(), this);
             
             map.insertElement(rb);
             map.insertElement(lb);
             ammo.add(rb);
             ammo.add(lb);
         } else {
-            Bullet b = new Bullet(rGun.getKind(), getTranslateX() + width, getTranslateY() + height / 2.8 + 16 + r, 0, 1.5, Custom.c1, this);
+            Bullet b = new Bullet(rGun.getKind(), getTranslateX() + width, getTranslateY() + height / 2.8 + 16 + r, 0, 1.5, DataController.chooseBullets(), this);
             map.insertElement(b);
             ammo.add(b);
         }
@@ -324,6 +326,7 @@ public class Player extends Rectangle {
                     b.setTranslateY(-100);
                     b.setIsDead(true);
                     e.die(map);
+                    kills++;
                 }
             }
         }
@@ -658,5 +661,14 @@ public class Player extends Rectangle {
     public void setSpecialCounter(int specialCounter) {
         this.specialCounter = specialCounter;
     }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
+    
     
 }

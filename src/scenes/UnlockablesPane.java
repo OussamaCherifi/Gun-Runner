@@ -5,6 +5,7 @@
  */
 package scenes;
 
+import Data.DataController;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javafx.scene.control.Button;
@@ -47,7 +48,7 @@ public class UnlockablesPane extends Pane {
         this.back.setScaleY(1.25);
         this.back.setTextFill(Color.web("#ff0000", 0.8));
 
-        this.balanceAmount = 2500;
+        this.balanceAmount = DataController.getBalance();
 
         this.balance = new Label("Balance: " + balanceAmount + "$");
         this.balance.setTextFill(Color.web("#7FFF00", 0.8));

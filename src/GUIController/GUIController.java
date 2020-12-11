@@ -5,6 +5,8 @@
  */
 package GUIController;
 
+import Data.DataController;
+import static Data.DataController.unEquipItem;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javafx.geometry.HPos;
@@ -22,7 +24,7 @@ import scenes.previewPane;
  */
 public class GUIController {
 
-    private ArrayList<Item> aquiredItems;
+    private ArrayList<Item> aquiredItemsList;
     private ArrayList<Item> ItemsToBuy;
     private Unlockables un;
     private UnlockablesPane pane;
@@ -39,13 +41,13 @@ public class GUIController {
         this.pane = pane1;
 
         this.ItemsToBuy = unlock.getListOfItems();
-        this.aquiredItems = new ArrayList<Item>();
+        this.aquiredItemsList = new ArrayList<>(13);
         this.barPane = new BarracksPane();
         this.bar = barrack;
-        this.aquiredItems = bar.getListOfItemsBarracks();
+        this.aquiredItemsList = bar.getListOfItemsBarracks();
         this.preview = characterView;
         addItem(ItemsToBuy);
-        equipItem(aquiredItems);
+        setEquipButtonOnAction(aquiredItemsList);
     }
 
     private void addItem(ArrayList<Item> list) {
@@ -56,58 +58,72 @@ public class GUIController {
 
     public void buyButtonHandler(Item acquiredItem) {
         if (acquiredItem.getPrice() <= pane.getBalanceAmount()) {
-            
             if(pane.getChildren().contains(pane.getNotEnoughMoney())){
                 pane.getChildren().remove(pane.getNotEnoughMoney());
             }
+            
             un.getChildren().remove(acquiredItem.getBuyButton());
             int newBalance = pane.getBalanceAmount() - acquiredItem.getPrice();
+            DataController.updateBalance(newBalance);
+            
             pane.setBalanceAmount(newBalance);
             pane.customBalanceLabel(newBalance);
 
-
-            System.out.println(newBalance);
-
             int idnumber = acquiredItem.getIdNumber();
-
             for (int i = 0; i < ItemsToBuy.size(); i++) {
                 if (idnumber == ItemsToBuy.get(i).getIdNumber()) {
-
-                    Button equip = aquiredItems.get(i).getBuyButton();
-                    equip.setText("Equip Item");
-
                     if (i < 6) {
-                        bar.getChildren().remove(aquiredItems.get(i).getLabelNotPossessed());
-                        bar.setHalignment(equip, HPos.CENTER);
-                        bar.add(equip, i + 1, 2);
+                        bar.getChildren().remove(aquiredItemsList.get(i).getLabelNotPossessed());
+                        bar.setHalignment(ItemsToBuy.get(i).getEquipButton(), HPos.CENTER);
+                        bar.add(ItemsToBuy.get(i).getEquipButton(), i + 1, 2);
                         un.add(acquiredItem.getPossessedItem(), i + 1, 2); 
                         bar.setHalignment(acquiredItem.getPossessedItem(), HPos.CENTER);
-                        
                     }
+                    
                     if (i < 12 && i > 5) {
-                        bar.getChildren().remove(aquiredItems.get(i).getLabelNotPossessed());
-                        bar.setHalignment(equip, HPos.CENTER);
-                        bar.add(equip, i - 5, 5);
+                        bar.getChildren().remove(aquiredItemsList.get(i).getLabelNotPossessed());
+                        bar.setHalignment(ItemsToBuy.get(i).getEquipButton(), HPos.CENTER);
+                        bar.add(ItemsToBuy.get(i).getEquipButton(), i - 5, 5);
                         un.add(acquiredItem.getPossessedItem(), i - 5, 5);
                         bar.setHalignment(acquiredItem.getPossessedItem(), HPos.CENTER);
-
                     }
                 }
             }
+            
+            
+            aquiredItemsList.add(acquiredItem);
+            setEquipButtonOnAction(aquiredItemsList);
+            DataController.buyItem(idnumber);
         } else if (acquiredItem.getPrice() > pane.getBalanceAmount()) {
             pane.InsertNotEnoughMoney();
         }
     }
-
-    private void equipItem(ArrayList<Item> list) {
-        for (Item it : list) {
-            it.setBuyHandler(event -> equipButtonHandler(it));
-        }
-
+    
+    private void insertEquipItem(){
+        
     }
-
+    
+    private void setEquipButtonOnAction(ArrayList<Item> list) {
+        for (Item it : list) {
+            it.setEquipButtonHandler(event -> {
+                equipButtonHandler(it); 
+                
+                //SQL
+                int id = it.getIdNumber(); 
+                DataController.equipItem(id);
+            });
+        }
+    }
+    
+    private void equipUnequipeEquipButton(int equiping , int unequiping){
+      //  if(!aquiredItemsList.get(unequiping).isBought()){
+      
+    }
+    
+    
     public void equipButtonHandler(Item acquiredItem) {
-//
+        
+
 //        if (acquiredItem.getIdNumber() == 1) {
 //            this.preview.InsertHelmet(1);
 //        }
