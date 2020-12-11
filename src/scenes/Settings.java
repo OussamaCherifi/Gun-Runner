@@ -60,7 +60,7 @@ public class Settings extends Pane {
     private Button back;
 
     public Settings() {
-
+        
         Label settingsName = settingsName = new Label("Settings");
         settingsName.setLayoutX(1920 / 2);
         settingsName.setLayoutY(20);
@@ -69,14 +69,14 @@ public class Settings extends Pane {
         settingsName.setTextFill(Color.web("#7FFF00", 0.8));
         settingsName.setFont(new Font("Broadway", 12));
         
+        Font font2 = new Font("Impact", 20);
         this.back = new Button("Back");
+        this.back.setPrefSize(152, 64);
         this.back.setLayoutY(900);
         this.back.setLayoutX(30);
-        this.back.setScaleX(4);
-        this.back.setScaleY(3);
+        this.back.getStylesheets().add("styles/button-small.css");
+        this.back.setFont(font2);  
 
-        this.back.setScaleX(1.25);
-        this.back.setScaleY(1.25);
         this.back.setTextFill(Color.web("#ff0000", 0.8));
         
         double setNameWidth = settingsName.getWidth();
@@ -99,8 +99,8 @@ public class Settings extends Pane {
 
         tf.setOnKeyPressed(new keyChangedController());
         
-         BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920, 1080, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+        BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920/2, 1080, false, true),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
 
         this.setBackground(new Background(myBI));

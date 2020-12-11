@@ -71,7 +71,7 @@ public class GameController {
         double s = 56;
         double x = player.getTranslateX();
         double y = player.getTranslateY();
-
+        
         helmet = new Helmet(x, y, 0, 2, Custom.normal);
         fingers = new Fingers("dual", x, y, 0, 2);
         torso = new Torso(x, y, 0, 2, Custom.normal);

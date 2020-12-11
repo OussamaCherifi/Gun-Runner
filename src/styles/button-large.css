@@ -1,0 +1,26 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 10-Dec-2020, 9:10:52 PM
+    Author     : ismai
+*/
+.button{
+    -fx-background-image: url("/sprites/buttons/button_play.png");
+    -fx-background-size: 192px 128px;
+    -fx-text-fill: #cccccc;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+.button:hover{
+    -fx-background-image: url("/sprites/buttons/button_play_hover.png");
+}
+.button:pressed{
+    -fx-background-image: url("/sprites/buttons/button_play_pressed.png");
+}
+

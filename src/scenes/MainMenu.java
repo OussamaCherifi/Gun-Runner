@@ -15,6 +15,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -22,20 +23,14 @@ import javafx.scene.layout.Pane;
  */
 public class MainMenu extends Pane {
 
-    private Button play;
-    private Button unlockables;
-    private Button barracks;
-    private Button settings;
-    private Button exit;
+    private Button play = new Button("Play");
+    private Button unlockables = new Button("Unlockables");
+    private Button barracks  = new Button("Barracks");
+    private Button settings  = new Button("Settings");
+    private Button exit = new Button("Exit");
 
     public MainMenu() throws FileNotFoundException {
-        this.play = new Button("Play");
-        this.unlockables = new Button("Unlockables");
-        this.barracks = new Button("Barracks");
-        this.settings = new Button("Settings");
-        this.exit = new Button("Exit");
-        
-        ButtonSize();
+        setupButtons();
 
         BackgroundImage myBI = new BackgroundImage(new Image("preview/background.png", 1920, 1080, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
@@ -47,32 +42,44 @@ public class MainMenu extends Pane {
 
     }
 
-    private void ButtonSize() {
-
-        this.play.setScaleX(5);
-        this.play.setScaleY(3);
-        this.play.setLayoutX(1920 / 2);
-        this.play.setLayoutY(100);
-
-        this.unlockables.setScaleX(4);
-        this.unlockables.setScaleY(2);
-        this.unlockables.setLayoutX(1920 / 2);
-        this.unlockables.setLayoutY(200);
-
-        this.barracks.setScaleX(4);
-        this.barracks.setScaleY(2);
-        this.barracks.setLayoutX(1920 / 2);
-        this.barracks.setLayoutY(300);
+    private void setupButtons() {
+        double x = 1920/2 + 54; 
+        Font font = new Font("Impact", 32);
+        Font font2 = new Font("Impact", 20);
+//        this.play.setScaleX(5);
+//        this.play.setScaleY(3);
+//        this.play.setLayoutX(1920 / 2);
+//        this.play.setLayoutY(100);
         
-        this.settings.setScaleX(3.5);
-        this.settings.setScaleY(2);
-        this.settings.setLayoutX(1920 / 2);
-        this.settings.setLayoutY(400);
+        this.play.setPrefSize(192, 128);
+        this.play.setLayoutX(x - 192/2);
+        this.play.setLayoutY(300);
+        this.play.getStylesheets().add("styles/button-large.css");
+        this.play.setFont(font);
+
+        this.unlockables.setPrefSize(192, 64);
+        this.unlockables.setLayoutX(x - 192/2);
+        this.unlockables.setLayoutY(play.getLayoutY()+150);
+        this.unlockables.getStylesheets().add("styles/button-medium.css");
+        this.unlockables.setFont(font2);    
         
-        this.exit.setScaleX(3);
-        this.exit.setScaleY(2);
-        this.exit.setLayoutX(1920 / 2);
-        this.exit.setLayoutY(500);
+        this.barracks.setPrefSize(192, 64);
+        this.barracks.setLayoutX(x - 192/2);
+        this.barracks.setLayoutY(unlockables.getLayoutY()+80);
+        this.barracks.getStylesheets().add("styles/button-medium.css");
+        this.barracks.setFont(font2);  
+        
+        this.settings.setPrefSize(192, 64);
+        this.settings.setLayoutX(x - 192/2);
+        this.settings.setLayoutY(barracks.getLayoutY()+80);
+        this.settings.getStylesheets().add("styles/button-medium.css");
+        this.settings.setFont(font2);  
+        
+        this.exit.setPrefSize(152, 64);
+        this.exit.setLayoutX(x - 152/2);
+        this.exit.setLayoutY(settings.getLayoutY()+100);
+        this.exit.getStylesheets().add("styles/button-small.css");
+        this.exit.setFont(font2);  
 
     }
 

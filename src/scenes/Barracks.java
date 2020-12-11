@@ -29,7 +29,7 @@ public class Barracks extends GridPane {
     public Barracks() throws FileNotFoundException {
 
         this.title = new Label("Barracks");
-
+        
         InsertImagesInGrid(ListOfItemsBarracks);
         insertLabels();
         this.setHgap(20);
@@ -64,6 +64,7 @@ public class Barracks extends GridPane {
 
         for (int i = 0; i < ListOfItemsBarracks.size(); i++) {
             Label notPossessed = ListOfItemsBarracks.get(i).getLabelNotPossessed();
+            notPossessed.setAlignment(Pos.CENTER);
             notPossessed.setTextFill(Color.web("#FFA500", 0.8));
             
 
@@ -79,25 +80,6 @@ public class Barracks extends GridPane {
             }
         }
 
-    }
-    public void insertLbael(){
-         for (int i = 0; i < ListOfItemsBarracks.size(); i++) {
-            Label notPossessed = ListOfItemsBarracks.get(i).getLabelNotPossessed();
-            notPossessed.setTextFill(Color.web("#FFA500", 0.8));
-            
-
-            if (i < 6) {
-                this.setHalignment(notPossessed, HPos.CENTER);
-                this.add(notPossessed, i + 1, 2);
-
-            }
-            if (i < 12 && i > 5) {
-                this.setHalignment(notPossessed, HPos.CENTER);
-                this.add(notPossessed, i - 5, 5);
-
-            }
-        }
-        
     }
 
     public Label getTitle() {

@@ -74,7 +74,7 @@ public class GUIController {
                 if (idnumber == ItemsToBuy.get(i).getIdNumber()) {
 
                     Button equip = aquiredItems.get(i).getBuyButton();
-                    equip.setText("Equip Item");
+                    equip.setText("Equip");
 
                     if (i < 6) {
                         bar.getChildren().remove(aquiredItems.get(i).getLabelNotPossessed());

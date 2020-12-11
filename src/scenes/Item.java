@@ -7,6 +7,7 @@ package scenes;
 
 import java.io.FileNotFoundException;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -25,7 +26,7 @@ public class Item extends ImageView {
     private Label PossessedItem;
     private int price;
     private Image ItemImage;
-    private Button BuyButton;
+    private Button BuyButton = new Button("Buy");
     private int idNumber;
 
     public Item(int b) throws FileNotFoundException {
@@ -34,11 +35,17 @@ public class Item extends ImageView {
         this.price = price;
         String a = Integer.toString(b);
         givePrice(b);
-        this.LabelNotPossessed = new Label("Purchase in store");
+        this.LabelNotPossessed = new Label("Not bought");
         this.PossessedItem = new Label("Acquired");
         this.labelPrice = new Label("Price: " + price);
         this.setImage(new Image("preview/preview_" + a + ".png"));
-        this.BuyButton = new Button("Buy Item");
+        
+        Font font2 = new Font("Impact", 16);
+        this.BuyButton.setPrefSize(76, 36);
+        this.BuyButton.setAlignment(Pos.CENTER);
+        this.BuyButton.getStylesheets().add("styles/button-verysmall.css");
+        this.BuyButton.setFont(font2);  
+        
         customizeLabel();
     }
     private void customizeLabel(){

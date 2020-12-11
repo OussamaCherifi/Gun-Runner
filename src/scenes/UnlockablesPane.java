@@ -38,14 +38,15 @@ public class UnlockablesPane extends Pane {
 
     public UnlockablesPane() throws FileNotFoundException {
         customTitle();
-
+        Font font2 = new Font("Impact", 20);
+        
         this.back = new Button("Back");
+        this.back.setPrefSize(152, 64);
         this.back.setLayoutY(900);
         this.back.setLayoutX(30);
-
-        this.back.setScaleX(1.25);
-        this.back.setScaleY(1.25);
-        this.back.setTextFill(Color.web("#ff0000", 0.8));
+        this.back.getStylesheets().add("styles/button-small.css");
+        this.back.setFont(font2);  
+        
 
         this.balanceAmount = 2500;
 
@@ -67,8 +68,8 @@ public class UnlockablesPane extends Pane {
         this.Unlock.setLayoutX(1920 / 4);
         this.Unlock.setLayoutY(325);
 
-        BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920, 1080, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+        BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920/2, 1080, false, true),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
 
         this.setBackground(new Background(myBI));
