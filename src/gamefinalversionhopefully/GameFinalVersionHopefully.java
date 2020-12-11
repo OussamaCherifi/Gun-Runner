@@ -5,6 +5,7 @@
  */
 package gamefinalversionhopefully;
 
+import Data.DataController;
 import GUIController.GUIController;
 import GameController.GameController;
 import GameGUI.Map;
@@ -85,6 +86,7 @@ public class GameFinalVersionHopefully extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        DataController.createConnectionWithDataBase();
         launch(args);
     }
 }

@@ -89,9 +89,7 @@ public class UnlockablesPane extends Pane {
     }
 
     public void customBalanceLabel(int money) {
-
         this.balance.setText("Balance: " + money + "$");
-
     }
 
     public void InsertNotEnoughMoney() {

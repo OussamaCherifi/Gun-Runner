@@ -29,7 +29,8 @@ public class GUIController {
     private Barracks bar;
     private BarracksPane barPane;
     private previewPane preview;
-    private Item it;
+    
+    //private Item it;
     private ArrayList<Integer> orderOfPreview;
 
     public GUIController(Unlockables unlock, UnlockablesPane pane1, BarracksPane mainBrracks, Barracks barrack, previewPane characterView) throws FileNotFoundException {
@@ -51,14 +52,13 @@ public class GUIController {
         for (Item it : list) {
             it.setBuyHandler(event -> buyButtonHandler(it));
         }
-
     }
 
     public void buyButtonHandler(Item acquiredItem) {
         if (acquiredItem.getPrice() <= pane.getBalanceAmount()) {
+            
             if(pane.getChildren().contains(pane.getNotEnoughMoney())){
                 pane.getChildren().remove(pane.getNotEnoughMoney());
-                
             }
             un.getChildren().remove(acquiredItem.getBuyButton());
             int newBalance = pane.getBalanceAmount() - acquiredItem.getPrice();
@@ -95,7 +95,6 @@ public class GUIController {
                 }
             }
         } else if (acquiredItem.getPrice() > pane.getBalanceAmount()) {
-            
             pane.InsertNotEnoughMoney();
         }
     }

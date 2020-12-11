@@ -5,6 +5,7 @@
  */
 package scenes;
 
+import Data.DataController;
 import java.io.FileNotFoundException;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -27,9 +28,13 @@ public class Item extends ImageView {
     private Image ItemImage;
     private Button BuyButton;
     private int idNumber;
+    
+    
+    //These values are for the database
+    private boolean isBought = false;
+    private boolean isEquiped = false;
 
     public Item(int b) throws FileNotFoundException {
-
         this.idNumber = b;
         this.price = price;
         String a = Integer.toString(b);
@@ -40,7 +45,11 @@ public class Item extends ImageView {
         this.setImage(new Image("preview/preview_" + a + ".png"));
         this.BuyButton = new Button("Buy Item");
         customizeLabel();
+        
+        isBought = DataController.isItemBought(idNumber);
+        isEquiped = DataController.isItemEquiped(idNumber);
     }
+    
     private void customizeLabel(){
         this.LabelNotPossessed.setFont(new Font("Arial", 20));
         this.PossessedItem.setFont(new Font("Arial", 20));
@@ -125,6 +134,22 @@ public class Item extends ImageView {
 
     public void setPossessedItem(Label PossessedItem) {
         this.PossessedItem = PossessedItem;
+    }
+
+    public boolean isBought() {
+        return isBought;
+    }
+
+    public void setIsBought(boolean isBought) {
+        this.isBought = isBought;
+    }
+
+    public boolean isEquiped() {
+        return isEquiped;
+    }
+
+    public void setIsEquiped(boolean isEquiped) {
+        this.isEquiped = isEquiped;
     }
 
 }

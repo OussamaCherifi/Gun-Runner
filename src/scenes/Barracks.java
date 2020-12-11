@@ -72,6 +72,7 @@ public class Barracks extends GridPane {
                 this.add(notPossessed, i + 1, 2);
 
             }
+            
             if (i < 12 && i > 5) {
                 this.setHalignment(notPossessed, HPos.CENTER);
                 this.add(notPossessed, i - 5, 5);
