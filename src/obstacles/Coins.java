@@ -6,6 +6,7 @@
 package obstacles;
 
 import GameGUI.Map;
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -20,16 +21,22 @@ public class Coins extends ImageView{
     private double width, height;
     private double heightAboveGround;
     
+    ArrayList<Image> animationImages = new ArrayList<>();
+    
     private final Image image, imageAfter;
     private double velocity;
     
     private boolean isDead = false;
+    
+    private int animateSwitchTimer = 0;
+    private int imageCounter = 1;
     
     public Coins(Obstacles ground, double InitialXpos, double initialYpos) {
         velocity = ground.getVelocity();
         image = new Image(path);
         imageAfter = new Image(path, image.getWidth()*0.75, image.getHeight()*0.75, false, true);
         setImage(imageAfter);
+        setImages();
         
         width = imageAfter.getWidth();
         height = imageAfter.getHeight();
@@ -43,6 +50,16 @@ public class Coins extends ImageView{
         setTranslateY(ypos);
     }
     
+    private void setImages(){
+        for (int i = 1; i < 16; i++) {
+            if (i < 10) {
+                animationImages.add(new Image("coin/coin_" + i + ".png", width , height , false , true));
+            } else {
+                animationImages.add(new Image("coin/coin_" + i + ".png" , width , height , false , true));
+            }
+        }
+    }
+    
     public void update(Map map){
         if (!isDead) {
             xpos += velocity;
@@ -50,8 +67,19 @@ public class Coins extends ImageView{
                 isDead = true;
             }
             setTranslateX(xpos);
+            updateImages();
         } else {
             map.getChildren().remove(this);
+        }
+    }
+    
+    private void updateImages(){
+        animateSwitchTimer++;
+        if(animateSwitchTimer > 2){
+            if(imageCounter >= 15) imageCounter = 0;
+            animateSwitchTimer = 0;
+            setImage(animationImages.get(imageCounter));
+            imageCounter++;
         }
     }
     

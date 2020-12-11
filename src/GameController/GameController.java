@@ -199,7 +199,6 @@ public class GameController {
             player.BulletImpact(getAllEnemies(), getAllObstaclesInMap(), map);
 
             updateClip();
-            System.out.println(coinsCollected * 50);
             //non-player updates
             updateEnemyBullets();
             crateCollision();
@@ -214,7 +213,7 @@ public class GameController {
             }
             
             //updating balance
-            DataController.updateBalance(DataController.getBalance() + coinsCollected * 5);
+            DataController.updateBalance(DataController.getBalance() + coinsCollected * 3);
            
         }
     }
