@@ -102,7 +102,7 @@ public class Enemies extends ImageView{
             }
         }
         for (int i = 0; i < 36 ; i++) {
-            animationDying.add(new Image("sprites/monster/animations/monster_deathv2/monster_death"+ i +".png", width , height , false , true));
+            animationDying.add(new Image("sprites/monster/animations/monster_death/monster_death"+ i +".png", width , height , false , true));
         }
     }
     

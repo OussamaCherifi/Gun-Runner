@@ -31,7 +31,7 @@ public class MainMenu extends Pane {
     public MainMenu() throws FileNotFoundException {
         setupButtons();
 
-        BackgroundImage myBI = new BackgroundImage(new Image("preview/background.png", 1920, 1080, false, true),
+        BackgroundImage myBI = new BackgroundImage(new Image("sprites/resources/bg_menu.png", 1920, 1080, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
 
@@ -125,5 +125,7 @@ public class MainMenu extends Pane {
     public void setSettings(Button settings) {
         this.settings = settings;
     }
+    
+    
 
 }

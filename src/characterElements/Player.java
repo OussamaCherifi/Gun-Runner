@@ -69,7 +69,9 @@ public class Player extends Rectangle {
     private Obstacles currentGround, previousGround;
     //the main ground is referred to as the base line of our player. He cannot go under 
     // the y position of this Obstacle
-    private final Obstacles mainGround;
+    private Obstacles mainGround;
+    
+
     
     public Player(Obstacles ground) {
         setWidth(width);
@@ -88,9 +90,25 @@ public class Player extends Rectangle {
         setTranslateX(xpos);
         setTranslateY(ypos);
         
-        this.setVisible(false);
-        this.setOpacity(0.5);        
+        this.setVisible(false);   
     }
+    
+    public Player(double y) {
+        setWidth(width);
+        setHeight(height);
+        setFill(Color.BLUE);
+        
+        xpos = 54;
+        ypos = (y - height);
+        rightX = xpos + width;
+        lowerY = ypos + height;
+        
+        setTranslateX(xpos);
+        setTranslateY(ypos);
+        
+        this.setVisible(false);     
+    }
+    
     
     public void addEquipedItems() {
         equipedItems.add(helmet);

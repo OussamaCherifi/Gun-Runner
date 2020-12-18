@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -18,13 +17,6 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Paint;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeLineJoin;
-import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 
 /**
@@ -38,7 +30,7 @@ public class BarracksPane extends Pane {
     private ArrayList<ItemNotInGame> List;
     private Barracks barrack;
     private previewPane prev;
-    private Rectangle BackGroundBarrack;
+    //private Rectangle BackGroundBarrack;
 
     public BarracksPane() throws FileNotFoundException {
 
@@ -60,38 +52,40 @@ public class BarracksPane extends Pane {
         this.back.getStylesheets().add("styles/button-small.css");
         this.back.setFont(font2);  
 
-        Stop[] stops = new Stop[] { new Stop(0, Color.DARKGRAY), new Stop(1, Color.BLACK)};
+        //Stop[] stops = new Stop[] { new Stop(0, Color.DARKGRAY), new Stop(1, Color.BLACK)};
         //LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
 
+//
+//        InnerShadow e = new InnerShadow();
+//        e.setColor(Color.BLACK);
+//        e.setWidth(90);
+//        e.setHeight(90);
+//        e.setRadius(300);
+//        e.setChoke(0.5);
+        
+        
+//        this.BackGroundBarrack = new Rectangle(1000, 525);
+//        this.BackGroundBarrack.setLayoutX(150);
+//        this.BackGroundBarrack.setLayoutY(290);
+//        this.BackGroundBarrack.setEffect(e);
+//        this.BackGroundBarrack.setStroke(Paint.valueOf("gray"));
+//        this.BackGroundBarrack.setStrokeLineJoin(StrokeLineJoin.BEVEL);
+//        this.BackGroundBarrack.setStrokeType(StrokeType.OUTSIDE);
+//        this.BackGroundBarrack.setStrokeWidth(28);
+//        LinearGradient lg2 = new LinearGradient(BackGroundBarrack.getWidth(), -200, BackGroundBarrack.getWidth(), BackGroundBarrack.getHeight(), false, CycleMethod.REFLECT, stops);
+//        this.BackGroundBarrack.setFill(lg2);
 
-        InnerShadow e = new InnerShadow();
-        e.setColor(Color.BLACK);
-        e.setWidth(90);
-        e.setHeight(90);
-        e.setRadius(300);
-        e.setChoke(0.5);
-        this.BackGroundBarrack = new Rectangle(1000, 525);
-        this.BackGroundBarrack.setLayoutX(150);
-        this.BackGroundBarrack.setLayoutY(290);
-        this.BackGroundBarrack.setEffect(e);
-        this.BackGroundBarrack.setStroke(Paint.valueOf("gray"));
-        this.BackGroundBarrack.setStrokeLineJoin(StrokeLineJoin.BEVEL);
-        this.BackGroundBarrack.setStrokeType(StrokeType.OUTSIDE);
-        this.BackGroundBarrack.setStrokeWidth(28);
-        LinearGradient lg2 = new LinearGradient(BackGroundBarrack.getWidth(), -200, BackGroundBarrack.getWidth(), BackGroundBarrack.getHeight(), false, CycleMethod.REFLECT, stops);
-        this.BackGroundBarrack.setFill(lg2);
-
-
+        gridBackground gBg = new gridBackground(110, 275);
 
         Barracks barracks = new Barracks();
         this.barrack = barracks;
-        barracks.setLayoutX(200);
+        barracks.setLayoutX(160);
         barracks.setLayoutY(325);
 
-        previewPane barrackspreview = new previewPane();
-        this.prev = barrackspreview;
-        barrackspreview.setLayoutX(1400);
-        barrackspreview.setLayoutY(350);
+        previewPane preview = new previewPane();
+        this.prev = preview;
+        preview.setLayoutX(1400);
+        preview.setLayoutY(325);
 
         BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920/2, 1080, false, true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
@@ -99,7 +93,7 @@ public class BarracksPane extends Pane {
 
         this.setBackground(new Background(myBI));
 
-        this.getChildren().addAll(BackGroundBarrack, title, back, barracks, barrackspreview);
+        this.getChildren().addAll(preview, gBg, title, back, barracks);
     }
 
     public ArrayList<ItemNotInGame> getList() {

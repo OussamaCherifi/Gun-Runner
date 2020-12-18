@@ -6,17 +6,20 @@
 package GameGUI;
 
 //import PlayerPreview.Bodypart;
+import Data.DataController;
+import characterElements.Player;
+import items.Boot;
+import items.Fingers;
+import items.Gun;
+import items.Hand;
+import items.Helmet;
+import items.InGameItems;
+import items.ItemType;
+import items.Torso;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 /**
@@ -26,30 +29,55 @@ import javafx.scene.text.Font;
 public class previewPane extends Pane {
 
     private Label title;
-    private Rectangle head;
-    private Rectangle leftHand;
-    private Rectangle rightHand;
-    private Rectangle Torso;
-    private Rectangle leftFoot;
-    private Rectangle rightFoot;
-    private Image helmet;
+    
+    private previewBackground pBg;
+    
+    //List of the items for the preview:
+    InGameItems helmet, fingers, torso, lhand, rhand, lboot, rboot;
+    //guns
+    InGameItems pistol, pistol2, uzi, uzi2, ak;
+    //Player
+    Player player = new Player(300);
+    //Last equiped guns
+    InGameItems rGun, lGun;
+    
+    
 
     public previewPane() {
         this.title = new Label("Preview");
-        this.title.setLayoutX(350 / 2);
-        this.title.setLayoutY(10);
+        this.title.setLayoutX(90);
+        this.title.setLayoutY(0);
         this.title.setScaleX(3);
         this.title.setScaleY(3);
         this.title.setTextFill(Color.web("#7FFF00", 0.8));
         this.title.setFont(new Font("Broadway", 12));
-
-        this.setMinSize(350, 370);
-
-        BackgroundImage myBI = new BackgroundImage(new Image("preview/background.png", 350, 370, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT);
-
-        this.setBackground(new Background(myBI));
+        
+        this.pBg = new previewBackground(-98, -50);
+        
+        double x = player.getTranslateX();
+        double y = player.getTranslateY();
+        double s = 56;
+        helmet = new Helmet(x, y, 0, 2, DataController.chooseHelmet());
+        fingers = new Fingers("dual", x, y, 0, 2);
+        torso = new Torso(x, y, 0, 2, DataController.chooseTorsot());
+        lhand = new Hand("l", x, y, 0, 2, DataController.chooseHands());
+        rhand = new Hand("r", x, y, 0, 2, DataController.chooseHands());
+        lboot = new Boot("l", x, y, 0, 2, DataController.chooseBoots());
+        rboot = new Boot("r", x, y, 0, 2, DataController.chooseBoots());
+        pistol = new Gun("pistol", x, y, 0, 2, DataController.choosePistol());
+        pistol2 = new Gun("pistol", x + s, y, 0, 2, DataController.choosePistol());
+        uzi = new Gun("uzi", x, y, 0, 2, DataController.chooseUzi());
+        uzi2 = new Gun("uzi", x + s, y, 0, 2, DataController.chooseUzi());
+        ak = new Gun("ak", x, y, 0, 2, DataController.chooseAk());
+        
+        rGun = ak;
+        lGun = pistol;
+        
+        
+        setItems();
+        player.addEquipedItems();
+        insertAllItems();
+        
 //        createRectangles();
 //        InsertHelmet(13);
 //        InsertTorso(15);
@@ -59,8 +87,101 @@ public class previewPane extends Pane {
 //        insertLeftFoot(17);
 //        insertRightFoot(19);
 
-        this.getChildren().addAll(title);
+        this.getChildren().addAll(title, pBg);
     }
+    
+    private void insertItem(InGameItems item){
+        removeAllItems();
+        double x = player.getTranslateX();
+        double y = player.getTranslateY();
+        double s = 56;
+        if(item.getType() == ItemType.gun){
+            Gun gun = (Gun)item;
+            switch(item.getKind()){
+                case "ak":
+                    ak = new Gun("ak", x, y, 0, 2, DataController.chooseAk());
+                    rGun = ak;
+                    removeAllItems();
+                    setItems();
+                    player.walkAnimate(0, 0);
+                    break;
+                case "uzi":
+                    uzi = new Gun("uzi", x, y, 0, 2, DataController.chooseUzi());
+                    uzi2 = new Gun("uzi", x + s, y, 0, 2, DataController.chooseUzi());
+                    rGun = uzi;
+                    lGun = uzi2;
+                    player.walkAnimate(0, 0);
+                    break;
+                case "pistol":
+                    pistol = new Gun("pistol", x, y, 0, 2, DataController.choosePistol());
+                    pistol2 = new Gun("pistol", x + s, y, 0, 2, DataController.choosePistol());
+                    rGun = pistol;
+                    lGun = pistol2;
+                    player.walkAnimate(0, 0);
+                    break;
+            }
+        }
+        
+        if(item.getType() == ItemType.bullet){
+            removeAllItems();
+        }else{
+            helmet = new Helmet(x, y, 0, 2, DataController.chooseHelmet());
+            fingers = new Fingers("dual", x, y, 0, 2);
+            torso = new Torso(x, y, 0, 2, DataController.chooseTorsot());
+            lhand = new Hand("l", x, y, 0, 2, DataController.chooseHands());
+            rhand = new Hand("r", x, y, 0, 2, DataController.chooseHands());
+            lboot = new Boot("l", x, y, 0, 2, DataController.chooseBoots());
+            rboot = new Boot("r", x, y, 0, 2, DataController.chooseBoots());
+        }
+    }
+    
+    private void removeAllItems(){
+        removeElement(player.getlHand());
+        removeElement(player.getlGun());
+        removeElement(player.getFingers());
+        removeElement(player.getlBoot());
+        removeElement(player.getTorso());
+        removeElement(player.getHelmet());
+        removeElement(player.getrGun());
+        removeElement(player.getrBoot());
+        removeElement(player.getrHand());
+    }
+    
+    private void insertAllItems(){
+        insertElement(lhand);
+        insertElement(lGun);
+        insertElement(fingers);
+        insertElement(lboot);
+        insertElement(torso);
+        insertElement(helmet);
+        insertElement(rGun);
+        insertElement(rboot);
+        insertElement(rhand);
+    }
+    
+    public void setItems(){
+        player.setlGun(lGun);
+        player.setrGun(rGun);
+        player.setFingers(fingers);
+        player.setHelmet(helmet);
+        player.setTorso(torso);
+        player.setlHand(lhand);
+        player.setrHand(rhand);
+        player.setlBoot(lboot);
+        player.setrBoot(rboot);
+    }
+    
+    private void removeElement(Node node){
+        getChildren().remove(node);
+    }
+    
+    private void insertElement(Node node){
+        getChildren().add(node);
+    }
+    
+    
+  
+    
 
 //    private void createRectangles() {
 //        this.head = new Rectangle(25, 25);
