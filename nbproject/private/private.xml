@@ -11,6 +11,16 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/playerAnimation/FallAnimation.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/characterElements/Player.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/sprites/guns/ak_c1.png</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/GameController/GameController.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/playerAnimation/JumpingAnimation.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/GameGUI/Map.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/GameGUI/UnlockablesPane.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/gamefinalversionhopefully/GameFinalVersionHopefully.java</file>
+            <file>file:/C:/Users/15148/OneDrive/Documents/Vanier%20College/Programming/GameWithMenu/AlmostFinishedGame/src/Data/DataController.java</file>
+        </group>
     </open-files>
 </project-private>

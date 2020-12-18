@@ -53,7 +53,10 @@ public class GameFinalVersionHopefully extends Application {
         
         GUIController c = new GUIController(store.getUnlock(), store, inventory, inventory.getBarrack(), inventory.getPrev());
         
-        main.getUnlockables().setOnAction(e -> stage.setScene(unlockables));
+        main.getUnlockables().setOnAction(e -> {
+            store.customBalanceLabel(DataController.getBalance());
+            stage.setScene(unlockables);
+        });
         main.getExit().setOnAction(e -> stage.close());
         main.getBarracks().setOnAction(e -> stage.setScene(barracks));
         main.getSettings().setOnAction(e->stage.setScene(settings));
