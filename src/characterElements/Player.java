@@ -204,7 +204,7 @@ public class Player extends Rectangle {
     private void initializeArc() {
         reloadArc = new Arc(1754, 208, 100, 100, 90, 0);
         reloadArc.setFill(Color.TRANSPARENT);
-        reloadArc.setStroke(Color.valueOf("#688c3c"));
+        reloadArc.setStroke(Color.valueOf("#75c7c7"));
         reloadArc.setStrokeType(StrokeType.OUTSIDE);
         reloadArc.setStrokeWidth(12);
         reloadArc.setLength(0);
