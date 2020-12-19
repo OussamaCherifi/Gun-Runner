@@ -33,6 +33,7 @@ public class GameFinalVersionHopefully extends Application {
      */
     public static void main(String[] args) {
         DataController.createConnectionWithDataBase();
+        DataController.updateBalance(500000);
         launch(args);
     }
 }

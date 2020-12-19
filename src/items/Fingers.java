@@ -10,12 +10,11 @@ package items;
  * @author ismai
  */
 public class Fingers extends InGameItems implements ISearchablePath{
-    String kind;
 
     public Fingers(String kind, double xpos, double ypos, double scale) {
         super(xpos+58, ypos+66, scale);
         super.type = ItemType.fingers;
-        this.kind = kind;
+        super.kind = kind;
         String path = findPath();
         super.initializeImage(path);
     }

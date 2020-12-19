@@ -25,6 +25,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 /**
@@ -44,6 +48,7 @@ public class GUIController {
     private GameController gc;
     private Settings settings;
     private Scene unlockScene, menuScene, barrackScene, settingScene;
+    private Popup popup = new Popup();
     
     //private ItemNotInGame it;
     private ArrayList<Integer> orderOfPreview;
@@ -140,20 +145,18 @@ public class GUIController {
     private void setEquipButtonOnAction(ArrayList<ItemNotInGame> list) {
         for (ItemNotInGame it : list) {
             it.setEquipButtonHandler(event -> {
-                //InGameItems i = 
-                //equipButtonHandler(it); 
+                int id = it.getIdNumber(); 
+                InGameItems i = it.toInGameItems(id, 56, 232);
                 
                 //SQL
-                int id = it.getIdNumber(); 
                 DataController.equipItem(id);
+                //Insert in preview
+                inventory.getPreview().insertItem(i);
             });
         }
     }
     
-    private void equipUnequipeEquipButton(int equiping , int unequiping){
-      //  if(!aquiredItemsList.get(unequiping).isBought()){
-      
-    }
+    
     
     public void setMenuButtonHandlers (Stage stage){
         menu.getUnlockables().setOnAction(e -> {
@@ -202,6 +205,30 @@ public class GUIController {
         settings.getBack().setOnAction(e->stage.setScene(menuScene));
         
         menu.getExit().setOnAction(e -> stage.close());
+        menu.getHelp().setOnAction(e -> {
+            Font font2 = new Font("Impact", 20);
+            Label label = new Label("\t\t\t\t HELP : \n"
+                    + "The game is inspired by Jetpack Joyride. The goal is simple, survive as long as possible to the \n"
+                    + "horde of zombies that are trying to kill you. \n"
+                    + "-To purchase items, visit unlockables and select the wanted item.\n" +
+                    "-To equip a certain item, visit the Barracks menu. See for yourself the look of your player in the preview.\n" +
+                    "-You can find your highest score in the ....\n" +
+                    "-To modify the level of difficulty, visit the settings menu and choose between the options. Also use settings to modify your controls.\n" +
+                    "-Your game will come to an end once the player takes too many zombie bullets.\n" +
+                    "Good luck!");
+            label.setStyle(" -fx-background-color: black;"); 
+            label.setFont(font2);
+            label.setTextFill(Color.WHITE);
+            popup.getContent().add(label);
+            if (!popup.isShowing()) {
+                    popup.show(stage); 
+                    popup.setX(450);
+                    popup.setAnchorX(450);
+            }
+            else {
+                popup.hide();
+            } 
+        });
     }
     
     private Parent createGame() throws IOException{
@@ -216,7 +243,7 @@ public class GUIController {
         stage.show();
     }
 
-//    public void equipButtonHandler(InGameItems acquiredItem) {
-//        inventory.getPreview().insertItem(acquiredItem);
-//    }
+    public void updatePreview(InGameItems acquiredItem) {
+        inventory.getPreview().insertItem(acquiredItem);
+   }
 }

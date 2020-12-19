@@ -19,7 +19,6 @@ public class Bullet extends InGameItems implements ISearchablePath{
     private int velocity;
     private boolean isDead;
     private double width;
-    private String kind;
    
     private Node fromWho;
     public Bullet(String kind, double x, double y, double scale, Custom custom , Node fromWho) {

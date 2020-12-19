@@ -10,14 +10,13 @@ package items;
  * @author ismai
  */
 public class Boot extends InGameItems implements ISearchablePath{
-    private String kind;
     
     public Boot(String kind, double x, double y, int scale, Custom custom) {
         super(x+4, y+120, scale, custom);
         super.type = ItemType.boots;
+        super.kind = kind;
         super.offsetX = 4;
         super.offsetY = 120;
-        this.kind = kind;
         String path = findPath();
         super.initializeImage(path);
     }

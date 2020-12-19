@@ -5,8 +5,6 @@
  */
 package items;
 
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -192,6 +190,13 @@ public abstract class InGameItems extends ImageView{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "InGameItems{" + "kind=" + kind + ", originalX=" + originalX + ", idNum=" + idNum + ", custom=" + custom + ", type=" + type + '}';
+    }
+    
+    
     
      
 }

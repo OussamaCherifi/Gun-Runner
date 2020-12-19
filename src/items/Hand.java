@@ -13,14 +13,13 @@ import javafx.scene.image.ImageView;
  * @author ismai
  */
 public class Hand extends InGameItems implements ISearchablePath{
-    private String kind;
 
     public Hand(String kind, double x, double y,  int scale, Custom custom) {
         super(x+2, y+66, scale, custom);
         super.offsetX = 2;
         super.offsetY = 66;
         super.type = ItemType.hands;
-        this.kind = kind;
+        super.kind = kind;
         if(kind.equalsIgnoreCase("l")){
             this.xpos = xpos + 56;
             System.out.println(getTranslateX());

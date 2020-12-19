@@ -104,8 +104,8 @@ public class WalkingAnimation {
         x = 16+x;
         y = 10+y;
         if(gun.getKind().equalsIgnoreCase("uzi")){
-            x = 14;
-            y = 12;
+            x = 14+x;
+            y = 12+y;
         }
         Path path = new Path();
         

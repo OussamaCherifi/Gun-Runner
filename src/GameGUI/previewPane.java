@@ -9,6 +9,8 @@ package GameGUI;
 import Data.DataController;
 import characterElements.Player;
 import items.Boot;
+import items.Bullet;
+import items.Custom;
 import items.Fingers;
 import items.Gun;
 import items.Hand;
@@ -36,6 +38,8 @@ public class previewPane extends Pane {
     InGameItems helmet, fingers, torso, lhand, rhand, lboot, rboot;
     //guns
     InGameItems pistol, pistol2, uzi, uzi2, ak;
+    //bullets
+    InGameItems pBullet, uziBullet, akBullet;
     //Player
     Player player = new Player(400);
     //Last equiped guns
@@ -46,11 +50,11 @@ public class previewPane extends Pane {
     public previewPane() {
         this.title = new Label("Preview");
         this.title.setLayoutX(90);
-        this.title.setLayoutY(-100);
+        this.title.setLayoutY(40);
         this.title.setScaleX(3);
         this.title.setScaleY(3);
-        this.title.setTextFill(Color.web("#7FFF00", 0.8));
-        this.title.setFont(new Font("Broadway", 12));
+        this.title.setTextFill(Color.web("#ededed", 0.8));
+        this.title.setFont(new Font("Impact", 12));
         
         this.pBg = new previewBackground(1300, 275);
         this.pBg.setScaleX(0.56);
@@ -58,23 +62,17 @@ public class previewPane extends Pane {
         
         initializeItems();
         
-        rGun = ak;
-        lGun = pistol;
+        rGun = pistol;
+        lGun = pistol2;
+        
+        
         
         insertAllItems();
         setItems();
         player.addEquipedItems();
         
+        insertItem(pistol);
         
-//        createRectangles();
-//        InsertHelmet(13);
-//        InsertTorso(15);
-//        insertDualPistoles(18, 18);
-//        // inserLeftHand(14);
-//
-//        insertLeftFoot(17);
-//        insertRightFoot(19);
-        player.walkAnimate(0, 0);
         this.getChildren().addAll(title, pBg);
     }
     
@@ -95,10 +93,31 @@ public class previewPane extends Pane {
         uzi = new Gun("uzi", x, y, 3, DataController.chooseUzi());
         uzi2 = new Gun("uzi", x + s, y, 2, DataController.chooseUzi());
         ak = new Gun("ak", x, y, 2, DataController.chooseAk());
+        pBullet = new Bullet("pistol", x, y, 2, Custom.c1, player);
+        uziBullet = new Bullet("uzi", x, y, 2, Custom.c1, player);
+        akBullet = new Bullet("ak", x, y, 2, Custom.c1, player);
+        
+        pBullet.setLayoutY(50);
+        pBullet.setYpos(50);
+        pBullet.setTranslateY(50);
+        
+        uziBullet.setLayoutY(75);
+        uziBullet.setTranslateY(75);
+        uziBullet.setYpos(75);
+        
+        akBullet.setLayoutY(100);
+        akBullet.setLayoutY(100);
+        akBullet.setYpos(100);
+        
+        pBullet.setLayoutX(0);
+        uziBullet.setLayoutX(0);
+        akBullet.setLayoutX(0);
+        
     }
     
     public void insertItem(InGameItems item){
-        removeAllItems();
+        player.setTranslateY(142);
+        
         double x = player.getTranslateX();
         double y = player.getTranslateY();
         double s = 56;
@@ -106,39 +125,69 @@ public class previewPane extends Pane {
             Gun gun = (Gun)item;
             switch(item.getKind()){
                 case "ak":
+                    removeBullets();
+                    removeAllItems();
+                    initializeItems();
                     ak = new Gun("ak", x, y, 2, DataController.chooseAk());
                     rGun = ak;
-                    removeAllItems();
                     setItems();
+                    insertAllItems();
                     player.walkAnimate(0, 0);
                     break;
                 case "uzi":
+                    removeBullets();
+                    removeAllItems();
+                    initializeItems();
                     uzi = new Gun("uzi", x, y, 2, DataController.chooseUzi());
                     uzi2 = new Gun("uzi", x + s, y, 2, DataController.chooseUzi());
                     rGun = uzi;
                     lGun = uzi2;
+                    setItems();
+                    insertAllItems();
                     player.walkAnimate(0, 0);
                     break;
                 case "pistol":
+                    removeBullets();
+                    removeAllItems();
+                    initializeItems();
                     pistol = new Gun("pistol", x, y, 2, DataController.choosePistol());
                     pistol2 = new Gun("pistol", x + s, y, 2, DataController.choosePistol());
                     rGun = pistol;
                     lGun = pistol2;
+                    setItems();
+                    insertAllItems();
                     player.walkAnimate(0, 0);
                     break;
             }
-        }
-        
-        if(item.getType() == ItemType.bullet){
-            removeAllItems();
         }else{
-            helmet = new Helmet(x, y, 2, DataController.chooseHelmet());
-            fingers = new Fingers("dual", x, y, 2);
-            torso = new Torso(x, y, 2, DataController.chooseTorsot());
-            lhand = new Hand("l", x, y, 2, DataController.chooseHands());
-            rhand = new Hand("r", x, y, 2, DataController.chooseHands());
-            lboot = new Boot("l", x, y, 2, DataController.chooseBoots());
-            rboot = new Boot("r", x, y, 2, DataController.chooseBoots());
+           if(item.getType() == ItemType.bullet){
+            removeAllItems();
+            insertBullets();
+            }else{
+            removeBullets();
+            removeAllItems();
+            initializeItems();
+//            pistol = new Gun("pistol", x, y, 2, DataController.choosePistol());
+//            pistol2 = new Gun("pistol", x + s, y, 2, DataController.choosePistol());
+//            rGun = pistol;
+//            lGun = pistol2;
+            setItems();
+            insertAllItems();
+            player.walkAnimate(0, 0); 
+            }
+        }
+    }
+    private void insertBullets(){
+        insertElement(pBullet);
+        insertElement(uziBullet);
+        insertElement(akBullet);
+    }
+    
+    private void removeBullets(){
+        if(getChildren().contains(pBullet)){
+            removeElement(pBullet);
+            removeElement(uziBullet);
+            removeElement(akBullet);
         }
     }
     

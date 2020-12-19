@@ -28,10 +28,27 @@ public class DataController {
             String connectionUrl = "jdbc:sqlite:src\\Data\\" + fileName;
             conn = DriverManager.getConnection(connectionUrl);
             System.out.println("Connection to the database -> " + fileName + " has been established.");
+            //resetData();
             initializeAllItemsById();
             initializePlayer();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+    
+    public static void resetData() {
+        String query = "drop table items";
+        String query2 = "Create table items(\n"
+                + "id integer primary key,"
+                + "isBought integer,"
+                + "isEquiped integer)";
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.execute(query);
+            Statement stmt2 = conn.createStatement();
+            stmt2.execute(query2);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -359,10 +376,6 @@ public class DataController {
         }
 
         return Custom.normal;
-    }
-
-    public static void resetData() {
-        String query = "Drop table player";
     }
 
     public static void setJumpKey(String jumpKey) {

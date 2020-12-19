@@ -34,7 +34,7 @@ public class UnlockablesPane extends Pane {
     private int balanceAmount;
     private ArrayList<ItemNotInGame> copyItems;
     private Label NotEnoughMoney;
-    private Rectangle gridBackground;
+    private gridBackground gBg;
     private Font textFont;
 
     public UnlockablesPane() throws FileNotFoundException {
@@ -51,18 +51,14 @@ public class UnlockablesPane extends Pane {
         balanceAmount = DataController.getBalance();
 
         balance = new Label("Balance: " + balanceAmount + "$");
-        balance.setTextFill(Color.web("#7FFF00", 0.8));
-        balance.setLayoutY(250);
-        balance.setLayoutX(550);
+        balance.setTextFill(Color.web("#ededed", 0.8));
+        balance.setLayoutY(210);
+        balance.setLayoutX(474);
         balance.setScaleX(2.5);
         balance.setScaleY(2.5);
-        balance.setFont(new Font("Broadway", 12));
-
-        gridBackground = new Rectangle(950, 525);
-        gridBackground.setLayoutX(470);
-        gridBackground.setLayoutY(290);
-        gridBackground.setStroke(Color.AZURE);
-        gridBackground.setStrokeWidth(2);
+        balance.setFont(new Font("Impact", 12));
+        
+        
 
         Unlock = new Unlockables();
         Unlock.setLayoutX(1920 / 4);
@@ -74,8 +70,10 @@ public class UnlockablesPane extends Pane {
 
         setBackground(new Background(myBI));
         customBalanceLabel(balanceAmount);
-
-        getChildren().addAll(title, back, gridBackground, Unlock, balance);
+        
+        gBg = new gridBackground(400, 275);
+        
+        getChildren().addAll(title, back, gBg, Unlock, balance);
     }
 
     private void customTitle() {
@@ -84,8 +82,8 @@ public class UnlockablesPane extends Pane {
         title.setLayoutY(20);
         title.setScaleX(3);
         title.setScaleY(3);
-        title.setTextFill(Color.web("#7FFF00", 0.8));
-        title.setFont(new Font("Broadway", 12));
+        title.setTextFill(Color.web("#ededed", 0.8));
+        title.setFont(new Font("Impact", 12));
     }
 
     public void customBalanceLabel(int money) {
@@ -100,7 +98,7 @@ public class UnlockablesPane extends Pane {
         NotEnoughMoney.setScaleX(3);
         NotEnoughMoney.setScaleY(3);
         NotEnoughMoney.setTextFill(Color.web("#DC143C", 0.8));
-        NotEnoughMoney.setFont(new Font("Broadway", 12));
+        NotEnoughMoney.setFont(new Font("Impact", 12));
 
         getChildren().add(NotEnoughMoney);
     }

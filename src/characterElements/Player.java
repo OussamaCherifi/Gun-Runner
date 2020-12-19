@@ -34,6 +34,9 @@ public class Player extends Rectangle {
     // Separation of the attributes 
     private InGameItems helmet, torso, rHand, lHand, rBoot, lBoot, bullet, lGun, rGun, fingers;
     private ArrayList<InGameItems> equipedItems = new ArrayList<>();
+    
+    //Check if it's a player preview
+    private boolean ifPreview;
 
     //health
     private double health = 5;
@@ -83,7 +86,8 @@ public class Player extends Rectangle {
         setWidth(width);
         setHeight(height);
         setFill(Color.BLUE);
-
+        
+        this.ifPreview = false;
         this.previousGround = ground;
         mainGround = ground;
         this.currentGround = mainGround;
@@ -103,8 +107,9 @@ public class Player extends Rectangle {
     public Player(double y) {
         setWidth(width);
         setHeight(height);
-        setFill(Color.BLUE);
+        setFill(Color.RED);
 
+        this.ifPreview = true;
         xpos = 54;
         ypos = (y - height);
         rightX = xpos + width;
@@ -197,7 +202,7 @@ public class Player extends Rectangle {
     }
 
     private void initializeArc() {
-        reloadArc = new Arc(1754, 212, 100, 100, 90, 0);
+        reloadArc = new Arc(1754, 208, 100, 100, 90, 0);
         reloadArc.setFill(Color.TRANSPARENT);
         reloadArc.setStroke(Color.valueOf("#688c3c"));
         reloadArc.setStrokeType(StrokeType.OUTSIDE);
@@ -224,7 +229,6 @@ public class Player extends Rectangle {
 
     private void updateItems() {
         double a;
-        System.out.println(ypos);
         if (ypos == 232) { //Only useful when animating from the preview
             a = ypos - 140;
         } else {
@@ -418,7 +422,27 @@ public class Player extends Rectangle {
     public void walkAnimate(double x, double y) {
         updateItems();
         setupWalkItems();
-
+        
+        //Variables used for minitius adjustments in both the preview and in the game
+        double a = 0;
+        double b = 0;
+        double c = 0;
+        double d = 0;
+        double w = 6;
+        
+        if(ifPreview){
+            setTranslateY(142);
+            c = 86;
+            a = -6;
+            b = 6;
+            d = 4;
+            w = 0;
+        }
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+        System.out.println(d);
+        
         this.isAlreadyRunning = true;
         PathTransition torsoTransition = WalkingAnimation.torsoPath(torso, x, y);
         PathTransition helmetTransition = WalkingAnimation.helmetPath((Helmet) helmet, x, y);
@@ -435,12 +459,23 @@ public class Player extends Rectangle {
             lHand = (InGameItems) newHand;
             lGun.setVisible(true);
             lHand.setVisible(true);
-
+            
+            PathTransition pistol1Transition;
+            PathTransition pistol2Transition;
             PathTransition rhandTransition = WalkingAnimation.handPath((Hand) rHand, x, y);
             PathTransition fingersTransition = WalkingAnimation.fingersPath((Fingers) fingers, x, y);
             PathTransition lhandTransition = WalkingAnimation.handPath((Hand) lHand, x, y);
-            PathTransition pistol1Transition = WalkingAnimation.gunPath((Gun) rGun, x, y);
-            PathTransition pistol2Transition = WalkingAnimation.gunPath((Gun) lGun, x, y);
+            if(gun.getKind().equalsIgnoreCase("uzi")){
+                pistol1Transition = WalkingAnimation.gunPath((Gun) rGun, x+d-20, y+c-b-w);
+                pistol2Transition = WalkingAnimation.gunPath((Gun) lGun, x+d-20, y+c-b-w);
+            }
+            else{
+                pistol1Transition = WalkingAnimation.gunPath((Gun) rGun, x+a, y+c+b);
+                pistol2Transition = WalkingAnimation.gunPath((Gun) lGun, x+a, y+c+b);
+            }
+            
+            
+            
             fingersTransition.play();
             rhandTransition.play();
             lhandTransition.play();
@@ -454,7 +489,7 @@ public class Player extends Rectangle {
             f.setKind("single");
             fingers = (InGameItems) f;
             PathTransition rhandTransition = WalkingAnimation.handPath((Hand) rHand, x + 8, y + 16);
-            PathTransition pistol1Transition = WalkingAnimation.gunPath((Gun) rGun, x + 8, y + 20);
+            PathTransition pistol1Transition = WalkingAnimation.gunPath((Gun) rGun, x + 8, y + 20+c);
             PathTransition fingersTransition = WalkingAnimation.fingersPath((Fingers) fingers, x + 2, y);
             pistol1Transition.play();
             fingersTransition.play();

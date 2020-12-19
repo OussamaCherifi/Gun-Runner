@@ -5,9 +5,11 @@
  */
 package GameController;
 
+import gamefinalversionhopefully.GameFinalVersionHopefully;
 import Data.DataController;
 import obstacles.*;
 import GameGUI.Map;
+import GameGUI.gridBackground;
 import characterElements.Enemies;
 import items.*;
 import java.util.ArrayList;
@@ -19,10 +21,16 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import characterElements.Player;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  *
@@ -58,13 +66,23 @@ public class GameController {
     //Score = coins + kills + ellapsed time
     int coinsCollected = 0;
     double elapsedTime = 0;
+    int score = 0; 
     
     //playerHealth Bar :
     ArrayList<ImageView> healthBar = new ArrayList<>();
     int healthCounter;
-
+    
+    //Labels
+    Label scoreL;
+    Label highScoreL;
+    Label killsL;
+    Label coinsL;
+   
+    
     public GameController(Map map) {
         this.map = map;
+        double xdeadButton = 1920/2; 
+        
         createBackground();
         createFloors();
         createPlatforms();
@@ -228,15 +246,72 @@ public class GameController {
             coinsCollision();
         } else {
             if(!dieOnce){
+               // map.getBack().setLayoutX(1920/2 - map.getBack().getWidth()/2);
+               // map.getBack().setLayoutY(1080/2 - map.getBack().getHeight()/2);  
                 dieOnce = true;
                 updatePlayerDataBase(timeElapsed);    
+                
+               
+                setDeadLabels();
+                
             }
         }
+    }
+    
+    private void setDeadLabels(){
+        Font font2 = new Font("Impact", 40);
+
+        gridBackground gb = new gridBackground(200, 200);
+        gb.setTranslateX(300);
+        gb.setTranslateY(300);
+        //position ^^^
+        
+        map.getBack().setTranslateY(gb.getTranslateY() + 300);
+        map.getBack().setTranslateX(gb.getTranslateX() + 100);
+        map.removeElement(map.getBack());
+        
+        
+        scoreL = new Label("Score : " + score);
+        highScoreL = new Label("Highscore : " + DataController.getHighScore());
+        killsL = new Label("Bullet impacts : " + player.getKills());
+        coinsL = new Label("Coins Collected : " +  coinsCollected);
+        
+        scoreL.setFont(font2);
+        scoreL.setTextFill(Color.WHITE);
+        highScoreL.setFont(font2);
+        highScoreL.setTextFill(Color.WHITE);
+        killsL.setFont(font2);
+        killsL.setTextFill(Color.WHITE);
+        coinsL.setFont(font2);
+        coinsL.setTextFill(Color.WHITE);
+        
+        
+        double layoutX = gb.getTranslateX() + 100;
+        double firstLayoutY = gb.getTranslateY() + 100;
+        
+        //setting the x position (same for all)
+        scoreL.setLayoutX(layoutX);
+        highScoreL.setLayoutX(layoutX);
+        coinsL.setLayoutX(layoutX);
+        killsL.setLayoutX(layoutX);
+    
+        //setting the y position : 
+        scoreL.setLayoutY(firstLayoutY);
+        highScoreL.setLayoutY(scoreL.getLayoutY() + 35);
+        coinsL.setLayoutY(highScoreL.getLayoutY() + 35);
+        killsL.setLayoutY(coinsL.getLayoutY() + 35);
+        
+        map.insertElement(gb);
+        map.insertElement(scoreL);
+        map.insertElement(highScoreL);
+        map.insertElement(coinsL);
+        map.insertElement(killsL);  
+        map.insertElement(map.getBack());
     }
 
     private void updatePlayerDataBase(double timeElapsed) {
         this.elapsedTime = timeElapsed;
-        int score = player.getKills() + coinsCollected + (int) elapsedTime;
+        score = player.getKills() + coinsCollected + (int) elapsedTime;
 
         //updating highscore if bigger than before
         if (DataController.getHighScore() < score) {
@@ -457,9 +532,10 @@ public class GameController {
     }
 
     //killthePLayer
-    public void close() {
+    public void close() { 
         player.setHealth(-100);
         timer.stop();
+        
     }
 
     //These classes are event handlers for whenever we press specific buttons 
@@ -479,7 +555,6 @@ public class GameController {
     }
 
     private class KeyReleasedController implements EventHandler<KeyEvent> {
-        
         @Override
         public void handle(KeyEvent e) {
             if (DataController.getShootKey().equalsIgnoreCase(e.getCode().getName())) {
@@ -491,6 +566,29 @@ public class GameController {
             }
         }
     }
-    
+
+    public int getCoinsCollected() {
+        return coinsCollected;
+    }
+
+    public void setCoinsCollected(int coinsCollected) {
+        this.coinsCollected = coinsCollected;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }    
     
 }

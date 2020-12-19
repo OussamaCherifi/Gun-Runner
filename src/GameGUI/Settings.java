@@ -11,11 +11,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -45,20 +42,20 @@ import javafx.scene.text.Font;
  */
 public class Settings extends Pane {
 
-    Slider volumeSlider;
-    MediaPlayer musicPlayer;
-    TextField tf;
-    ObservableList<KeyBindClass> keyList;
-    Button applySettings;
-    KeyBindClass defaultJump;
-    KeyBindClass defaultDescend;
-    KeyBindClass defaultShoot;
-    Label keyBindError;
-    KeyCode finalJumpKey;
-    KeyCode finalDescendKey;
-    KeyCode finalShootKey;
-    ToggleGroup difficultyGroup;
+    private Slider volumeSlider;
+    private MediaPlayer musicPlayer;
+    private TextField tf;
+    private ObservableList<KeyBindClass> keyList;
+    private KeyBindClass defaultJump;
+    private KeyBindClass defaultDescend;
+    private KeyBindClass defaultShoot;
+    private Label keyBindError;
+    private KeyCode finalJumpKey;
+    private KeyCode finalDescendKey;
+    private KeyCode finalShootKey;
+    private ToggleGroup difficultyGroup;
     private Button back;
+    private Font font2 = new Font("Impact", 20);
 
     public Settings() {
 
@@ -67,10 +64,10 @@ public class Settings extends Pane {
         settingsName.setLayoutY(20);
         settingsName.setScaleX(3);
         settingsName.setScaleY(3);
-        settingsName.setTextFill(Color.web("#7FFF00", 0.8));
-        settingsName.setFont(new Font("Broadway", 12));
+        settingsName.setTextFill(Color.web("#ededed", 0.8));
+        settingsName.setFont(font2);
 
-        Font font2 = new Font("Impact", 20);
+        
         this.back = new Button("Back");
         this.back.setPrefSize(152, 64);
         this.back.setLayoutY(900);
@@ -78,7 +75,7 @@ public class Settings extends Pane {
         this.back.getStylesheets().add("styles/button-small.css");
         this.back.setFont(font2);
 
-        this.back.setTextFill(Color.web("#ff0000", 0.8));
+        this.back.setTextFill(Color.web("#ededed", 0.8));
 
         double setNameWidth = settingsName.getWidth();
         settingsName.setLayoutX((1920 / 2) - (setNameWidth / 2));
@@ -91,7 +88,6 @@ public class Settings extends Pane {
         // ToggleButton group for game difficulty
         createDifficultyGroup();
         createKeyBindings();
-        applyAllSettings();
 
         tf = new TextField();
 
@@ -116,8 +112,8 @@ public class Settings extends Pane {
         volumeName.setLayoutY(120);
         volumeName.setScaleX(2);
         volumeName.setScaleY(2);
-        volumeName.setTextFill(Color.web("#7FFF00", 0.8));
-        volumeName.setFont(new Font("Broadway", 9));
+        volumeName.setTextFill(Color.web("#ededed", 0.8));
+        volumeName.setFont(font2);
 
         this.getChildren().add(volumeName);
 
@@ -130,8 +126,7 @@ public class Settings extends Pane {
         volumeSlider.setMinorTickCount(0);
         volumeSlider.setShowTickMarks(false);
         volumeSlider.setSnapToTicks(true);
-
-        double volSliderWidth = volumeSlider.getWidth();
+        volumeSlider.getStylesheets().add("styles/slider.css");
         volumeSlider.setLayoutX(910);
         volumeSlider.setLayoutY(200);
         volumeSlider.setScaleX(2.5);
@@ -150,7 +145,10 @@ public class Settings extends Pane {
 
     // Function that retrieves difficulty level
     public void createDifficultyGroup() {
-
+        
+        
+        double x = 1780;
+        double y = 400;
         difficultyGroup = new ToggleGroup();
 
         // Label 
@@ -160,8 +158,8 @@ public class Settings extends Pane {
         diffName.setLayoutY(350);
         diffName.setScaleX(2);
         diffName.setScaleY(2);
-        diffName.setTextFill(Color.web("#7FFF00", 0.8));
-        diffName.setFont(new Font("Broadway", 9));
+        diffName.setTextFill(Color.web("#ededed", 0.8));
+        diffName.setFont(font2);
 
         // Toggle buttons for 3 game difficulties
         ToggleButton easyMode = new ToggleButton("Easy");
@@ -183,24 +181,24 @@ public class Settings extends Pane {
             DataController.setDifficultyToHard();
         });
 
-        // Toggle Buttons properites and placement
-        double eModeWidth = easyMode.getWidth();
-        double nModeWidth = normalMode.getWidth();
-
-        easyMode.setLayoutX(1920 / 2 - 160);
-        easyMode.setLayoutY(425);
-        easyMode.setScaleX(2.5);
-        easyMode.setScaleY(2.5);
-
-        normalMode.setLayoutX(1920 / 2);
-        normalMode.setLayoutY(425);
-        normalMode.setScaleX(2.5);
-        normalMode.setScaleY(2.5);
-
-        hardMode.setLayoutX(1140);
-        hardMode.setLayoutY(425);
-        hardMode.setScaleX(2.5);
-        hardMode.setScaleY(2.5);
+        normalMode.setPrefSize(192, 64);
+        normalMode.setLayoutX((x/2)-(easyMode.getWidth()/2));
+        normalMode.setLayoutY(y);
+        normalMode.getStylesheets().add("styles/toggle-button.css");
+        normalMode.setFont(font2);  
+        
+        easyMode.setPrefSize(192, 64);
+        easyMode.setLayoutX((x/2)-220);
+        easyMode.setLayoutY(y);
+        easyMode.getStylesheets().add("styles/toggle-button.css");
+        easyMode.setFont(font2); 
+        easyMode.setSelected(true);
+        
+        hardMode.setPrefSize(192, 64);
+        hardMode.setLayoutX((x/2)+220);
+        hardMode.setLayoutY(y);
+        hardMode.getStylesheets().add("styles/toggle-button.css");
+        hardMode.setFont(font2); 
 
         this.getChildren().addAll(diffName, easyMode, normalMode, hardMode);
     }
@@ -221,11 +219,11 @@ public class Settings extends Pane {
         Label keybindLabel = new Label("Key Bindings:");
         double keyLabelWidth = keybindLabel.getWidth();
         keybindLabel.setLayoutX(1920 / 2 - keyLabelWidth / 2 - 20);
-        keybindLabel.setLayoutY(600);
+        keybindLabel.setLayoutY(650);
         keybindLabel.setScaleX(2);
         keybindLabel.setScaleY(2);
-        keybindLabel.setTextFill(Color.web("#7FFF00", 0.8));
-        keybindLabel.setFont(new Font("Broadway", 9));
+        keybindLabel.setTextFill(Color.web("#ededed", 0.8));
+        keybindLabel.setFont(font2);
 
         //Table View for keybinding
         TableView keyBindTable = new TableView<>();
@@ -236,6 +234,7 @@ public class Settings extends Pane {
         TableColumn<String, TextField> newKeyColumn = new TableColumn<>("New Key Binding");
         newKeyColumn.setMinWidth(150);
         keyBindTable.setMaxHeight(120);
+        keyBindTable.getStylesheets().add("styles/table-style.css");
 
         defaultJump = new KeyBindClass("Jump", new Label(DataController.getJumpKey()), new TextField(""));
         defaultDescend = new KeyBindClass("Descend", new Label(DataController.getDescendKey()), new TextField(""));
@@ -257,8 +256,12 @@ public class Settings extends Pane {
 
         // Adding values of KeyBindClass to Table
         actionColumn.setCellValueFactory(new PropertyValueFactory<String, String>("actionName"));
+        actionColumn.setSortable(false);
         currentKeyColumn.setCellValueFactory(new PropertyValueFactory<String, Label>("previousKey"));
+        currentKeyColumn.setSortable(false);
         newKeyColumn.setCellValueFactory(new PropertyValueFactory<String, TextField>("newKey"));
+        newKeyColumn.setSortable(false);
+        newKeyColumn.setMinWidth(200);
 
         //Assinging table properties and placement
         keyBindTable.setItems(keyList);
@@ -269,7 +272,7 @@ public class Settings extends Pane {
         keyBindTable.setScaleY(2);
 
         keyBindTable.setLayoutX(840);
-        keyBindTable.setLayoutY(700);
+        keyBindTable.setLayoutY(760);
 
         keyBindError = new Label();
         keyBindError.setLayoutX(1500);
@@ -308,28 +311,6 @@ public class Settings extends Pane {
         musicPlayer = new MediaPlayer(media);
 
         musicPlayer.setAutoPlay(true);
-
-    }
-
-    // Function handling action for Apply Settings Button : Game Difficulty Change and Key Binding
-    public void applyAllSettings() {
-
-        Button applySettings = new Button("Apply Settings");
-        double applySettingsWidth = applySettings.getWidth();
-        applySettings.setLayoutX(1920 / 2 - applySettingsWidth / 2 - 20);
-        applySettings.setLayoutY(950);
-        applySettings.setScaleX(2);
-        applySettings.setScaleY(2);
-
-        applySettings.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                // To write: retrieve keybindings with the get functions for each key and save in save file
-                
-            }
-        });
-
-        this.getChildren().add(applySettings);
 
     }
 
@@ -422,7 +403,7 @@ public class Settings extends Pane {
 
     }
 
-    // Functions retrieving Key Codes of 3 actions : is used when Apply Settings Button is pressed (Saved to save file)
+    // Functions retrieving Key Codes of 3 actions 
     public KeyCode getJumpKey() {
         return finalJumpKey;
     }
