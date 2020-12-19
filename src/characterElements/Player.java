@@ -29,7 +29,7 @@ public class Player extends Rectangle {
     private ArrayList<InGameItems> equipedItems = new ArrayList<>();
 
     //health
-    private double health = 100;
+    private double health = 5;
 
     //shape and size;
     private final double width = 110;
@@ -505,7 +505,7 @@ public class Player extends Rectangle {
     }
     
     public boolean getIsDead() {
-        return (health < 0);
+        return (health <= 0);
     }
     
     public void setIsDead(boolean isDead) {

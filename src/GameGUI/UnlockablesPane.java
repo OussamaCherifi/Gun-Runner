@@ -48,7 +48,6 @@ public class UnlockablesPane extends Pane {
         back.getStylesheets().add("styles/button-small.css");
         back.setFont(font2);  
 
-
         balanceAmount = DataController.getBalance();
 
         balance = new Label("Balance: " + balanceAmount + "$");

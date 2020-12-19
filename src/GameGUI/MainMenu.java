@@ -30,7 +30,9 @@ public class MainMenu extends Pane {
 
     public MainMenu() throws FileNotFoundException {
         setupButtons();
-
+        
+        //String path = "C:\\Users\\15148\\OneDrive\\Documents\\GameWithCleanMenu\\AlmostFinishedGame\\src\\sprites\\resources\\bg_menu.png";
+        //BackgroundImage myBI = new BackgroundImage(new Image(path, 1920, 1080, false, true),
         BackgroundImage myBI = new BackgroundImage(new Image("sprites/resources/bg_menu.png", 1920, 1080, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);

@@ -354,7 +354,7 @@ public class DataController {
     }
     
     public static void resetData(){
-        
+        String query = "Drop table player";
     }
     
 }

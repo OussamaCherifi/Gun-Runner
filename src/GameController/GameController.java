@@ -20,6 +20,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import characterElements.Player;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 /**
@@ -37,26 +39,30 @@ public class GameController {
     List<Obstacles> floors = new ArrayList<>();
     List<Obstacles> platforms = new ArrayList<>();
     private boolean firstTime = false;
-
+    private boolean dieOnce = false;
     //the two classes sbackgrounds and ceilings have their own 
     List<BackgroundsParent> backgrounds = new ArrayList<>();
     List<BackgroundsParent> ceilings = new ArrayList<>();
 
     //AnimationTimer
-    AnimationTimer timer; 
-    
+    AnimationTimer timer;
+
     //Actual player
     Player player;
-    
+
     //List of the items of the game :
     InGameItems helmet, fingers, torso, lhand, rhand, lboot, rboot;
     //guns
     InGameItems pistol, pistol2, uzi, uzi2, ak;
-    
+
     //Score = coins + kills + ellapsed time
     int coinsCollected = 0;
     double elapsedTime = 0;
     
+    //playerHealth Bar :
+    ArrayList<ImageView> healthBar = new ArrayList<>();
+    int healthCounter = 0;
+
     public GameController(Map map) {
         this.map = map;
         createBackground();
@@ -74,6 +80,7 @@ public class GameController {
         map.insertElement(map.getBack());
 
         setupText();
+        setupHealthBar();
 
         double s = 56;
         double x = player.getTranslateX();
@@ -113,17 +120,30 @@ public class GameController {
                 if (old < 0) {
                     old = now;
                 }
-                double delta = (now - old) / 1e9; 
+                double delta = (now - old) / 1e9;
                 timeBefore = elapsedTime;
                 update(elapsedTime);
                 old = now;
                 elapsedTime += delta;
             }
+            
         };
         timer.start();
     }
-
     
+    private void setupHealthBar(){
+        for(int i = 0; i < 5; i++){
+            ImageView health = new ImageView(new Image("sprites/player/Health.png", 50, 50, false, true));
+            health.setTranslateX(map.getMapWidth() - 120 - (i*50));
+            health.setTranslateY(60);
+            healthBar.add(health);
+        }
+        
+        for(int j = 0; j < healthBar.size(); j++){
+            map.insertElement(healthBar.get(j));
+        }
+    }
+
     private void setupText() {
         //Setting up the text
         clip.setScaleX(10);
@@ -188,7 +208,7 @@ public class GameController {
     }
 
     private void update(double timeElapsed) {
-        if(!player.getIsDead()){
+        if (!player.getIsDead()) {
             if (!firstTime) {
                 this.firstTime = true;
                 player.walkAnimate(0, 0);
@@ -203,20 +223,27 @@ public class GameController {
             //non-player updates
             updateEnemyBullets();
             crateCollision();
-            coinsCollision();            
-        }else{
-            this.elapsedTime = timeElapsed;
-            int score = player.getKills() + coinsCollected + (int)elapsedTime;
-            
-            //updating highscore if bigger than before
-            if(DataController.getHighScore() < score){
-                DataController.setHighScore(score);
+            coinsCollision();
+        } else {
+            if(!dieOnce){
+                dieOnce = true;
+                updatePlayerDataBase(timeElapsed);    
             }
-            
-            //updating balance
-            DataController.updateBalance(DataController.getBalance() + coinsCollected * 3);
-           
         }
+    }
+
+    private void updatePlayerDataBase(double timeElapsed) {
+        this.elapsedTime = timeElapsed;
+        int score = player.getKills() + coinsCollected + (int) elapsedTime;
+
+        //updating highscore if bigger than before
+        if (DataController.getHighScore() < score) {
+            DataController.setHighScore(score);
+        }
+
+        //updating balance
+        DataController.updateBalance(DataController.getBalance() + coinsCollected * 25);            
+        
     }
 
     //displays the ammount of bullets the player has
@@ -267,8 +294,10 @@ public class GameController {
             b.setTranslateY(-2000);
             b.setIsDead(true);
             //damage of the bullet = 10;
-            player.setHealth(player.getHealth() - 10);
+            player.setHealth(player.getHealth() - 1);
             System.out.println("PLayer health after : " + player.getHealth());
+            map.removeElement(healthBar.get(healthCounter));
+            healthCounter++;
         }
     }
 
@@ -426,11 +455,11 @@ public class GameController {
     }
 
     //killthePLayer
-    public void close(){
-       player.setHealth(-100);
-       timer.stop();
+    public void close() {
+        player.setHealth(-100);
+        timer.stop();
     }
-    
+
     //These classes are event handlers for whenever we press specific buttons 
     // This is where we will create every key binds that our player will need in order to play the game. 
     private class KeyPressedController implements EventHandler<KeyEvent> {
