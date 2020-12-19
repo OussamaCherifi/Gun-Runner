@@ -5,8 +5,6 @@
  */
 package characterElements;
 
-import Data.DataController;
-import GameController.Difficulty;
 import GameGUI.Map;
 import items.Bullet;
 import items.Custom;

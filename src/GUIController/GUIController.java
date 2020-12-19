@@ -18,7 +18,6 @@ import GameGUI.Map;
 import GameGUI.Settings;
 import GameGUI.Unlockables;
 import GameGUI.UnlockablesPane;
-import GameGUI.previewPane;
 import items.InGameItems;
 import java.io.IOException;
 import java.util.logging.Level;

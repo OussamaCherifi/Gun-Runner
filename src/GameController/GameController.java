@@ -5,7 +5,6 @@
  */
 package GameController;
 
-import gamefinalversionhopefully.GameFinalVersionHopefully;
 import Data.DataController;
 import obstacles.*;
 import GameGUI.Map;
@@ -18,11 +17,8 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
 import characterElements.Player;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -30,7 +26,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 /**
  *

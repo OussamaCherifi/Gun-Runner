@@ -25,15 +25,4 @@ public class CustomInterpolator {
           
         return t;
     }
-    
-    public static Interpolator fallInterpolator(){
-        Interpolator t = new Interpolator() {
-            @Override
-            protected double curve(double t) {
-                return(t == 1.0) ? 0.0 : 1 - Math.pow(2.0, 10 * (t - 1));
-            }
-        };
-          
-        return t;
-    }
 }

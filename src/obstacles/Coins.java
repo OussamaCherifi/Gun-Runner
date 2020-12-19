@@ -5,8 +5,6 @@
  */
 package obstacles;
 
-import Data.DataController;
-import GameController.Difficulty;
 import GameGUI.Map;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
