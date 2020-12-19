@@ -167,10 +167,6 @@ public class previewPane extends Pane {
             removeBullets();
             removeAllItems();
             initializeItems();
-//            pistol = new Gun("pistol", x, y, 2, DataController.choosePistol());
-//            pistol2 = new Gun("pistol", x + s, y, 2, DataController.choosePistol());
-//            rGun = pistol;
-//            lGun = pistol2;
             setItems();
             insertAllItems();
             player.walkAnimate(0, 0); 
