@@ -20,8 +20,8 @@ public class Bullet extends InGameItems implements ISearchablePath{
     private String kind;
    
     private Node fromWho;
-    public Bullet(String kind, double x, double y, int price, double scale, Custom custom , Node fromWho) {
-        super(x, y, price, scale, custom);
+    public Bullet(String kind, double x, double y, double scale, Custom custom , Node fromWho) {
+        super(x, y, scale, custom);
         super.type = ItemType.bullet;
         this.kind = kind;
         String path = findPath();

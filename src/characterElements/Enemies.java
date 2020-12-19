@@ -145,7 +145,7 @@ public class Enemies extends ImageView{
             timer = 0;
             chancesToShoot = Math.random()*100 + 1;
             if(chancesToShoot <= 20 ){
-                Bullet b = new Bullet("pistol", getTranslateX(), getTranslateY() + width/2, 0, 2, Custom.c1, this);
+                Bullet b = new Bullet("pistol", getTranslateX(), getTranslateY() + width/2, 2, Custom.c1, this);
                 ammo.add(b); 
                 map.insertElement(b);
             }

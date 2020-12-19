@@ -8,6 +8,7 @@ package gamefinalversionhopefully;
 import Data.DataController;
 import GUIController.GUIController;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -19,13 +20,15 @@ public class GameFinalVersionHopefully extends Application {
     
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(Stage stage) throws FileNotFoundException, IOException {
         
         GUIController c = new GUIController();
         c.setMenuButtonHandlers(stage);
         c.start(stage);
         
     }
+    
+
 
 
     /**

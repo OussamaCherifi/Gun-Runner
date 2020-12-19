@@ -29,14 +29,14 @@ public class BarracksPane extends Pane {
     private Button back = new Button("Back");
     private ArrayList<ItemNotInGame> List;
     private Barracks barrack;
-    private previewPane prev;
+    private previewPane preview;
     //private Rectangle BackGroundBarrack;
 
     public BarracksPane() throws FileNotFoundException {
 
         Font font2 = new Font("Impact", 20);
 
-        this.List = new ArrayList<ItemNotInGame>();
+        this.List = new ArrayList<>();
 
         this.title = new Label("Barracks");
         this.title.setLayoutX(1920 / 2);
@@ -52,28 +52,6 @@ public class BarracksPane extends Pane {
         this.back.getStylesheets().add("styles/button-small.css");
         this.back.setFont(font2);  
 
-        //Stop[] stops = new Stop[] { new Stop(0, Color.DARKGRAY), new Stop(1, Color.BLACK)};
-        //LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
-
-//
-//        InnerShadow e = new InnerShadow();
-//        e.setColor(Color.BLACK);
-//        e.setWidth(90);
-//        e.setHeight(90);
-//        e.setRadius(300);
-//        e.setChoke(0.5);
-        
-        
-//        this.BackGroundBarrack = new Rectangle(1000, 525);
-//        this.BackGroundBarrack.setLayoutX(150);
-//        this.BackGroundBarrack.setLayoutY(290);
-//        this.BackGroundBarrack.setEffect(e);
-//        this.BackGroundBarrack.setStroke(Paint.valueOf("gray"));
-//        this.BackGroundBarrack.setStrokeLineJoin(StrokeLineJoin.BEVEL);
-//        this.BackGroundBarrack.setStrokeType(StrokeType.OUTSIDE);
-//        this.BackGroundBarrack.setStrokeWidth(28);
-//        LinearGradient lg2 = new LinearGradient(BackGroundBarrack.getWidth(), -200, BackGroundBarrack.getWidth(), BackGroundBarrack.getHeight(), false, CycleMethod.REFLECT, stops);
-//        this.BackGroundBarrack.setFill(lg2);
 
         gridBackground gBg = new gridBackground(110, 275);
 
@@ -83,7 +61,7 @@ public class BarracksPane extends Pane {
         barracks.setLayoutY(325);
 
         previewPane preview = new previewPane();
-        this.prev = preview;
+        this.preview = preview;
         preview.setLayoutX(1400);
         preview.setLayoutY(325);
 
@@ -93,7 +71,7 @@ public class BarracksPane extends Pane {
 
         this.setBackground(new Background(myBI));
 
-        this.getChildren().addAll(preview, gBg, title, back, barracks);
+        this.getChildren().addAll(preview.getpBg(), preview,  gBg, title, back, barracks, preview.getPlayer());
     }
 
     public ArrayList<ItemNotInGame> getList() {
@@ -113,12 +91,12 @@ public class BarracksPane extends Pane {
         this.barrack = barrack;
     }
 
-    public previewPane getPrev() {
-        return prev;
+    public previewPane getPreview() {
+        return preview;
     }
 
-    public void setPrev(previewPane prev) {
-        this.prev = prev;
+    public void setPreview(previewPane preview) {
+        this.preview = preview;
     }
 
     public Button getBack() {

@@ -31,9 +31,8 @@ public abstract class InGameItems extends ImageView{
     protected ItemType type;
     
     
-    public InGameItems(String path, double x, double y, int price, double scale) {
+    public InGameItems(String path, double x, double y, double scale) {
         this.custom = custom;
-        this.price = price;
         this.scale = scale;
         this.idNum = counterId;
         counterId++;
@@ -45,9 +44,8 @@ public abstract class InGameItems extends ImageView{
         initializePos(x, y);
     }
     
-        public InGameItems(double xpos, double ypos, int price, double scale){
+        public InGameItems(double xpos, double ypos, double scale){
         this.scale = scale;
-        this.price = price;
         this.originalX = xpos;
         this.originalY = ypos;
         
@@ -56,9 +54,8 @@ public abstract class InGameItems extends ImageView{
         initializePos(xpos, ypos);
     }
 
-    public InGameItems(double xpos, double ypos, int price, double scale, Custom custom){
+    public InGameItems(double xpos, double ypos, double scale, Custom custom){
         this.scale = scale;
-        this.price = price;
         this.custom = custom;
         this.originalX = xpos;
         this.originalY = ypos;

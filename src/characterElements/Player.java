@@ -12,10 +12,17 @@ import playerAnimation.WalkingAnimation;
 import items.*;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
+import javafx.util.Duration;
 import obstacles.Obstacles;
+import playerAnimation.CustomInterpolator;
 import playerAnimation.FallAnimation;
 
 /**
@@ -54,6 +61,7 @@ public class Player extends Rectangle {
     private boolean timerStarted = false;
     private double timeAtReload = 0;
     private double tDifference = 0;
+    private Arc reloadArc;
     
     JumpingAnimation ja = new JumpingAnimation(this);
     FallAnimation fa = new FallAnimation(this);    
@@ -89,6 +97,8 @@ public class Player extends Rectangle {
         
         setTranslateX(xpos);
         setTranslateY(ypos);
+        
+        initializeArc();
         
         this.setVisible(false);   
     }
@@ -174,6 +184,7 @@ public class Player extends Rectangle {
         if (isReloading == true) {
             numberOfTimesHeShot = 0;
             if (!timerStarted) {
+                reloadAnimate();
                 timerStarted = true;
                 timeAtReload = timeElapsed;
             }
@@ -194,6 +205,15 @@ public class Player extends Rectangle {
         }        
     }
     
+    private void initializeArc(){
+        reloadArc = new Arc(1754, 212, 100, 100, 90, 0);
+        reloadArc.setFill(Color.TRANSPARENT);
+        reloadArc.setStroke(Color.valueOf("#688c3c"));
+        reloadArc.setStrokeType(StrokeType.OUTSIDE);
+        reloadArc.setStrokeWidth(12);
+        reloadArc.setLength(0);
+    }
+    
     private void fixBug() {
         if (lowerY == currentGround.getYpos() && !rGun.isVisible() && rGun.getKind().equalsIgnoreCase("pistol")) {
             rGun.setVisible(true);
@@ -212,7 +232,13 @@ public class Player extends Rectangle {
     }
     
     private void updateItems() {
-        double a = mainGround.getYpos() - currentGround.getYpos();
+        double a;
+        System.out.println(ypos);
+        if(ypos == 232){ //Only useful when animating from the preview
+            a = ypos-140;
+        }else{
+            a = mainGround.getYpos() - currentGround.getYpos();
+        }
         for (InGameItems it : equipedItems) {            
             it.setYpos(it.getOriginalY() - a);
             it.setTranslateY(it.getOriginalY() + a);
@@ -316,16 +342,16 @@ public class Player extends Rectangle {
         if (rGun.getKind().equalsIgnoreCase("pistol") || rGun.getKind().equalsIgnoreCase("uzi")) {
             //right bullet
             
-            Bullet rb = new Bullet(rGun.getKind(), rGun.getXpos() + 28, getTranslateY() + height / 2.8 + r + 8, 0, 2, DataController.chooseBullets(), this);
+            Bullet rb = new Bullet(rGun.getKind(), rGun.getXpos() + 28, getTranslateY() + height / 2.8 + r + 8, 2, DataController.chooseBullets(), this);
             //left bullet
-            Bullet lb = new Bullet(lGun.getKind(), lGun.getXpos() + 28, getTranslateY() + height / 2.8 + r - 8, 0, 2, DataController.chooseBullets(), this);
+            Bullet lb = new Bullet(lGun.getKind(), lGun.getXpos() + 28, getTranslateY() + height / 2.8 + r - 8, 2, DataController.chooseBullets(), this);
             
             map.insertElement(rb);
             map.insertElement(lb);
             ammo.add(rb);
             ammo.add(lb);
         } else {
-            Bullet b = new Bullet(rGun.getKind(), getTranslateX() + width, getTranslateY() + height / 2.8 + 16 + r, 0, 1.5, DataController.chooseBullets(), this);
+            Bullet b = new Bullet(rGun.getKind(), getTranslateX() + width, getTranslateY() + height / 2.8 + 16 + r, 1.5, DataController.chooseBullets(), this);
             map.insertElement(b);
             ammo.add(b);
         }
@@ -371,6 +397,31 @@ public class Player extends Rectangle {
         fa.helmetFall((Helmet) helmet);
         fa.torsoFall((Torso) torso);
         fa.gunFall((Gun) rGun);
+    }
+    
+    public void reloadAnimate(){
+        
+        //Initial KeyFrame
+        KeyValue initKeyValue = new KeyValue(reloadArc.lengthProperty(), 0, CustomInterpolator.acceleratingInterpolator());
+        
+        KeyFrame initFrame = new KeyFrame(Duration.ZERO, initKeyValue);
+        
+        //End KeyFrame
+        KeyValue endKeyValue = new KeyValue(reloadArc.lengthProperty(), 360, CustomInterpolator.acceleratingInterpolator());
+        
+        KeyFrame endFrame = new KeyFrame(Duration.seconds(1.5), endKeyValue);
+        
+        //Creating the timeline
+        Timeline t = new Timeline(initFrame, endFrame);
+        t.setAutoReverse(false);
+        t.setCycleCount(1);
+        t.setOnFinished(e-> {
+            reloadArc.setVisible(false);
+            reloadArc.setLength(0);
+        });
+        reloadArc.setVisible(true);
+        t.play();
+        
     }
     
     public void walkAnimate(double x, double y) {
@@ -687,6 +738,12 @@ public class Player extends Rectangle {
     public void setKills(int kills) {
         this.kills = kills;
     }
+
+    public Arc getReloadArc() {
+        return reloadArc;
+    }
+    
+    
     
     
 }

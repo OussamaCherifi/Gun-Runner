@@ -6,6 +6,9 @@
 package GameGUI;
 
 import Data.DataController;
+import characterElements.Player;
+import items.*;
+import items.InGameItems;
 import java.io.FileNotFoundException;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -84,6 +87,39 @@ public class ItemNotInGame extends ImageView {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+    
+    public InGameItems toInGameItems(int id, Player player){
+        double x = player.getTranslateX();
+        double y = player.getTranslateY();
+        switch(id){
+            case 1:
+                return new Helmet(x, y, 2, Custom.c1);
+            case 2:
+                return new Torso(x, y, 2, Custom.c1);
+            case 3:
+                return new Hand("l", x, y, 2, Custom.c1);
+            case 4:
+                return new Boot("l", x, y, 2, Custom.c1);
+            case 5:
+                return new Gun("uzi", x, y, 2, Custom.c1);
+            case 6:
+                return new Gun("pistol", x, y, 2, Custom.c1);
+            case 7:
+                return new Helmet(x, y, 2, Custom.c2);
+            case 8:
+                return new Torso(x, y, 2, Custom.c2);
+            case 9:
+                return new Hand("l", x, y, 2, Custom.c2);
+            case 10:
+                return new Boot("l", x, y, 2, Custom.c2);
+            case 11:
+                return new Gun("ak", x, y, 2, Custom.c2);
+            case 12:
+                return new Bullet("pistol", x, y, 2, Custom.c1, player);
+        }
+        System.out.println("no such id, returning null");
+        return null;
     }
 
     public void givePrice(int priceDecide) {

@@ -11,8 +11,8 @@ package items;
  */
 public class Helmet extends InGameItems implements ISearchablePath{
     
-    public Helmet(double x, double y, int price, int scale, Custom custom) {
-        super(x+18, y, price, scale, custom);
+    public Helmet(double x, double y, int scale, Custom custom) {
+        super(x+18, y, scale, custom);
         super.type = ItemType.helmet;
         super.offsetX = 18;
         super.offsetY = 168;

@@ -13,8 +13,8 @@ public class Gun extends InGameItems implements ISearchablePath{
     private boolean isDualWield;
     private String kind;
 
-    public Gun(String kind, double x, double y, int price, int scale, Custom custom) {
-        super(x+18, y+58, price, scale, custom);
+    public Gun(String kind, double x, double y, int scale, Custom custom) {
+        super(x+18, y+58, scale, custom);
         super.type = ItemType.gun;
         this.kind = kind;
         if(kind.equalsIgnoreCase("ak")){
