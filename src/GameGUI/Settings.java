@@ -231,8 +231,6 @@ public class Settings extends Pane {
 
     // Key Binding Function
     public void createKeyBindings() {
-
-        
         // Label
         
         Label keybindLabel = new Label("Key Bindings:");
@@ -244,16 +242,10 @@ public class Settings extends Pane {
         keybindLabel.setTextFill(Color.web("#7FFF00", 0.8));
         keybindLabel.setFont(new Font("Broadway", 9));
         
-
-        
-        
         //Table View for keybinding
-        
         TableView keyBindTable = new TableView<>();
-
         
-        // Three Columns for Action - Current Key - New Key
-        
+        // Three Columns for Action - Current Key - New Key     
         TableColumn<String, String> actionColumn = new TableColumn<>("Action");
         TableColumn<String, Label> currentKeyColumn = new TableColumn<>("Current Key");
         TableColumn<String, TextField> newKeyColumn = new TableColumn<>("New Key Binding");
@@ -283,7 +275,6 @@ public class Settings extends Pane {
 
         
          // Adding values of KeyBindClass to Table
-         
         actionColumn.setCellValueFactory(new PropertyValueFactory<String, String>("actionName"));
         currentKeyColumn.setCellValueFactory(new PropertyValueFactory<String, Label>("previousKey"));
         newKeyColumn.setCellValueFactory(new PropertyValueFactory<String, TextField>("newKey"));
@@ -362,15 +353,11 @@ public class Settings extends Pane {
 
         applySettings.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-
-                
-                getDifficulty();
+            public void handle(ActionEvent event) {    
             // To write: retrieve keybindings with the get functions for each key and save in save file
                 
                 
             }
-
         });
 
         this.getChildren().add(applySettings);
@@ -454,10 +441,8 @@ public class Settings extends Pane {
       // Handler for New Key TextField in Key Binding (Only changes prev key if key is not already assigned to another action)
     
     private class ShootKeyChangedController implements EventHandler<KeyEvent> {
-
         @Override
         public void handle(KeyEvent event) {
-
             KeyCode keyC = event.getCode();
             TextField newField = new TextField(keyC.toString());
             defaultShoot.setNewKey(newField);
@@ -468,7 +453,6 @@ public class Settings extends Pane {
                 keyBindError.setText("Key was Assigned to another Action, Retry");
 
             } else {
-
                 defaultShoot.getPreviousKey().setText(keyC.toString());
                 finalShootKey = keyC;
                 keyBindError.setText("");

@@ -61,7 +61,7 @@ public class GameController {
     
     //playerHealth Bar :
     ArrayList<ImageView> healthBar = new ArrayList<>();
-    int healthCounter = 0;
+    int healthCounter;
 
     public GameController(Map map) {
         this.map = map;
@@ -81,6 +81,7 @@ public class GameController {
 
         setupText();
         setupHealthBar();
+        healthCounter = healthBar.size() - 1;
 
         double s = 56;
         double x = player.getTranslateX();
@@ -297,7 +298,7 @@ public class GameController {
             player.setHealth(player.getHealth() - 1);
             System.out.println("PLayer health after : " + player.getHealth());
             map.removeElement(healthBar.get(healthCounter));
-            healthCounter++;
+            healthCounter--;
         }
     }
 
@@ -485,19 +486,9 @@ public class GameController {
     }
 
     private class KeyReleasedController implements EventHandler<KeyEvent> {
-
         @Override
         public void handle(KeyEvent e) {
             if (e.getCode() == KeyCode.Q) {
-//                if (!player.isReloading()) {
-//                    boolean specialGunBefore = player.isHasSpecialGun();
-//                    player.shoot(map);
-//                    if(player.isHasSpecialGun() != specialGunBefore){
-//                        removeAllItems();
-//                        addPlayerSprite(pistol, pistol2);
-//                        player.walkAnimate(0, 0);
-//                    }
-//                }
                 if (player.shoot(map)) {
                     removeAllItems();
                     addPlayerSprite(pistol, pistol2);
