@@ -11,8 +11,8 @@ package items;
  */
 public class Torso extends InGameItems implements ISearchablePath{
     
-    public Torso(double x, double y, int price, int scale, Custom custom) {
-        super(x+26, y+58, price, scale, custom);
+    public Torso(double x, double y, int scale, Custom custom) {
+        super(x+26, y+58, scale, custom);
         super.type = ItemType.torso;
         super.offsetX = 26;
         super.offsetY = 58;

@@ -30,7 +30,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import GameGUI.KeyBindClass;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -39,6 +38,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Font;
 
+
 /**
  *
  * @author oussa
@@ -46,7 +46,6 @@ import javafx.scene.text.Font;
 public class Settings extends Pane {
 
     Slider volumeSlider;
-
     MediaPlayer musicPlayer;
     TextField tf;
     ObservableList<KeyBindClass> keyList;
@@ -89,12 +88,9 @@ public class Settings extends Pane {
 
         // Creating and setting up the volume slider
         createVolumeSlider();
-
         // ToggleButton group for game difficulty
         createDifficultyGroup();
-
         createKeyBindings();
-
         applyAllSettings();
 
         tf = new TextField();
@@ -171,12 +167,21 @@ public class Settings extends Pane {
         ToggleButton easyMode = new ToggleButton("Easy");
         easyMode.setToggleGroup(difficultyGroup);
         easyMode.setSelected(true);
+        easyMode.setOnAction(e -> {
+            DataController.setDifficultyToEasy();
+        });
 
         ToggleButton normalMode = new ToggleButton("Normal");
         normalMode.setToggleGroup(difficultyGroup);
+        normalMode.setOnAction(e -> {
+            DataController.setDifficultyToNormal();
+        });
 
         ToggleButton hardMode = new ToggleButton("Hard");
         hardMode.setToggleGroup(difficultyGroup);
+        hardMode.setOnAction(e -> {
+            DataController.setDifficultyToHard();
+        });
 
         // Toggle Buttons properites and placement
         double eModeWidth = easyMode.getWidth();
@@ -279,9 +284,7 @@ public class Settings extends Pane {
 
     //Function Limiting New Key Entered to 1 Character only
     public static void addTextLimiter(final TextField tf) {
-
         tf.textProperty().addListener(new ChangeListener<String>() {
-
             @Override
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
 
@@ -289,7 +292,6 @@ public class Settings extends Pane {
                     tf.deleteNextChar();
                     String textLimit = tf.getText().substring(0, 1);
                     tf.setText(textLimit);
-
                 }
             }
         });
@@ -323,7 +325,7 @@ public class Settings extends Pane {
             @Override
             public void handle(ActionEvent event) {
                 // To write: retrieve keybindings with the get functions for each key and save in save file
-
+                
             }
         });
 
@@ -332,12 +334,10 @@ public class Settings extends Pane {
     }
 
     public keyChangedController getKeyChangedController() {
-
         return new keyChangedController();
     }
 
     private class keyChangedController implements EventHandler<KeyEvent> {
-
         @Override
         public void handle(KeyEvent event) {
 
@@ -347,10 +347,8 @@ public class Settings extends Pane {
 
     // Handler for New Key TextField in Key Binding (Only changes prev key if key is not already assigned to another action)
     private class JumpKeyChangedController implements EventHandler<KeyEvent> {
-
         @Override
         public void handle(KeyEvent event) {
-
             KeyCode keyC = event.getCode();
             TextField newField = new TextField(keyC.toString());
             defaultJump.setNewKey(newField);
@@ -375,7 +373,6 @@ public class Settings extends Pane {
 
     // Handler for New Key TextField in Key Binding (Only changes prev key if key is not already assigned to another action)
     private class DescendKeyChangedController implements EventHandler<KeyEvent> {
-
         @Override
         public void handle(KeyEvent event) {
 
@@ -399,12 +396,10 @@ public class Settings extends Pane {
             
             DataController.setDescendKey(keyC.getName());
         }
-
     }
 
     // Handler for New Key TextField in Key Binding (Only changes prev key if key is not already assigned to another action)
     private class ShootKeyChangedController implements EventHandler<KeyEvent> {
-
         @Override
         public void handle(KeyEvent event) {
             KeyCode keyC = event.getCode();

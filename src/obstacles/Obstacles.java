@@ -5,6 +5,8 @@
  */
 package obstacles;
 
+import Data.DataController;
+import GameController.Difficulty;
 import GameGUI.Map;
 import characterElements.Enemies;
 import java.awt.Dimension;
@@ -21,7 +23,7 @@ public abstract class Obstacles extends ImageView {
     //this class represents a parent for the floor, the ceilings, and the platforms. 
     //they will all follow this template and have the methods of this class right here.  
     protected double xpos, ypos;
-    protected final double velocity = -5;
+    protected double velocity = -5;
     protected String path;
     protected Image image;
     protected double width, height;
@@ -46,6 +48,9 @@ public abstract class Obstacles extends ImageView {
         } else if (type.equalsIgnoreCase("platform")) {
             image = new Image(path, 548, 60, false, true);
         }
+        
+        if(DataController.getDifficulty() == Difficulty.NORMAL) velocity *= 1.5;
+        if(DataController.getDifficulty() == Difficulty.HARD) velocity *= 2;
         
         setImage(image);
         width = image.getWidth();

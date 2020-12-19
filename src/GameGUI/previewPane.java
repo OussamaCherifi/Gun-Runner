@@ -37,7 +37,7 @@ public class previewPane extends Pane {
     //guns
     InGameItems pistol, pistol2, uzi, uzi2, ak;
     //Player
-    Player player = new Player(300);
+    Player player = new Player(400);
     //Last equiped guns
     InGameItems rGun, lGun;
     
@@ -46,37 +46,25 @@ public class previewPane extends Pane {
     public previewPane() {
         this.title = new Label("Preview");
         this.title.setLayoutX(90);
-        this.title.setLayoutY(0);
+        this.title.setLayoutY(-100);
         this.title.setScaleX(3);
         this.title.setScaleY(3);
         this.title.setTextFill(Color.web("#7FFF00", 0.8));
         this.title.setFont(new Font("Broadway", 12));
         
-        this.pBg = new previewBackground(-98, -50);
+        this.pBg = new previewBackground(1300, 275);
+        this.pBg.setScaleX(0.56);
+        this.pBg.setScaleY(0.56);
         
-        double x = player.getTranslateX();
-        double y = player.getTranslateY();
-        double s = 56;
-        helmet = new Helmet(x, y, 0, 2, DataController.chooseHelmet());
-        fingers = new Fingers("dual", x, y, 0, 2);
-        torso = new Torso(x, y, 0, 2, DataController.chooseTorsot());
-        lhand = new Hand("l", x, y, 0, 2, DataController.chooseHands());
-        rhand = new Hand("r", x, y, 0, 2, DataController.chooseHands());
-        lboot = new Boot("l", x, y, 0, 2, DataController.chooseBoots());
-        rboot = new Boot("r", x, y, 0, 2, DataController.chooseBoots());
-        pistol = new Gun("pistol", x, y, 0, 2, DataController.choosePistol());
-        pistol2 = new Gun("pistol", x + s, y, 0, 2, DataController.choosePistol());
-        uzi = new Gun("uzi", x, y, 0, 2, DataController.chooseUzi());
-        uzi2 = new Gun("uzi", x + s, y, 0, 2, DataController.chooseUzi());
-        ak = new Gun("ak", x, y, 0, 2, DataController.chooseAk());
+        initializeItems();
         
         rGun = ak;
         lGun = pistol;
         
-        
+        insertAllItems();
         setItems();
         player.addEquipedItems();
-        insertAllItems();
+        
         
 //        createRectangles();
 //        InsertHelmet(13);
@@ -86,11 +74,30 @@ public class previewPane extends Pane {
 //
 //        insertLeftFoot(17);
 //        insertRightFoot(19);
-
+        player.walkAnimate(0, 0);
         this.getChildren().addAll(title, pBg);
     }
     
-    private void insertItem(InGameItems item){
+    private void initializeItems(){
+        double x = player.getTranslateX();
+        double y = player.getTranslateY();
+        double s = 56;
+        
+        helmet = new Helmet(x, y, 2, DataController.chooseHelmet());
+        fingers = new Fingers("dual", x, y, 2);
+        torso = new Torso(x, y, 2, DataController.chooseTorsot());
+        lhand = new Hand("l", x, y, 2, DataController.chooseHands());
+        rhand = new Hand("r", x, y, 2, DataController.chooseHands());
+        lboot = new Boot("l", x, y, 2, DataController.chooseBoots());
+        rboot = new Boot("r", x, y, 2, DataController.chooseBoots());
+        pistol = new Gun("pistol", x, y, 2, DataController.choosePistol());
+        pistol2 = new Gun("pistol", x + s, y, 2, DataController.choosePistol());
+        uzi = new Gun("uzi", x, y, 3, DataController.chooseUzi());
+        uzi2 = new Gun("uzi", x + s, y, 2, DataController.chooseUzi());
+        ak = new Gun("ak", x, y, 2, DataController.chooseAk());
+    }
+    
+    public void insertItem(InGameItems item){
         removeAllItems();
         double x = player.getTranslateX();
         double y = player.getTranslateY();
@@ -99,22 +106,22 @@ public class previewPane extends Pane {
             Gun gun = (Gun)item;
             switch(item.getKind()){
                 case "ak":
-                    ak = new Gun("ak", x, y, 0, 2, DataController.chooseAk());
+                    ak = new Gun("ak", x, y, 2, DataController.chooseAk());
                     rGun = ak;
                     removeAllItems();
                     setItems();
                     player.walkAnimate(0, 0);
                     break;
                 case "uzi":
-                    uzi = new Gun("uzi", x, y, 0, 2, DataController.chooseUzi());
-                    uzi2 = new Gun("uzi", x + s, y, 0, 2, DataController.chooseUzi());
+                    uzi = new Gun("uzi", x, y, 2, DataController.chooseUzi());
+                    uzi2 = new Gun("uzi", x + s, y, 2, DataController.chooseUzi());
                     rGun = uzi;
                     lGun = uzi2;
                     player.walkAnimate(0, 0);
                     break;
                 case "pistol":
-                    pistol = new Gun("pistol", x, y, 0, 2, DataController.choosePistol());
-                    pistol2 = new Gun("pistol", x + s, y, 0, 2, DataController.choosePistol());
+                    pistol = new Gun("pistol", x, y, 2, DataController.choosePistol());
+                    pistol2 = new Gun("pistol", x + s, y, 2, DataController.choosePistol());
                     rGun = pistol;
                     lGun = pistol2;
                     player.walkAnimate(0, 0);
@@ -125,13 +132,13 @@ public class previewPane extends Pane {
         if(item.getType() == ItemType.bullet){
             removeAllItems();
         }else{
-            helmet = new Helmet(x, y, 0, 2, DataController.chooseHelmet());
-            fingers = new Fingers("dual", x, y, 0, 2);
-            torso = new Torso(x, y, 0, 2, DataController.chooseTorsot());
-            lhand = new Hand("l", x, y, 0, 2, DataController.chooseHands());
-            rhand = new Hand("r", x, y, 0, 2, DataController.chooseHands());
-            lboot = new Boot("l", x, y, 0, 2, DataController.chooseBoots());
-            rboot = new Boot("r", x, y, 0, 2, DataController.chooseBoots());
+            helmet = new Helmet(x, y, 2, DataController.chooseHelmet());
+            fingers = new Fingers("dual", x, y, 2);
+            torso = new Torso(x, y, 2, DataController.chooseTorsot());
+            lhand = new Hand("l", x, y, 2, DataController.chooseHands());
+            rhand = new Hand("r", x, y, 2, DataController.chooseHands());
+            lboot = new Boot("l", x, y, 2, DataController.chooseBoots());
+            rboot = new Boot("r", x, y, 2, DataController.chooseBoots());
         }
     }
     
@@ -178,89 +185,15 @@ public class previewPane extends Pane {
     private void insertElement(Node node){
         getChildren().add(node);
     }
-    
-    
-  
-    
 
-//    private void createRectangles() {
-//        this.head = new Rectangle(25, 25);
-//        this.head.setFill(Color.AQUA);
-//        this.head.setLayoutX(190);
-//        this.head.setLayoutY(198);
-//
-//    }
-//
-//    public void InsertHelmet(int choice) {
-//        Bodypart one = new Bodypart(choice);
-//        one.setLayoutX(150);
-//        one.setLayoutY(70);
-//        one.setFitHeight(60);
-//        one.setFitWidth(60);
-//        this.getChildren().add(one);
-//    }
-//
-//    public void InsertTorso(int choice) {
-//        Bodypart one = new Bodypart(choice);
-//        one.setLayoutX(155);
-//        one.setLayoutY(125);
-//        one.setFitHeight(70);
-//        one.setFitWidth(55);
-//        this.getChildren().add(one);
-//
-//    }
-//
-//    public void insertRightHand(int choice) {
-//        Bodypart one = new Bodypart(choice);
-//        one.setLayoutX(210);
-//        one.setLayoutY(132);
-//        one.setFitHeight(25);
-//        one.setFitWidth(25);
-//        this.getChildren().add(one);
-//    }
-//
-//    public void inserLeftHand(int choice) {
-//        Bodypart one = new Bodypart(choice);
-//        one.setLayoutX(135);
-//        one.setLayoutY(132);
-//        one.setFitHeight(25);
-//        one.setFitWidth(25);
-//        this.getChildren().add(one);
-//    }
-//
-//    public void insertLeftFoot(int choice) {
-//        Bodypart one = new Bodypart(choice);
-//        one.setLayoutX(147);
-//        one.setLayoutY(190);
-//        one.setFitHeight(50);
-//        one.setFitWidth(50);
-//        this.getChildren().add(one);
-//    }
-//
-//    public void insertRightFoot(int choice) {
-//        Bodypart one = new Bodypart(choice);
-//        one.setLayoutX(190);
-//        one.setLayoutY(190);
-//        one.setFitHeight(50);
-//        one.setFitWidth(50);
-//        this.getChildren().add(one);
-//    }
-//
-//    public void insertDualPistoles(int left, int right) {
-//        Bodypart leftGun = new Bodypart(left);
-//        leftGun.setLayoutX(140);
-//        leftGun.setLayoutY(132);
-//        leftGun.setFitHeight(25);
-//        leftGun.setFitWidth(25);
-//        this.getChildren().add(leftGun);
-//
-//        Bodypart rightGun = new Bodypart(right);
-//        rightGun.setLayoutX(210);
-//        rightGun.setLayoutY(132);
-//        rightGun.setFitHeight(25);
-//        rightGun.setFitWidth(25);
-//        this.getChildren().add(rightGun);
-//
-//    }
+    public Player getPlayer() {
+        return player;
+    }
+
+    public previewBackground getpBg() {
+        return pBg;
+    }
+    
+    
 
 }

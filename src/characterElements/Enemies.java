@@ -5,6 +5,8 @@
  */
 package characterElements;
 
+import Data.DataController;
+import GameController.Difficulty;
 import GameGUI.Map;
 import items.Bullet;
 import items.Custom;
@@ -65,7 +67,7 @@ public class Enemies extends ImageView{
         width = image.getWidth();
         height = image.getHeight();        
         velocity = ground.getVelocity();
-        
+       
         this.xpos = initialXpos + ground.getWidth()/2.5;
         if(ground.isFloor()) this.ypos = initialYpos - height;
         else this.ypos = initialYpos - height;
@@ -145,7 +147,7 @@ public class Enemies extends ImageView{
             timer = 0;
             chancesToShoot = Math.random()*100 + 1;
             if(chancesToShoot <= 20 ){
-                Bullet b = new Bullet("pistol", getTranslateX(), getTranslateY() + width/2, 0, 2, Custom.c1, this);
+                Bullet b = new Bullet("pistol", getTranslateX(), getTranslateY() + width/2, 2, Custom.c1, this);
                 ammo.add(b); 
                 map.insertElement(b);
             }

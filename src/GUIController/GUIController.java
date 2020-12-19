@@ -19,6 +19,8 @@ import GameGUI.Settings;
 import GameGUI.Unlockables;
 import GameGUI.UnlockablesPane;
 import GameGUI.previewPane;
+import items.InGameItems;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Parent;
@@ -37,7 +39,6 @@ public class GUIController {
     private UnlockablesPane store;
     private Barracks barracks;
     private BarracksPane inventory;
-    private previewPane preview;
     private MainMenu menu = new MainMenu();
     private Map map;
     private GameController gc;
@@ -47,7 +48,8 @@ public class GUIController {
     //private ItemNotInGame it;
     private ArrayList<Integer> orderOfPreview;
 
-    public GUIController(/*MainMenu menu, Unlockables unlock, UnlockablesPane pane1, BarracksPane mainBrracks, Barracks barrack, previewPane characterView*/) throws FileNotFoundException {
+    public GUIController() throws FileNotFoundException{
+        
         aquiredItemsList = new ArrayList<>(13);
         settings = new Settings();
         
@@ -138,7 +140,8 @@ public class GUIController {
     private void setEquipButtonOnAction(ArrayList<ItemNotInGame> list) {
         for (ItemNotInGame it : list) {
             it.setEquipButtonHandler(event -> {
-                equipButtonHandler(it); 
+                //InGameItems i = 
+                //equipButtonHandler(it); 
                 
                 //SQL
                 int id = it.getIdNumber(); 
@@ -180,14 +183,18 @@ public class GUIController {
                 stage.setScene(settingScene));
         
         menu.getPlay().setOnAction(e ->{
-            Scene game = new Scene(createGame());
-            stage.setScene(game);
-            game.setOnKeyPressed(gc.getKeyPressedController());
-            game.setOnKeyReleased(gc.getKeyReleasedController());
-            map.getBack().setOnAction(b -> {
-                gc.close();
-                stage.setScene(menuScene);
-            });   
+            try {
+                Scene game = new Scene(createGame());
+                stage.setScene(game);
+                game.setOnKeyPressed(gc.getKeyPressedController());
+                game.setOnKeyReleased(gc.getKeyReleasedController());
+                map.getBack().setOnAction(b -> {
+                    gc.close();
+                    stage.setScene(menuScene);   
+                });
+            } catch (IOException ex) {
+                Logger.getLogger(GUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         //store.getBack().setOnAction(e -> stage.setScene(menuScene));
@@ -197,7 +204,7 @@ public class GUIController {
         menu.getExit().setOnAction(e -> stage.close());
     }
     
-    private Parent createGame(){
+    private Parent createGame() throws IOException{
         map = new Map();
         gc = new GameController(map);
         return map;
@@ -208,41 +215,8 @@ public class GUIController {
         //primaryStage.setFullScreen(true);
         stage.show();
     }
-    
-    public void equipButtonHandler(ItemNotInGame acquiredItem) {
-        
 
-//        if (acquiredItem.getIdNumber() == 1) {
-//            this.preview.InsertHelmet(1);
-//        }
-//        if (acquiredItem.getIdNumber() == 2) {
-//            this.preview.InsertTorso(4);
-//        }
-//        if (acquiredItem.getIdNumber() == 3) {
-//            this.preview.insertRightHand(5);
-//            this.preview.inserLeftHand(6);
-//        }
-//        if (acquiredItem.getIdNumber() == 4) {
-//            this.preview.insertRightFoot(2);
-//            this.preview.insertLeftFoot(3);
-//        }
-//
-//        if (acquiredItem.getIdNumber() == 7) {
-//            this.preview.InsertHelmet(7);
-//        }
-//        if (acquiredItem.getIdNumber() == 7) {
-//            this.preview.InsertHelmet(7);
-//        }
-//        if (acquiredItem.getIdNumber() == 8) {
-//            this.preview.InsertTorso(8);
-//        }
-//        if (acquiredItem.getIdNumber() == 9) {
-//            this.preview.insertRightHand(12);
-//            this.preview.inserLeftHand(9);
-//        }
-//        if (acquiredItem.getIdNumber() == 10) {
-//            this.preview.insertRightFoot(10);
-//            this.preview.insertLeftFoot(11);
-//        }
-    }
+//    public void equipButtonHandler(InGameItems acquiredItem) {
+//        inventory.getPreview().insertItem(acquiredItem);
+//    }
 }

@@ -12,8 +12,8 @@ package items;
 public class Boot extends InGameItems implements ISearchablePath{
     private String kind;
     
-    public Boot(String kind, double x, double y,  int price, int scale, Custom custom) {
-        super(x+4, y+120, price, scale, custom);
+    public Boot(String kind, double x, double y, int scale, Custom custom) {
+        super(x+4, y+120, scale, custom);
         super.type = ItemType.boots;
         super.offsetX = 4;
         super.offsetY = 120;

@@ -5,6 +5,8 @@
  */
 package obstacles;
 
+import Data.DataController;
+import GameController.Difficulty;
 import GameGUI.Map;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +23,7 @@ public abstract class BackgroundsParent extends ImageView{
     //final. The backgrounds are only there for asthethics and do not need any addition/modification. 
     
     protected double xpos, ypos;
-    protected final double velocity = -2;
+    protected double velocity = -2;
     protected double width , height;
     protected Image image, imageAfter;
     protected String path = "";
@@ -47,12 +49,16 @@ public abstract class BackgroundsParent extends ImageView{
             imageAfter = new Image(path , image.getWidth()*a, image.getHeight()*b  , false , false);
         }
         
+        if(DataController.getDifficulty() == Difficulty.NORMAL) velocity *= 1.5;
+        if(DataController.getDifficulty() == Difficulty.HARD) velocity *= 2; 
+        
         setImage(imageAfter);
         xpos = x;
         ypos = y;
         width = imageAfter.getWidth(); height = imageAfter.getHeight();
         setTranslateX(xpos);
-        setTranslateY(ypos);        
+        setTranslateY(ypos);      
+        System.out.println("background velocity = " + velocity);
     }   
 
     public Image getImageAfter() {
