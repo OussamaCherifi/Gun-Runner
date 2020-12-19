@@ -464,31 +464,24 @@ public class GameController {
     //These classes are event handlers for whenever we press specific buttons 
     // This is where we will create every key binds that our player will need in order to play the game. 
     private class KeyPressedController implements EventHandler<KeyEvent> {
-
         @Override
         public void handle(KeyEvent e) {
-
-            if (e.getCode() == KeyCode.SPACE && player.getIsJumping() == false) {
+            if (e.getCode().getName().equalsIgnoreCase(DataController.getJumpKey()) && player.getIsJumping() == false) {
                 player.setJumpingForce(30);
                 player.setIsJumping(true);
             }
-            if (e.getCode() == KeyCode.S) {
+            if (e.getCode().getName().equalsIgnoreCase(DataController.getDescendKey())) {
                 System.out.println("this hapenned");
                 player.goToBottom();
             }
-//            if(e.getCode() == KeyCode.A){
-//                removeAllItems();
-//            }
-//            if(e.getCode() == KeyCode.F){
-//                addPlayerSprite(uzi, uzi2);
-//            }
         }
     }
 
     private class KeyReleasedController implements EventHandler<KeyEvent> {
+        
         @Override
         public void handle(KeyEvent e) {
-            if (e.getCode() == KeyCode.Q) {
+            if (DataController.getShootKey().equalsIgnoreCase(e.getCode().getName())) {
                 if (player.shoot(map)) {
                     removeAllItems();
                     addPlayerSprite(pistol, pistol2);
@@ -497,4 +490,6 @@ public class GameController {
             }
         }
     }
+    
+    
 }

@@ -357,4 +357,85 @@ public class DataController {
         String query = "Drop table player";
     }
     
+    public static void setJumpKey(String jumpKey){
+        String query = "Update controls\n"
+                + "set jump = '" + jumpKey + "'\n"
+                + "where id = 1";
+        try{
+            Statement stmt = conn.createStatement();
+            stmt.execute(query);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }        
+    }
+    
+    public static void setDescendKey(String DescendKey){
+        String query = "Update controls\n"
+                + "set descend = '" + DescendKey +"' \n"
+                + "where id = 1";
+        try{
+            Statement stmt = conn.createStatement();
+            stmt.execute(query);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }    
+    }
+    
+    public static void setShootKey(String shootKey){
+        String query = "Update controls\n"
+                + "set shoot = '" + shootKey + "'\n"
+                + "where id = 1";
+        try{
+            Statement stmt = conn.createStatement();
+            stmt.execute(query);
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public static String getJumpKey(){
+        String query = "Select jump from controls where id = 1";
+        String key = "";
+        try{
+            Statement stmt = conn.createStatement();
+            ResultSet jumpKey = stmt.executeQuery(query);
+            key = jumpKey.getString("jump");
+            
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        
+        return key;
+    }
+    
+    public static String getShootKey(){
+        String query = "Select shoot from controls where id = 1";
+        String key = "";
+        try{
+            Statement stmt = conn.createStatement();
+            ResultSet jumpKey = stmt.executeQuery(query);
+            key = jumpKey.getString("shoot");
+            
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        
+        return key;
+    }
+    
+    public static String getDescendKey(){
+        String query = "Select descend from controls where id = 1";
+        String key = "";
+        try{
+            Statement stmt = conn.createStatement();
+            ResultSet jumpKey = stmt.executeQuery(query);
+            key = jumpKey.getString("descend");
+            
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        
+        return key;
+    }
+    
 }

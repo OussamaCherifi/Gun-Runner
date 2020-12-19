@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package GameGUI;
+
+import Data.DataController;
 import java.io.File;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -75,7 +77,7 @@ public class Settings extends Pane {
         this.back.setLayoutY(900);
         this.back.setLayoutX(30);
         this.back.getStylesheets().add("styles/button-small.css");
-        this.back.setFont(font2);  
+        this.back.setFont(font2);
 
         this.back.setTextFill(Color.web("#ff0000", 0.8));
 
@@ -99,24 +101,19 @@ public class Settings extends Pane {
 
         tf.setOnKeyPressed(new keyChangedController());
 
-        BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920/2, 1080, false, true),
+        BackgroundImage myBI = new BackgroundImage(new Image("preview/bg.png", 1920 / 2, 1080, false, true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
 
         this.setBackground(new Background(myBI));
 
-        this.getChildren().addAll( settingsName, volumeSlider, back);
+        this.getChildren().addAll(settingsName, volumeSlider, back);
     }
 
-    
-    
     // Volume Slider Function
-    
     public void createVolumeSlider() {
 
-        
         // Label on top of slider
-        
         Label volumeName = new Label("Volume:");
         double volNameWidth = volumeName.getWidth();
         volumeName.setLayoutX(1920 / 2 - volNameWidth / 2);
@@ -128,9 +125,7 @@ public class Settings extends Pane {
 
         this.getChildren().add(volumeName);
 
-        
         // Volume Slider properties and placement
-        
         volumeSlider = new Slider(0, 10, 5);
         volumeSlider.setShowTickMarks(false);
         volumeSlider.setShowTickLabels(false);
@@ -146,10 +141,7 @@ public class Settings extends Pane {
         volumeSlider.setScaleX(2.5);
         volumeSlider.setScaleY(2);
 
-        
-        
         // Function that changes volume according to slider value
-        
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
@@ -160,18 +152,12 @@ public class Settings extends Pane {
 
     }
 
-    
-    
     // Function that retrieves difficulty level
-    
     public void createDifficultyGroup() {
 
-        
         difficultyGroup = new ToggleGroup();
 
-        
         // Label 
-        
         Label diffName = new Label("Game Difficulty:");
         double diffNameWidth = diffName.getWidth();
         diffName.setLayoutX(1920 / 2 - diffNameWidth / 2 - 20);
@@ -181,9 +167,7 @@ public class Settings extends Pane {
         diffName.setTextFill(Color.web("#7FFF00", 0.8));
         diffName.setFont(new Font("Broadway", 9));
 
-        
         // Toggle buttons for 3 game difficulties
-        
         ToggleButton easyMode = new ToggleButton("Easy");
         easyMode.setToggleGroup(difficultyGroup);
         easyMode.setSelected(true);
@@ -194,7 +178,6 @@ public class Settings extends Pane {
         ToggleButton hardMode = new ToggleButton("Hard");
         hardMode.setToggleGroup(difficultyGroup);
 
-        
         // Toggle Buttons properites and placement
         double eModeWidth = easyMode.getWidth();
         double nModeWidth = normalMode.getWidth();
@@ -213,26 +196,23 @@ public class Settings extends Pane {
         hardMode.setLayoutY(425);
         hardMode.setScaleX(2.5);
         hardMode.setScaleY(2.5);
-        
-
 
         this.getChildren().addAll(diffName, easyMode, normalMode, hardMode);
     }
-    
-    public String getDifficulty(){
-        
-        ToggleButton diffSelection = (ToggleButton)difficultyGroup.getSelectedToggle();
+
+    public String getDifficulty() {
+
+        ToggleButton diffSelection = (ToggleButton) difficultyGroup.getSelectedToggle();
         String diffSelectionString = diffSelection.getText();
-        
-        
-       return diffSelectionString;
-        
+
+        return diffSelectionString;
+
     }
 
     // Key Binding Function
     public void createKeyBindings() {
         // Label
-        
+
         Label keybindLabel = new Label("Key Bindings:");
         double keyLabelWidth = keybindLabel.getWidth();
         keybindLabel.setLayoutX(1920 / 2 - keyLabelWidth / 2 - 20);
@@ -241,10 +221,10 @@ public class Settings extends Pane {
         keybindLabel.setScaleY(2);
         keybindLabel.setTextFill(Color.web("#7FFF00", 0.8));
         keybindLabel.setFont(new Font("Broadway", 9));
-        
+
         //Table View for keybinding
         TableView keyBindTable = new TableView<>();
-        
+
         // Three Columns for Action - Current Key - New Key     
         TableColumn<String, String> actionColumn = new TableColumn<>("Action");
         TableColumn<String, Label> currentKeyColumn = new TableColumn<>("Current Key");
@@ -252,11 +232,9 @@ public class Settings extends Pane {
         newKeyColumn.setMinWidth(150);
         keyBindTable.setMaxHeight(120);
 
-       
-        
-        defaultJump = new KeyBindClass("Jump", new Label("Space"), new TextField(""));
-        defaultDescend = new KeyBindClass("Descend", new Label("S"), new TextField(""));
-        defaultShoot = new KeyBindClass("Shoot", new Label("Q"), new TextField(""));
+        defaultJump = new KeyBindClass("Jump", new Label(DataController.getJumpKey()), new TextField(""));
+        defaultDescend = new KeyBindClass("Descend", new Label(DataController.getDescendKey()), new TextField(""));
+        defaultShoot = new KeyBindClass("Shoot", new Label(DataController.getShootKey()), new TextField(""));
 
         // Applying Function that limits text field of new key entered to 1 character only
         addTextLimiter(defaultJump.getNewKey());
@@ -264,7 +242,6 @@ public class Settings extends Pane {
         addTextLimiter(defaultShoot.getNewKey());
 
         // Applying function that changes value of previous key if key isn't already assigned
-        
         defaultJump.getNewKey().setOnKeyPressed(new JumpKeyChangedController());
         defaultDescend.getNewKey().setOnKeyPressed(new DescendKeyChangedController());
         defaultShoot.getNewKey().setOnKeyPressed(new ShootKeyChangedController());
@@ -273,15 +250,12 @@ public class Settings extends Pane {
                 defaultJump, defaultDescend, defaultShoot
         );
 
-        
-         // Adding values of KeyBindClass to Table
+        // Adding values of KeyBindClass to Table
         actionColumn.setCellValueFactory(new PropertyValueFactory<String, String>("actionName"));
         currentKeyColumn.setCellValueFactory(new PropertyValueFactory<String, Label>("previousKey"));
         newKeyColumn.setCellValueFactory(new PropertyValueFactory<String, TextField>("newKey"));
 
-        
         //Assinging table properties and placement
-        
         keyBindTable.setItems(keyList);
 
         keyBindTable.getColumns().setAll(actionColumn, currentKeyColumn, newKeyColumn);
@@ -303,9 +277,7 @@ public class Settings extends Pane {
 
     }
 
-    
     //Function Limiting New Key Entered to 1 Character only
-    
     public static void addTextLimiter(final TextField tf) {
 
         tf.textProperty().addListener(new ChangeListener<String>() {
@@ -315,23 +287,20 @@ public class Settings extends Pane {
 
                 if (tf.getText().length() > 1) {
                     tf.deleteNextChar();
-                    String textLimit = tf.getText().substring(0,1);
+                    String textLimit = tf.getText().substring(0, 1);
                     tf.setText(textLimit);
-                    
+
                 }
             }
         });
     }
 
-    
     // Function that creates media
     public void createMusic() {
 
         String path2 = "/music/CountryRoads.mp3";
         String path = "C:\\Users\\bryan\\Desktop\\GUI Final Project\\CountryRoads.mp3";
-        
-        
-        
+
         Media media = new Media(new File(path).toURI().toString());
 
         musicPlayer = new MediaPlayer(media);
@@ -340,7 +309,6 @@ public class Settings extends Pane {
 
     }
 
-    
     // Function handling action for Apply Settings Button : Game Difficulty Change and Key Binding
     public void applyAllSettings() {
 
@@ -353,18 +321,15 @@ public class Settings extends Pane {
 
         applySettings.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {    
-            // To write: retrieve keybindings with the get functions for each key and save in save file
-                
-                
+            public void handle(ActionEvent event) {
+                // To write: retrieve keybindings with the get functions for each key and save in save file
+
             }
         });
 
         this.getChildren().add(applySettings);
 
     }
-
-
 
     public keyChangedController getKeyChangedController() {
 
@@ -400,16 +365,15 @@ public class Settings extends Pane {
                 defaultJump.getPreviousKey().setText(keyC.toString());
                 finalJumpKey = keyC;
                 keyBindError.setText("");
-                     addTextLimiter(defaultJump.getNewKey());
-
+                addTextLimiter(defaultJump.getNewKey());
+                
             }
-
+            
+            DataController.setJumpKey(keyC.getName());
         }
     }
 
-    
-       // Handler for New Key TextField in Key Binding (Only changes prev key if key is not already assigned to another action)
-    
+    // Handler for New Key TextField in Key Binding (Only changes prev key if key is not already assigned to another action)
     private class DescendKeyChangedController implements EventHandler<KeyEvent> {
 
         @Override
@@ -430,17 +394,17 @@ public class Settings extends Pane {
                 finalDescendKey = keyC;
                 keyBindError.setText("");
                 addTextLimiter(defaultDescend.getNewKey());
-     
-            }
 
+            }
+            
+            DataController.setDescendKey(keyC.getName());
         }
 
     }
 
-    
-      // Handler for New Key TextField in Key Binding (Only changes prev key if key is not already assigned to another action)
-    
+    // Handler for New Key TextField in Key Binding (Only changes prev key if key is not already assigned to another action)
     private class ShootKeyChangedController implements EventHandler<KeyEvent> {
+
         @Override
         public void handle(KeyEvent event) {
             KeyCode keyC = event.getCode();
@@ -458,15 +422,12 @@ public class Settings extends Pane {
                 keyBindError.setText("");
                 addTextLimiter(defaultShoot.getNewKey());
             }
-
+            DataController.setShootKey(keyC.getName());
         }
 
     }
 
-    
-    
     // Functions retrieving Key Codes of 3 actions : is used when Apply Settings Button is pressed (Saved to save file)
-    
     public KeyCode getJumpKey() {
         return finalJumpKey;
     }
@@ -488,4 +449,3 @@ public class Settings extends Pane {
     }
 
 }
-
